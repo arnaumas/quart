@@ -1,4 +1,4 @@
-\documentclass[12pt,twoside]{report}
+\documentclass[12pt,oneside]{book}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -12,6 +12,7 @@
 \usepackage[font={footnotesize, sf}, labelfont=bf]{caption} 
 \usepackage{siunitx}
 \usepackage{graphicx}
+\usepackage{tikz-cd}
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
 \usepackage[sort]{cleveref}
@@ -36,10 +37,28 @@
 \numberwithin{equation}{section}
 \numberwithin{figure}{section}
 
+\newcommand{\qedtriangle}{\ensuremath{\triangle}}
+\newcommand{\qedtriangledown}{\ensuremath{\bigtriangledown}}
+\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangle]{definition}
+\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangledown]{example}
+
 \declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theo}
 \declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theo]{prop}
+\declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{defn}
+\declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{exe}
+
+\newlist{points}{enumerate}{1}
+\setlist[points,1]{label=\textup{(}{\itshape \roman*}\textup{)}, wide}
 
 \graphicspath{{./figs/}}
+\newcommand{\dummyfig}[1]{
+  \centering
+  \fbox{
+    \begin{minipage}[c][0.33\textheight][c]{0.5\textwidth}
+      \centering{\ttfamily #1}
+    \end{minipage}
+  }
+}
 
 % Unitats
 \sisetup{
@@ -51,6 +70,10 @@
 }
 
 \renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\rest}[1]{\raisebox{-.5ex}{$|$}_{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\id}{\mathrm{id}}
 \newcommand{\parbreak}{
 	\begin{center}
 		--- $\ast$ ---
@@ -75,7 +98,6 @@
 	\setfoot*{}{}{\thepage}
 }
 \assignpagestyle{\chapter}{plain}
-\pagestyle{page}
 
 \titleformat{\chapter}[block]{\sffamily \bfseries \Huge}{\filleft \large Chapter \Huge \thechapter\\}{0pt}{\Huge \titlerule[1pt] \vspace{1ex} \filleft}
 
@@ -86,6 +108,64 @@
 \begin{document}
 \maketitle
 
-\chapter{Introducció}
+\frontmatter
+\pagestyle{plain}
+These are notes gathered during the subject \emph{Topologia de Varietats} as taught by Wolfgang Pitsch between September 2019 and January 2020.
+
+\mainmatter
+
+\chapter{Differentiable Manifolds}
+
+A manifold is, roughly speaking, a space that is locally homeomorphic to \( \R^n \) or euclidean space. Canonical examples include the sphere and the torus, which are two dimensional manifolds, i.e., locally homeomorphic to \( \R^2 \). In everything that follows, unless otherwise mentioned, we assume \( \R^n \) to be equipped with its standard topology. There is good reason for this since it is induced by any norm on \( \R^n \), and so, in a sense, it is the only topology that is compatible with its vector space structure. Of course we could equip \( \R^n \) with various other topologies and talk about structures that are locally homeorphic to the resulting topological space. This would mean, however, that the local model for the theory would already be a complicated structure on its own right, as opposed to the case with manifolds, given that euclidean space (at least in less than three dimensions) is a well-known object for which one has, presumably, a solid intuition.  
+
+As a reminder, \( \R^n \) has a series of nice topological properties including connectedness and path-connectedness, local compactness and the Hausdorff property. A manifold, therefore, inherits a local version of all of these properties through the local homeomorphism ---a notion we make precise in the following section---.
+
+\section{Definitions}
+In what follows we give the formal definition of a manifold. 
+\begin{defn}[Local chart]
+	Let \( M \) be a topological space and \( x \in M \) a point. A \emph{local chart}, or simply a \emph{chart}, around \( x \) is a pair \( (U, \phi) \)  where
+	\begin{points}
+		\item \( U \) is open in \( M \) and contains \( x \),
+		\item \( \phi \colon U \to \Omega \subseteq \R^n \) is a homeomorphism, which is called a \emph{chart map}.
+	\end{points}
+We call \( \phi^{-1} \) a \emph{local parametrization} or simply a \emph{parametrization}.
+\end{defn}
+
+Note that there is no requirement on \( \Omega \) other than it being an open set, which must be the case if \( \phi \) is a homeomorphism. However, if \( \psi \colon \Omega \to \Omega' \subseteq \R^n \) is a homeorphism then \( \psi \circ \phi \) is also clearly a homeorphism. That means that we can, without loss of generality require that the image of a point through a chart map be 0 or any other point we wish by precomposing with a translation. Similarly, it could be the case that \( \Omega \) is not connected, in which case \( U \) must also be not connected. Since \( x \) lies in one of the connected components of \( U \), by restricting \( \phi \) to it we obtain a chart map whose image is connected. All this is to say that we can, without loss of generality, assume certain properties of charts which are not included in their definition.
+
+\begin{defn}[Manifold]
+	A \emph{manifold} \( M \) is a topological space such that
+	\begin{points}
+		\item \( M \) is Hausdorff,
+		\item \( M \) is second-countable,
+		\item \label{itm:compatibility} for every point \( x \in M \) there is a local chart around it. Furthermore, if \( (U,\phi) \) and \( (V, \psi) \) are two of such charts and \( U \cap V \) is nonempty then the map \( \phi\rest{U \cap V} \circ \psi^{-1}\rest{U \cap V} \), which is called a \emph{transition map}, is a homeomorphism. 
+	\end{points}
+	A collection of charts satisfying \ref{itm:compatibility} is called an \emph{atlas}.
+\end{defn}
+
+The first two requirements in the definition of a manifold are technicalities to exclude a number of pathological examples. The idea of ``locally homeomorphic to \( \R^n \)'' is contained in \ref{itm:compatibility}.
+
+A manifold with no additional structure is also sometimes called a \emph{topological manifold}, to distinguish it from other types of manifold which arise from further structure. The main class we will be interested is that of differentiable manifolds.
+
+\begin{defn}[Differentiable manifold] A \emph{differentiable manifold} is a manifold whose transition maps are of class \( C^{\infty} \), also known as smooth.
+\end{defn}
+
+Note that the transition maps go from \( \R^n \) to \( \R^n \) so it makes sense to talk about them being smooth. 
+
+Additionally, one may speak of a \( C^k \) manifold, with \( k \geq 1 \), which is naturally one whose transition maps are of class \( C^k \). However, as shown by Whitney, any \( C^1 \)-manifold admits a \( C^k \)-atlas, i.e. an atlas that makes it into a \( C^k \)-manifold for any \( k > 1 \). Thus there is no meaningful distinction between a \( C^k \)-manifold and a differentiable manifold. The only remarkable case is that of a \( C^0 \)-manifold, which is simply a topological manifold. 
+
+\section{The dimension of a manifold}
+Up until this point we have not been particularly precise about the \( n \) in \( \R^n \). It might well be the case that the various charts maps in a certain manifold's atlas have domains in euclidean spaces of different dimension and so it would not make sense to speak of the dimension of the manifold. One possible solution would be simply to require that the dimension of the image of every chart coincide. However, in the case of \( C^k \)-manifolds with \( 1 \leq k \leq \infty \) it can be shown that this actually must be the case. Indeed, the transition maps must be \( C^k \)-diffeomorphisms. In particular, their differential at every point must be invertible and since the differential of a diffeomorphism is a linear map, the dimensions of the domain and codomain of the transition maps must coincide. It then follows that the dimension is well defined on each connected component. If we restrict ourselves to connected manifolds then we can speak of their dimension. 
+
+In the case of a topological manifold one must be a little more careful since the transition maps are no longer necessarily differentiable and so the argument we just used no longer works. However, as a consequence of the Invariance of Domain Theorem due to Brouwer, it can be shown that if there is a homeomorphism between a subset of \( \R^n \) and a subset of \( \R^m \) it is then the case that \( m = n \). In particular, the dimensions of the domain and codomain of the transition maps of a topological manifold also coincide. 
+
+\section{The classification of differentiable manifolds. Diffeomorphisms.}
+As is usual in mathematics, once a class of objects has been introduced one of the first questions to ask is that of classification, that is, what is the right notion of equality. In the case of topological spaces, for instance, this is the idea of equivalence up to homeomorphism since if two topological spaces are homemomorphic they share all topological properties and therefore they are, for all intents and purposes, the same in the eyes of a topologist. 
+
+In the case of manifolds it would appear that all meaningful structure is encoded by the choice of atlas. For a given topological space, there are potentially many different choices of atlas that make it into a manifold. However, how many of these give rise to actually different manifolds? For a start, we can define a compatibility relation between the different atlases: an atlas \( \A_1 \) is compatible with another atlas \( \A_2 \) if every chart in \( \A_1 \) is also in \( \A_2 \). This is trivially a partial order. Additionally every chain of compatible atlases has an upper bound, its union and so by Zorn's Lemma we conclude there exist maximal atlases. We could then be tempted to establish that the different maximal atlases are what distinguish between manifolds. As the next example shows, however, this is too fine a distinction.
+
+\begin{exe}
+	There is an obvious choice of atlas that makes the real line into a manifold: the atlas comprised of the pair \( (U, \id) \) for every open set \( U \subseteq \R \). This is indeed an atlas since every possible transition map is the identity which is of course smooth. There is another possibility, however, by considering the collection of charts \( (U, f\rest{U}) \) for every open set \( U \subseteq \R \), where \( f(x) = x^3 \). The map \( f \) is clearly a homeomorphism 
+\end{exe}
 
 \end{document}
