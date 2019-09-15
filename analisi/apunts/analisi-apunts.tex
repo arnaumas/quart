@@ -1,0 +1,174 @@
+\documentclass[12pt,oneside]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[bf,sf,small,pagestyles]{titlesec}
+\usepackage{titling}
+\usepackage[font={footnotesize, sf}, labelfont=bf]{caption} 
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage[sort]{cleveref}
+\usepackage{amsthm,thmtools}
+\usepackage[shortlabels]{enumitem}
+
+\geometry{
+	a4paper,
+	right = 3cm,
+	left = 3cm,
+	bottom = 3cm,
+	top = 3cm
+}
+
+\hypersetup{
+	colorlinks,
+	linkcolor = {red!50!blue},
+	linktoc = page
+}
+
+\numberwithin{table}{section}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+\newcommand{\qedtriangle}{\ensuremath{\triangle}}
+\newcommand{\qedtriangledown}{\ensuremath{\bigtriangledown}}
+\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangle]{definition}
+\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangledown]{example}
+
+\declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theo}
+\declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theo]{prop}
+\declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{defn}
+\declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{exe}
+
+\newlist{points}{enumerate}{1}
+\setlist[points,1]{label=\textup{(}{\itshape \roman*}\textup{)}, wide}
+
+\graphicspath{{./figs/}}
+\newcommand{\dummyfig}[1]{
+  \centering
+  \fbox{
+    \begin{minipage}[c][0.33\textheight][c]{0.5\textwidth}
+      \centering{\ttfamily #1}
+    \end{minipage}
+  }
+}
+
+% Unitats
+\sisetup{
+	inter-unit-product = \ensuremath{ \cdot },
+	allow-number-unit-breaks = true,
+	detect-family = true,
+	list-final-separator = { and },
+	list-units = single
+}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\rest}[1]{\raisebox{-.5ex}{$|$}_{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\renewcommand{\P}{\mathcal{P}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\parbreak}{
+	\begin{center}
+		--- $\ast$ ---
+	\end{center} 
+}
+\makeatletter
+\newcommand*{\defeq}{\mathrel{\rlap{%
+    \raisebox{0.3ex}{$\m@th\cdot$}}%
+  \raisebox{-0.3ex}{$\m@th\cdot$}}%
+	=
+}
+\makeatother
+
+\newpagestyle{page}[\sffamily \footnotesize]{
+	\headrule
+	\sethead*{\ifthesection{{\bfseries \thesection} \sectiontitle}{}}{}{{\bfseries Chapter \thechapter.} \chaptertitle}
+	\footrule
+	\setfoot*{}{}{\thepage}
+}
+\renewpagestyle{plain}[\sffamily \footnotesize]{
+	\footrule
+	\setfoot*{}{}{\thepage}
+}
+\assignpagestyle{\chapter}{plain}
+
+\titleformat{\chapter}[block]{\sffamily \bfseries \Huge}{\filleft \large Chapter \Huge \thechapter\\}{0pt}{\Huge \titlerule[1pt] \vspace{1ex} \filleft}
+
+\title{Real Analysis}
+\author{Arnau Mas}
+\date{2019}
+
+\begin{document}
+\maketitle
+
+\frontmatter
+\pagestyle{plain}
+These are notes gathered during the subject \emph{Anàlisi Real i Funcional} as taught by Joan Orobitg between September 2019 and January 2020.
+
+\mainmatter
+
+\chapter{Measure Theory}
+\section{Measure Spaces}
+\begin{defn}[\( \sigma \)-algebra]
+	We say a family of subsets \( \A \subseteq \P(X) \) of a set \( X \) is a \( \sigma \)-algebra over it if
+	\begin{points}
+	\item \( \emptyset, X \in \A \),
+	\item \( \A \) is closed under countable unions, i.e. if there is a countable set \( \{ A_i \}_{i \in \N} \subseteq \A \) then \( \bigcup_{i \in \N} A_i \in \A \),
+	\item \( \A \) is closed under countable intersections, i.e. if there is a countable set \( \{ A_i \}_{i \in \N} \subseteq \A \) then \( \bigcap_{i \in \N} A_i \in \A \),
+	\item \( \A \) is closed under complements, i.e. if \( A \in \A \) then \( X - A \in \A \).
+	\end{points}
+\end{defn}
+
+\begin{exe}
+	The following are all examples of \( \sigma \)-algebras.
+	\begin{points}
+	\item For any set \( X \), \( \P(X) \) is a \( \sigma \)-algebra called the \emph{discrete \( \sigma \)-algebra}. It is the \emph{finest} \( \sigma \)-algebra since any other possible \( \sigma \)-algebra over \( X \) is contained in it.
+	\item On the other hand, the \emph{coarsest} \( \sigma \)-algebra over any set \( X \) is simply \( \{ \emptyset, X \} \), meaning any other possible \( \sigma \)-algebra contains it. It is called the \emph{trivial \( \sigma \)-algebra}.
+	\item If \( \A_1 \) and \( \A_2 \) are \( \sigma \)-algebras over a set \( X \) then so is \( \A_1 \cap \A_2 \).
+	\item Given a family of subsets \( S \subseteq \P(X) \) then the \( \sigma \)-algebra generated by it is the intersection of all \( \sigma \)-algebras that contain it and it is the smallest \( \sigma \)-algebra that contains \( S \). We write it \( \sigma(S) \).
+	\item The \emph{Borel \( \sigma \)-algebra} over a topological space \( X \) is the \( \sigma \)-algebra generated by the open sets of \( X \), written \( \B(X) \). Since a closed set is the complement of an open set the family of closed sets also generates the Borel \( \sigma \)-algebra.
+	\end{points}
+\end{exe}
+The pair formed by a set and its \( \sigma \)-algebra is called a \emph{measurable space}.
+
+\begin{defn}[Measure]
+	Let \( (X,\A) \) be a measurable space. A measure is a map \( \mu \colon A \to [0,\infty] \) such that the following are true
+	\begin{points}
+	\item \( \mu(\emptyset) = 0 \).
+	\item If \( \{ A_i \}_{i \in \N} \subseteq \A \) is a family of pairwise disjoint sets of finite measure then
+		\begin{equation*}
+			\mu\left(\bigcup_{i \in \N} A_i\right) = \sum_{i \in \N} \mu(A_i). 
+		\end{equation*}
+	\end{points}
+\end{defn}
+A measurable space equipped with a measure is called a \emph{measure space}.
+
+\begin{exe}
+	The following are all examples of measures.
+	\begin{points}
+	\item Consider a measurable space \( X \) with the discrete \( \sigma \)-algebra. Then, for any subset \( A \subseteq X \) we define \( \mu(A) = \abs{A} \) if \( A \) is finite and \( \mu(A) = \infty \) if \( A \) is infinite. This is the \emph{counting measure}, for obvious reasons.
+	\item On a finite measurable space \( X \) with the discrete \( \sigma \)-algebra we define for any subset \( A \subseteq X \)
+		\begin{equation*}
+			\mu(A) = \frac{\abs{A}}{\abs{X}}.
+		\end{equation*}
+		This is a special case of a probability measure since \( \mu(X) = 1 \). In fact a probability is exactly a measure satisfying \( \mu(X) = 1 \).
+	\item On a measurable space \( X \) with any \( \sigma \)-algebra fix a point \( x \in X \) and define \( \mu(A) = 1 \) if \( x \in A \) and \( \mu(A) = 0 \) otherwise. This is called the \emph{Dirac measure}.
+	\end{points}
+\end{exe}
+
+\section{The Lebesgue measure}
+A question worth asking is whether any measurable space can be made into a measure space. Carathódory's extension theorem gives an affirmative answer to the question provided we give a starting point for the measure. Roughly speaking the starting point consists of specifying the measure of a collection of subsetsa, subject to some requirements, which can then be extended to a measure on the whole of the \( \sigma \)-algebra. In the case of \( \R^n \), 
+
+\end{document}
