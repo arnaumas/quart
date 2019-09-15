@@ -1,0 +1,186 @@
+\documentclass[12pt,oneside]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[bf,sf,small,pagestyles]{titlesec}
+\usepackage{titling}
+\usepackage[font={footnotesize, sf}, labelfont=bf]{caption} 
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage[sort]{cleveref}
+\usepackage{amsthm,thmtools}
+\usepackage[shortlabels]{enumitem}
+
+\geometry{
+	a4paper,
+	right = 3cm,
+	left = 3cm,
+	bottom = 3cm,
+	top = 3cm
+}
+
+\hypersetup{
+	colorlinks,
+	linkcolor = {red!50!blue},
+	linktoc = page
+}
+
+\numberwithin{table}{section}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+\newcommand{\qedtriangle}{\ensuremath{\triangle}}
+\newcommand{\qedtriangledown}{\ensuremath{\bigtriangledown}}
+\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangle]{definition}
+\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangledown]{example}
+
+\declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theo}
+\declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theo]{prop}
+\declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{defn}
+\declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{exe}
+
+\newlist{points}{enumerate}{1}
+\setlist[points,1]{label=\textup{(}{\itshape \roman*}\textup{)}, wide}
+
+\graphicspath{{./figs/}}
+\newcommand{\dummyfig}[1]{
+  \centering
+  \fbox{
+    \begin{minipage}[c][0.33\textheight][c]{0.5\textwidth}
+      \centering{\ttfamily #1}
+    \end{minipage}
+  }
+}
+
+% Unitats
+\sisetup{
+	inter-unit-product = \ensuremath{ \cdot },
+	allow-number-unit-breaks = true,
+	detect-family = true,
+	list-final-separator = { and },
+	list-units = single
+}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\rest}[1]{\raisebox{-.5ex}{$|$}_{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\parbreak}{
+	\begin{center}
+		--- $\ast$ ---
+	\end{center} 
+}
+\makeatletter
+\newcommand*{\defeq}{\mathrel{\rlap{%
+    \raisebox{0.3ex}{$\m@th\cdot$}}%
+  \raisebox{-0.3ex}{$\m@th\cdot$}}%
+	=
+}
+\makeatother
+
+\newpagestyle{page}[\sffamily \footnotesize]{
+	\headrule
+	\sethead*{\ifthesection{{\bfseries \thesection} \sectiontitle}{}}{}{{\bfseries Chapter \thechapter.} \chaptertitle}
+	\footrule
+	\setfoot*{}{}{\thepage}
+}
+\renewpagestyle{plain}[\sffamily \footnotesize]{
+	\footrule
+	\setfoot*{}{}{\thepage}
+}
+\assignpagestyle{\chapter}{plain}
+
+\titleformat{\chapter}[block]{\sffamily \bfseries \Huge}{\filleft \large Chapter \Huge \thechapter\\}{0pt}{\Huge \titlerule[1pt] \vspace{1ex} \filleft}
+
+\title{Galois Theory}
+\author{Arnau Mas}
+\date{2019}
+
+\begin{document}
+\maketitle
+
+\frontmatter
+\pagestyle{plain}
+These are notes gathered during the subject \emph{Teoria de Galois} as taught by Francesc Perera between September 2019 and January 2020.
+
+\mainmatter
+
+\chapter{Preliminaries}
+\section{The solution of low degree polynomial equations}
+It is surely well-known to any aspiring mathematician that there exist no general formulas for the solutions of polynomial equations of degree five and higher. This implies, of course, that such formulas exist for equations of degree fourth and lower. Indeed, the solution of linear equations is trivial and the quadratic formula should be more than well-known by this point. In this section we present a derivation of the solutions of both the quadratic and cubic equations. 
+
+\subsection{The quadratic equation}
+First, note that we can, without loss of generality, assume that we are working with a monic equation since we may always divide through by the leading coefficient to obtain an equation with the same solutions and with leading coefficient 1. Thus, we are trying to solve \( x^2 + bx + c = 0 \). The standard method is completing the square, that is to write \( x^2 + bx + c \) as a square, and one achieves so by adding and substracting \( \frac{b^2}{4} \):
+\begin{equation*}
+	x^2 + bx + c = x^2 + bx + \frac{b^2}{4} - \frac{b^2}{4} + c = \left(x + \frac{b}{2}\right)^2 - \frac{b^2}{4} + c.
+\end{equation*}
+Then the solutions to the original equation must satisfy
+\begin{equation*}
+	\left(x + \frac{b}{2}\right)^2 = \frac{b^2}{4} - c.
+\end{equation*}
+If the term on the right is not a square in the field we are working over then there are no solutions in that field. On the other hand, if it is a square then it has two square roots and the solutions to the original equation are
+\begin{equation*}
+	x = - \frac{b}{2} \pm \frac{1}{2}\sqrt{b^2 - 4c},
+\end{equation*}
+which is the well known quadratic formula.
+
+\subsection{The cubic equation}
+Less well-known is the formula for the solutions of the cubic equation. Whereas the quadratic formula had been known to the greeks and babylonians, the cubic formula was discovered later during the fifteenth century. There were several italian mathematicians involved in its discovery: Cardano, Ferrari and del Ferro among others. The question of the original discoverer is a contemptious matter. 
+
+The first step in the solution is a change of variables to eliminate the quadratic term. If \( x = y - \frac{1}{3}b \) then the original (monic) polynomial becomes
+\begin{align*}
+	x^3 + bx^2 + cx + d &= y^3 - by^2 + \frac{1}{3}b^2 y - \frac{1}{27}b^3 + by^2 - \frac{2}{3}b^2y + \frac{1}{9}b^3 + cy - \frac{1}{3}bc + d \\
+											&= y^3 + \left(c - \frac{1}{3}b^2 \right)y + \frac{2}{27}b^3 - \frac{1}{3}bc + d.
+\end{align*}
+Therefore we only need to be able to solve cubics of the form \( x^3 + px + q = 0 \). 
+
+The basic trick is similar to completing the square. We have the identity
+\begin{equation*}
+	(u+v)^3 = u^3 + 3u^2v + 3uv^2 + v^3 = u^3 + 3uv(u+v) + v^3,
+\end{equation*}
+and rearranging we obtain \( (u+v)^3 - 3uv(u+v) - u^3 - v^3 = 0 \). One then notices that there are cubic and linear terms in \( u+v \) but no quadratic terms. Then one tries to solve for \( u \) and \( v \) to then obtain \( x \) as \( u+v \). \( u \) and \( v \) must satisfy \( -3uv = p \) and \( -u^3 - v^3 = q \). Multiplying this second condition by \( u^3 \) we get
+\begin{equation*}
+	u^6 + qu^3 + u^3v^3 = 0,
+\end{equation*}
+and using the fact that \( uv = -\frac{1}{3}p \) we arrive at
+\begin{equation*}
+	u^6 + qu^3 - \frac{p^3}{27} = 0,
+\end{equation*}
+which is quadratic in \( u^3 \). If we instead had multiplied through by \( v^3 \) we would have arrived to the same equation for \( v^3 \) instead.
+
+Up to now nothing we have done relied on any additional assumption on the field have been working over. From this point, however, the nature of the solutions will depend on the behaviour of radicals in the field in question. We will assume we are working in \( \C \). We can then solve for \( u^3 \) and \( v^3 \) to find
+\begin{align*}
+	u^3 &= -\frac{q}{2} \pm \sqrt{\frac{q^2}{4} + \frac{p^3}{27}} \\
+	v^3 &= -\frac{q}{2} \pm \sqrt{\frac{q^2}{4} + \frac{p^3}{27}}.
+\end{align*}
+The ambiguity with the signs is eliminated due to the fact that \( u^3 + v^3 = -q \) so we find the only good options are those in which the signs of the square root terms are opposite, so that they will cancel when added. Since we only care about the sum of \( u \) and \( v \) we might as well choose
+\begin{equation*}
+	u^3 = -\frac{q}{2} + \sqrt{\frac{q^2}{4} + \frac{p^3}{27}}
+\end{equation*}
+and 
+\begin{equation*}
+	v^3 = -\frac{q}{2} - \sqrt{\frac{q^2}{4} + \frac{p^3}{27}}.
+\end{equation*}
+There are three possibilities for \( u \) and three for \( v \). Indeed, every complex number has three roots and if \( a \) is one of them then so are \( \omega a \) and \( \omega^2 a \) where \( \omega = e^{\frac{2\pi}{3}i} \). Not every combination of them leads to a solution of the cubic ---if it were so we would have more than three roots and a cubic polynomial can only have three roots--- since they are constrained by the relation \( 3uv = -p \). So, once we find \( u \) and \( v \) that satisfy this then so will \( \omega u \) and \( \omega^2 v \), as well as \( \omega^2 u \) and \( \omega v \) since \( \omega^3 = 1 \).
+
+All together, one of the solutions to the cubic \( x^3 + px + q = 0 \) is given by
+\begin{equation*}
+	x = \sqrt[3]{-\frac{q}{2} + \sqrt{\frac{q^2}{4} + \frac{p^3}{27}}} + \sqrt[3]{-\frac{q}{2} - \sqrt{\frac{q^2}{4} + \frac{p^3}{27}}},
+\end{equation*}
+which is known as Cardano's formula. If we undo the change of variable to eliminate the quadratic term and use \( p = c - \frac{1}{3}b^2 \) and \( q = \frac{2}{27}b^3 - \frac{1}{3}bc + d \) then we obtain the cubic formula in all of its glory:
+\begin{align*}
+	x = -\frac{b}{3} &+ \sqrt[3]{\left(-\frac{b^3}{27} + \frac{bc}{6} - \frac{d}{2}\right) + \sqrt{\left(-\frac{b^3}{27} + \frac{bc}{6} - \frac{d}{2}\right)^2 + \left(\frac{c}{3} - \frac{b^2}{9}\right)^3}} \\
+									 & +\sqrt[3]{\left(-\frac{b^3}{27} + \frac{bc}{6} - \frac{d}{2}\right) - \sqrt{\left(-\frac{b^3}{27} + \frac{bc}{6} - \frac{d}{2}\right)^2 + \left(\frac{c}{3} - \frac{b^2}{9}\right)^3}}.
+\end{align*}
+
+\end{document}
