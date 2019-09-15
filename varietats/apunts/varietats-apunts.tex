@@ -72,7 +72,7 @@
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \newcommand{\rest}[1]{\raisebox{-.5ex}{$|$}_{#1}}
 \newcommand{\R}{\mathbb{R}}
-\newcommand{\A}{\mathbb{A}}
+\newcommand{\A}{\mathcal{A}}
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\parbreak}{
 	\begin{center}
@@ -125,10 +125,10 @@ In what follows we give the formal definition of a manifold.
 \begin{defn}[Local chart]
 	Let \( M \) be a topological space and \( x \in M \) a point. A \emph{local chart}, or simply a \emph{chart}, around \( x \) is a pair \( (U, \phi) \)  where
 	\begin{points}
-		\item \( U \) is open in \( M \) and contains \( x \),
-		\item \( \phi \colon U \to \Omega \subseteq \R^n \) is a homeomorphism, which is called a \emph{chart map}.
+	\item \( U \) is open in \( M \) and contains \( x \),
+	\item \( \phi \colon U \to \Omega \subseteq \R^n \) is a homeomorphism, which is called a \emph{chart map}.
 	\end{points}
-We call \( \phi^{-1} \) a \emph{local parametrization} or simply a \emph{parametrization}.
+	We call \( \phi^{-1} \) a \emph{local parametrization} or simply a \emph{parametrization}.
 \end{defn}
 
 Note that there is no requirement on \( \Omega \) other than it being an open set, which must be the case if \( \phi \) is a homeomorphism. However, if \( \psi \colon \Omega \to \Omega' \subseteq \R^n \) is a homeorphism then \( \psi \circ \phi \) is also clearly a homeorphism. That means that we can, without loss of generality require that the image of a point through a chart map be 0 or any other point we wish by precomposing with a translation. Similarly, it could be the case that \( \Omega \) is not connected, in which case \( U \) must also be not connected. Since \( x \) lies in one of the connected components of \( U \), by restricting \( \phi \) to it we obtain a chart map whose image is connected. All this is to say that we can, without loss of generality, assume certain properties of charts which are not included in their definition.
@@ -136,9 +136,9 @@ Note that there is no requirement on \( \Omega \) other than it being an open se
 \begin{defn}[Manifold]
 	A \emph{manifold} \( M \) is a topological space such that
 	\begin{points}
-		\item \( M \) is Hausdorff,
-		\item \( M \) is second-countable,
-		\item \label{itm:compatibility} for every point \( x \in M \) there is a local chart around it. Furthermore, if \( (U,\phi) \) and \( (V, \psi) \) are two of such charts and \( U \cap V \) is nonempty then the map \( \phi\rest{U \cap V} \circ \psi^{-1}\rest{U \cap V} \), which is called a \emph{transition map}, is a homeomorphism. 
+	\item \( M \) is Hausdorff,
+	\item \( M \) is second-countable,
+	\item \label{itm:compatibility} for every point \( x \in M \) there is a local chart around it. Furthermore, if \( (U,\phi) \) and \( (V, \psi) \) are two of such charts and \( U \cap V \) is nonempty then the map \( \phi\rest{U \cap V} \circ \psi^{-1}\rest{U \cap V} \), which is called a \emph{transition map}, is a homeomorphism. 
 	\end{points}
 	A collection of charts satisfying \ref{itm:compatibility} is called an \emph{atlas}.
 \end{defn}
@@ -164,8 +164,27 @@ As is usual in mathematics, once a class of objects has been introduced one of t
 
 In the case of manifolds it would appear that all meaningful structure is encoded by the choice of atlas. For a given topological space, there are potentially many different choices of atlas that make it into a manifold. However, how many of these give rise to actually different manifolds? For a start, we can define a compatibility relation between the different atlases: an atlas \( \A_1 \) is compatible with another atlas \( \A_2 \) if every chart in \( \A_1 \) is also in \( \A_2 \). This is trivially a partial order. Additionally every chain of compatible atlases has an upper bound, its union and so by Zorn's Lemma we conclude there exist maximal atlases. We could then be tempted to establish that the different maximal atlases are what distinguish between manifolds. As the next example shows, however, this is too fine a distinction.
 
+\begin{exe} \label{ex:different maximal atlases}
+	There is an obvious choice of atlas that makes the real line into a manifold: the atlas \( \A_1 \) comprised of the pair \( (U, \id) \) for every open set \( U \subseteq \R \). This is indeed an atlas since every possible transition map is the identity which is of course smooth. 
+
+	There is another possibility, which is the atlas \( \A_2 \) obtained the same way as before and using the function \( x \mapsto x^3 \), which will simply be denoted by \( x^3 \), instead of the identity. This is still an atlas since \( x^3 \) is a homeomorphism and every transition map is the identity.
+
+	These two atlases, however, give rise to two different maximal atlases given that they are not compatible with each other. Indeed, consider the charts \( (\R, \id) \) and \( (\R, x^3) \) each contained in \( \A_1 \) and \( \A_2 \) respectively. The transition map between the two is \( x^3 \). One of the transition maps is \( x^3 \) which is certainly \( C^\infty \), however its inverse is \( \sqrt[3]{x} \) which is not differentiable at zero and is therefore not \( C^{\infty} \).
+\end{exe}
+
+The correct solution is to define the correct notion of morphism between manifolds and then classify them modulo isomorphism. The morphisms in the category of manifolds are called \emph{smooth maps}, and the isomorphisms are called \emph{diffeomorphisms}.
+\begin{defn}[Smooth map]
+	Given two manifolds \( M \) and \( N \), we say a map \( f \colon M \to N \) is \emph{smooth} if for any chart \( (U, \phi) \) in \( M \) and \( (V, \psi) \) in \( N \) the composition \( \psi \circ f \phi^{-1} \) is of class \( C^{\infty} \).
+\end{defn}
+
+\begin{defn}[Diffeomorphism]
+	A \emph{diffeomorphism} is an invertible smooth map whose inverse is also smooth. If there is a diffeomorphism between two manifolds we say they are diffeomorphic.
+\end{defn}
+
+Classification up to diffeomorphism is the correct idea, since, as we will see, two diffeomorphic manifolds are, for all intents and purposes, the same.
+
 \begin{exe}
-	There is an obvious choice of atlas that makes the real line into a manifold: the atlas comprised of the pair \( (U, \id) \) for every open set \( U \subseteq \R \). This is indeed an atlas since every possible transition map is the identity which is of course smooth. There is another possibility, however, by considering the collection of charts \( (U, f\rest{U}) \) for every open set \( U \subseteq \R \), where \( f(x) = x^3 \). The map \( f \) is clearly a homeomorphism 
+	The two manifolds induced by the different atlases in \cref{ex:different maximal atlases} are diffeomorphic. It is not immediately clear what the diffeomorphism actually is. We can first try it with the identity. This does not work, however, since if we    
 \end{exe}
 
 \end{document}

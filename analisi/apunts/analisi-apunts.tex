@@ -79,6 +79,7 @@
 \renewcommand{\P}{\mathcal{P}}
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\ext}[1]{ m^{*}( #1 ) }  
 \newcommand{\parbreak}{
 	\begin{center}
 		--- $\ast$ ---
@@ -120,7 +121,7 @@ These are notes gathered during the subject \emph{Anàlisi Real i Funcional} as 
 \mainmatter
 
 \chapter{Measure Theory}
-\section{Measure Spaces}
+\section{Measure spaces}
 \begin{defn}[\( \sigma \)-algebra]
 	We say a family of subsets \( \A \subseteq \P(X) \) of a set \( X \) is a \( \sigma \)-algebra over it if
 	\begin{points}
@@ -169,6 +170,51 @@ A measurable space equipped with a measure is called a \emph{measure space}.
 \end{exe}
 
 \section{The Lebesgue measure}
-A question worth asking is whether any measurable space can be made into a measure space. Carathódory's extension theorem gives an affirmative answer to the question provided we give a starting point for the measure. Roughly speaking the starting point consists of specifying the measure of a collection of subsetsa, subject to some requirements, which can then be extended to a measure on the whole of the \( \sigma \)-algebra. In the case of \( \R^n \), 
+A question worth asking is whether any measurable space can be made into a measure space. Caratheódory's extension theorem gives an affirmative answer to the question provided we give a starting point for the measure. Roughly speaking the starting point consists of specifying the measure of a collection of subsets, subject to some requirements, which can then be extended to a measure on the whole of the \( \sigma \)-algebra. In this section we explore a particular case of this construction on \( \R^n \) which is known as the \emph{Lebesgue measure}.
+
+The main motivation behind the Lebesgue measure is to rigorously generalise the idea of length ---in the case of \( \R \)---, area ---in the case of \( \R^2 \)--- and volume ---in the case of \( \R^n \)--- to arbitrary dimension and for as many subsets as possible. The starting point will be the rectangles (segments in \( \R \), rectangles in \( \R^2 \), prisms in \( \R^3 \)--- for which their volume is clear: it is simply the product of the length of the sides. 
+
+\subsection{The Lebesgue exterior measure}
+As we said, the starting point for the construction will be rectangles. Let's lay down the precise definitions.
+\begin{defn}[Interval]
+	An \emph{interval} \( I \) is a subset of \( \R \) with the property that if \( a, b \in I \) then \( c \in I \) whenever \( a < c < b \). It can be shown that if an interval is bounded then it must be one of \( [a,b] \), \( (a,b) \), \( [a,b) \) or \( (a,b] \). \( a \) and \( b \) are called the \emph{endpoints} of the interval and we will write \( \langle a,b \rangle \) for any interval with endpoints \( a \) and \( b \).
+
+The length of an interval with endpoints \( a \) and \( b \) is defined to be \( \abs{b - a} \).
+\end{defn}
+
+\begin{defn}[Rectangle]
+	An (\( n \)-dimensional) \emph{rectangle} \( R \) is the product of \( n \) intervals, that is
+	\begin{equation*}
+		R = \langle a_1, b_1 \rangle \times \cdots \times \langle a_n, b_n \rangle.
+	\end{equation*}
+	The \emph{volume} of a rectangle is defined to be
+	\begin{equation*}
+		v(R) = \abs{b_1 - a_1} \cdot \cdots \cdot \abs{b_n - a_n}.
+	\end{equation*}
+\end{defn}
+These two definitions of (hopefully) clear concepts are perhaps needlessly fussy but it pays to be precise in the beginning.
+
+\begin{defn}[Exterior measure]
+	We define the \emph{Lebesgue exterior measure} or simply \emph{exterior measure} as
+	\begin{equation*}
+		\inf \left\{ \sum_{j = 1}^{\infty} v(R_j) \mid A \subseteq \bigcup_{j = 1}^{\infty}I_j \text{, }I_j\text{ rectangles} \right\}.
+	\end{equation*}
+	We will denote it by \( \ext{A} \).
+\end{defn}
+The intuition behind the exterior measure is as follows: given any set, cover it with rectangles and add up their volumes. Then try to refine the covering by acheiving less total area. The infimimum of the volumes of all possible covers is the exterior measure. In two dimensions this describes trying to literally cover the set by a patchwork of rectangles finer and finer that approximates the area of the set in question.
+
+Also, given that the volume of a rectangle is always positive, the set we are taking the infimum of is bounded below by zero and so its infimimum always exists and is non-negative. Thus the exterior measure exists for any set. 
+
+\begin{exe}
+	Here we calculate the exterior measure of various types of sets.
+	\begin{points}
+	\item The exterior measure of a point is 0. Indeed, let \( a \in \R^n \) and consider the square of center \( a \) and side \( \epsilon \), \( Q_\epsilon(a) \)\footnote{More precisely, if \( a = (a_1, \cdots, a_n) \) then \( Q_\epsilon(a) = (a_1 - \frac{\epsilon}{2}, a_1 + \frac{\epsilon}{2}) \times \cdots \times (a_1 - \frac{\epsilon}{2}, a_1 + \frac{\epsilon}{2}) \).}. Then \( Q_\epsilon(a) \) is certainly a cover of \( \{ a\} \) and has volume \( \epsilon^n \). That is, \( \ext{\{ a \}} \leq \epsilon^n \). Since \( \epsilon \) can be as small as we wish we conclude \( \ext{\{ a \}} = 0 \).
+
+	\item A segment in \( \R^n \) (with \( n > 1 \)) has exterior measure 0. If the segment has length \( L \) then we can cover it with a rectangle of length \( L \) and whose all other sides have length \( \delta \). Then its total volume is \( L\delta^n \) and the exterior measure of the segment is bounded by it. And since \( \delta \) can be made as small as we want, we conclude the exterior measure must be 0. The details of the proof are a little cumbersome but the idea is hopefully clear.
+
+	\item In generally 
+	\end{points}
+\end{exe}
+
 
 \end{document}
