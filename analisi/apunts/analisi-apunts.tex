@@ -18,6 +18,7 @@
 \usepackage[sort]{cleveref}
 \usepackage{amsthm,thmtools}
 \usepackage[shortlabels]{enumitem}
+\usepackage{todonotes}
 
 \geometry{
 	a4paper,
@@ -32,6 +33,9 @@
 	linkcolor = {red!50!blue},
 	linktoc = page
 }
+\newcommand{\locallabel}[1]{\label{\currentprefix:#1}}
+\newcommand{\localref}[1]{\ref{\currentprefix:#1}}
+\newcommand{\localcref}[1]{\cref{\currentprefix:#1}}
 
 \numberwithin{table}{section}
 \numberwithin{equation}{section}
@@ -44,6 +48,7 @@
 
 \declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theo}
 \declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theo]{prop}
+\declaretheorem[name=Lemma, refname={lemma,lemmata}, Refname={Lemma,Lemmata}, numberlike=theo]{lemma}
 \declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{defn}
 \declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{exe}
 
@@ -51,14 +56,6 @@
 \setlist[points,1]{label=\textup{(}{\itshape \roman*}\textup{)}, wide}
 
 \graphicspath{{./figs/}}
-\newcommand{\dummyfig}[1]{
-  \centering
-  \fbox{
-    \begin{minipage}[c][0.33\textheight][c]{0.5\textwidth}
-      \centering{\ttfamily #1}
-    \end{minipage}
-  }
-}
 
 % Unitats
 \sisetup{
@@ -76,10 +73,11 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\B}{\mathcal{B}}
+\newcommand{\M}{\mathcal{M}}
 \renewcommand{\P}{\mathcal{P}}
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\abs}[1]{\lvert #1 \rvert}
-\newcommand{\ext}[1]{ m^{*}( #1 ) }  
+\newcommand{\ext}[1]{m^* \! \left( #1 \right)}  
 \newcommand{\parbreak}{
 	\begin{center}
 		--- $\ast$ ---
@@ -128,9 +126,10 @@ These are notes gathered during the subject \emph{Anàlisi Real i Funcional} as 
 	\item \( \emptyset, X \in \A \),
 	\item \( \A \) is closed under countable unions, i.e. if there is a countable set \( \{ A_i \}_{i \in \N} \subseteq \A \) then \( \bigcup_{i \in \N} A_i \in \A \),
 	\item \( \A \) is closed under countable intersections, i.e. if there is a countable set \( \{ A_i \}_{i \in \N} \subseteq \A \) then \( \bigcap_{i \in \N} A_i \in \A \),
-	\item \( \A \) is closed under complements, i.e. if \( A \in \A \) then \( X - A \in \A \).
+	\item \( \A \) is closed under complements, i.e. if \( A \in \A \) then \( A^c \in \A \).
 	\end{points}
 \end{defn}
+Notice that if a collection of subsets is closed under countable unions and under complements then it is also closed under intersections since by De Morgan's laws a countable intersection is the complement of the union of complements. Similarly if it is closed under intersections and complements it is closed under unions. So when showing that a certain collection is a \( \sigma \)-algebra it is enough to show that is closed under one of unions or intersections.
 
 \begin{exe}
 	The following are all examples of \( \sigma \)-algebras.
@@ -197,7 +196,7 @@ These two definitions of (hopefully) clear concepts are perhaps needlessly fussy
 \begin{defn}[Exterior measure]
 	We define the \emph{Lebesgue exterior measure} or simply \emph{exterior measure} as
 	\begin{equation*}
-		\inf \left\{ \sum_{j = 1}^{\infty} v(R_j) \mid A \subseteq \bigcup_{j = 1}^{\infty}I_j \text{, }I_j\text{ rectangles} \right\}.
+		\inf \left\{ \sum_{j = 1}^{\infty} v(R_j) \mid A \subseteq \bigcup_{j = 1}^{\infty}R_j \text{, }R_j\text{ rectangles} \right\}.
 	\end{equation*}
 	We will denote it by \( \ext{A} \).
 \end{defn}
@@ -206,15 +205,163 @@ The intuition behind the exterior measure is as follows: given any set, cover it
 Also, given that the volume of a rectangle is always positive, the set we are taking the infimum of is bounded below by zero and so its infimimum always exists and is non-negative. Thus the exterior measure exists for any set. 
 
 \begin{exe}
-	Here we calculate the exterior measure of various types of sets.
+	It is impractical to use the definition to directly compute the exterior measure of a given set. However here we calculate the exterior measure of various classes of sets which constitute relatively easy examples.
 	\begin{points}
 	\item The exterior measure of a point is 0. Indeed, let \( a \in \R^n \) and consider the square of center \( a \) and side \( \epsilon \), \( Q_\epsilon(a) \)\footnote{More precisely, if \( a = (a_1, \cdots, a_n) \) then \( Q_\epsilon(a) = (a_1 - \frac{\epsilon}{2}, a_1 + \frac{\epsilon}{2}) \times \cdots \times (a_1 - \frac{\epsilon}{2}, a_1 + \frac{\epsilon}{2}) \).}. Then \( Q_\epsilon(a) \) is certainly a cover of \( \{ a\} \) and has volume \( \epsilon^n \). That is, \( \ext{\{ a \}} \leq \epsilon^n \). Since \( \epsilon \) can be as small as we wish we conclude \( \ext{\{ a \}} = 0 \).
 
-	\item A segment in \( \R^n \) (with \( n > 1 \)) has exterior measure 0. If the segment has length \( L \) then we can cover it with a rectangle of length \( L \) and whose all other sides have length \( \delta \). Then its total volume is \( L\delta^n \) and the exterior measure of the segment is bounded by it. And since \( \delta \) can be made as small as we want, we conclude the exterior measure must be 0. The details of the proof are a little cumbersome but the idea is hopefully clear.
+	\item A segment in \( \R^n \) (with \( n > 1 \)) has exterior measure 0. If the segment has length \( L \) then we can cover it with a rectangle of length \( L \) and whose all other sides have length \( \delta \). Then its total volume is \( L\delta^{n-1} \) and the exterior measure of the segment is bounded by it. And since \( \delta \) can be made as small as we want, we conclude the exterior measure must be 0. The details of the proof are a little cumbersome but the idea is hopefully clear.
 
-	\item In generally 
+	\item In general any (sufficiently well-behaved) bounded subset of a hyperspace of dimension \( k \) inside \( \R^n \) with \( k < n \) has zero exterior measure. The idea is a generalisation of the previous two examples: the set can be covered by an \( n \)-dimensional hypercube in such a way that \( n - k \) of its sides can be shrunk as much as one whishes and so the total volume of the cube goes to zero. Again, this is a little handwavy but the argument can be made precise. 
+
+	\item Any countable set set of \( \R^n \) has zero exterior measure. Since a countable set is a countable union of points, cover one of the points with a square of volume \( \frac{\epsilon}{2} \), the next one with a square of volume \( \frac{\epsilon}{4} \), the following with a square of volume \( \frac{\epsilon}{8} \) and so on. The total volume of the cover is
+		\begin{equation*}
+			\sum_{n = 1}^{\infty} \frac{\epsilon}{2^n} = \epsilon 
+		\end{equation*}
+		which can be made as small as one wishes.
 	\end{points}
 \end{exe}
 
+\begin{lemma} \label{lemma:exterior measure with open sets}
+	The exterior measure of any set is the same even if only open covers are considered.
+\end{lemma}
+\begin{proof}
+	Let's for the moment write \( M^*(A) \) for the outer measure of a set considering only open covers. It is clear that \( \ext{A} \leq M^*(A) \) since a cover with open rectangles of \( A \) is still a cover by rectangles of \( A \) and so \( M^\ast(A) \) should be at least as big as \( \ext{A} \).
+
+	Now we prove the reverse inequality, \( M^\ast(A) \leq \ext{A} \). If \( \{ R_i \}_{i = 1}^{\infty} \) is a cover of \( A \) by rectangles then
+	\begin{equation*}
+		\sum_{i = 1}^{\infty} v(R_i) = \sum_{i = 1}^{\infty} v(\mathring{R}_i)  
+	\end{equation*}
+	since a rectangle and its interior have the same endpoints. In general, however, it is not the case that
+	\begin{equation*}
+		\bigcup_{i = 1}^{\infty} R_i \subseteq \bigcup_{i = 1}^{\infty} \mathring{R}_i
+	\end{equation*}
+	since the interior of a set is contained in the set itself and not the other way (as should be the case) and in fact we might not even cover \( A \) anymore.
+
+	To mend this we can simply dilate the interiors. In detail, given a rectangle \( R = \langle a_1, b_1 \rangle \times \cdots \times \langle a_n,b_n \rangle \) to be
+	\begin{equation*}
+		\lambda R = \lambda \langle a_1, b_1 \rangle \times \cdots \times \lambda \langle a_n,b_n \rangle
+	\end{equation*}
+	where by definition
+	\begin{equation*}
+		\lambda \langle a, b \rangle = \left\langle \frac{a+b}{2} - \lambda \frac{b - a}{2}, \frac{a + b}{2} + \lambda\frac{b - a}{2} \right\rangle.
+	\end{equation*}
+	This is all a very complicated way of saying we slightly inflate the rectangles while keeping their centers the same. It should be clear that if \( \lambda > 1 \) then \( R \subseteq \lambda \mathring{R} \) and \( v(\lambda R) = \lambda^n v(R) \). And so
+	\begin{equation*}
+		A \subseteq \bigcup_{i = 1}^{\infty} R_i \subseteq \bigcup_{i = 1}^{\infty} \lambda \mathring{R}_i.
+	\end{equation*}
+	Then, since \( \{ \lambda \mathring{R}_j \}_{j = 1}^{\infty} \) is a cover of \( A \) by open rectangles we have
+	\begin{equation*}
+		M^*(A) \leq \sum_{j = 1}^{\infty} v(\lambda \mathring{R}_j) = \lambda^n \sum_{j = 1}^{\infty} v(R_j).
+	\end{equation*}
+	Letting \( \lambda \to 1 \) we obtain that for any cover of \( A \) by rectangles \( \{ R_j \}_{j = 1}^\infty \) then
+	\begin{equation*}
+		M^*(A) \leq \sum_{j = 1}^{\infty} v(R_j)
+	\end{equation*}
+	and so \( M^*(A) \leq \ext{A} \) as we wanted.
+\end{proof}
+
+\begin{lemma} \label{lemma:exterior measure of rectangle}
+	The exterior measure of a rectangle is exactly its volume.
+\end{lemma}
+\begin{proof}
+	Let \( R \) be a rectangle. It is clear that \( \ext{R} \leq v(R) \) since \( R \) covers itself. We need to show then that \( v(R) \leq \ext{R} \). If \( \{ R_j \}_{j = 1}^\infty \) is a cover of \( R \) then we wish to conlcude that
+	\begin{equation*}
+		v(R) \leq \sum_{j = 1}^{\infty}v(R_j). 
+	\end{equation*}
+
+	We can without loss of generality assume that we are dealing with a closed rectangle since \( v(R) = v(\bar{R}) \). And since rectangles are bounded they are compact. Using the previous lemma we need only consider covers by open rectangles and by compactness we can further limit our scope to finite open covers. Now all that is left is to show that if a rectangle is covered by a finite amount of other rectangles then their combined volume is greater than that of the the original rectangle. 
+
+	Let, then, \( R = \langle a_1,b_1 \rangle \times \cdots \times \langle a_n,b_n \rangle \) be a rectangle and \( \{ R_j \}_{j = 1}^N \) be a cover of \( R \) with \( R_j = \langle a^j_1,b^j_1 \rangle \times \cdots \times \langle a^j_n,b^j_n \rangle \). Then we take the projection onto the \( i \)-th dimension and we have that
+	\begin{equation*}
+		\langle a_i, b_i \rangle \subseteq \bigcup_{j = 1}^N \langle a^j_i, b^j_i \rangle.
+	\end{equation*}
+	Let \( A_i = \min \{ a^1_i, \cdots, a^N_i \} \) and \( B_i = \max \{ b^1_i, \cdots, b^N_i \} \). Then we have \( \abs{b^j_i - a^j_i} \leq \abs{B_i - A_i} \) and \todo{Finish this proof}
+
+	This last part of the proof consists mainly of technical details. The main insight is that since we need only look at closed rectangles and open covers then we can, by compactness, reduce potentially infinite covers to finite ones and then we can take maximums and minimums without concern.
+\end{proof}
+
+{
+	\def\currentprefix{prop:properties of exterior measure}	
+	\begin{prop}[Properties of the exterior measure] \label{prop:properties of exterior measure}
+		The following are some properties of the exterior measure
+		\begin{points}
+		\item \locallabel{i} \( \ext{\emptyset} = 0 \).
+		\item \locallabel{ii} The exterior measure is increasing, that is if \( A \subseteq B \) then \( \ext{A} \leq \ext{B} \). 
+		\item \locallabel{iii} The exterior measure is countably subadditive, i.e.
+			\begin{equation*}
+				\ext{\bigcup_{j = 1}^\infty A_j} \leq \sum_{j = 1}^{\infty} \ext{A_j}. 
+			\end{equation*}
+		\item \locallabel{iv} The exterior measure is invariant under translations.
+		\item \locallabel{v} If \( A \subseteq \R^n \) and \( \lambda \in \R \) then \( \ext{\lambda A} = \lambda^n \ext{A} \)\footnote{The notation \( \lambda A \) does not refer to a dilation as used in the proof of \cref{lemma:exterior measure with open sets} but rather to the image of \( A \) under scalar multiplication by \( \lambda \) which is more standard.}.
+		\item \locallabel{vi} If a set \( A \) satisfies \( \mathring{R} \subseteq A \subseteq \bar{R} \) for a rectangle \( R \) then \( \ext{A} = v(R) \).
+		\end{points}
+	\end{prop}
+	\begin{proof}
+		\localref{i} follows from the fact that any cover is a cover of the empty set. \localref{ii} is because any cover of \( B \) is a cover of \( A \) so \( \ext{A} \) must be less than \( \ext{B} \).
+
+		Proving \localref{iii} requires a bit more work. We may assume that every one of the \( A_j \) has finite exterior measure since otherwise we are dealing with a vacuous statement. Let \( \{ R_i^j \}_{i = 1}^\infty \) be a cover of \( A_j \) such that 
+		\begin{equation*}
+			\sum_{i = 1}^{\infty} v(R_i^j) \leq \ext{A_j} + \frac{\epsilon}{2^j}. 
+		\end{equation*}
+		Then
+		\begin{equation*}
+			\bigcup_{j=1}^\infty A_j \subseteq \bigcup_{j=1}^\infty \bigcup_{i=1}^\infty R_i^j
+		\end{equation*}
+		so
+		\begin{equation*}
+			\ext{\bigcup_{j=1}^\infty A_j} \leq \sum_{j=1}^\infty \sum_{i=1}^\infty v(R_i^j) \leq \sum_{j = 1}^{\infty} \ext{A_j} + \frac{\epsilon}{2^j} = \sum_{j = 1}^{\infty} \ext{A_j} + \epsilon.
+		\end{equation*}
+		And then by letting \( \epsilon \to 0 \) we obtain the countable subadditivity.	
+
+		It should be clear that the volume of a rectangle is invariant under translations. This means that if we have a cover of a set \( A \) then we can transform it, by a translation, into a cover of the translated set \( A + x \) of the same total volume, and viceversa. And so it follows that \( \ext{A} = \ext{A + x} \). This proves \localref{iv}.
+
+		The proof of \localref{v} is very similar. Again, it should be clear that if we scale a rectangle of dimension \( n \) by a factor of \( \lambda \) then its volume picks up a factor of \( \lambda^n \). So, given a cover of \( A \) with total volume \( V \) we can scale it by \( \lambda \) and we obtain a cover of \( \lambda A \) with volume \( \lambda^n V \), and viceversa. Thus we see that \( \ext{\lambda A} = \lambda^n \ext{A} \).
+
+		It follows immediately from \localref{i} that \( \ext{\mathring{R}} \leq \ext{A} \leq \ext{\bar{R}} \). And then, using \cref{lemma:exterior measure of rectangle} we find \( \ext{\mathring{R}} = \ext{\bar{R}} = v(R) \) and so \( \ext{A} = v{R} \). 
+	\end{proof}
+}
+
+\subsection{Measurable sets}
+If the measure we are constructing is to be a useful generalization of the notion of volume we should expect the measure of the union of disjoint sets to be the sum of their measures. With the exterior measure this is the case for most well-behaved sets, but there exist counterexamples. The solution to this problem is to restrict ourselves to a smaller class of sets which we will call the measurable sets.
+\begin{defn}[Measurable set]
+	We say a set \( E \subseteq \R^n \) is \emph{measurable} if for any other set \( A \subseteq \R^n \) it is true that
+	\begin{equation*}
+		\ext{A} \geq \ext{E \cap A} + \ext{E^c \cap A}.
+	\end{equation*}
+\end{defn}
+
+Notice that because the subadditivity of the exterior measure we get the other inequality for free so we could have required equality in the definition of a measurable set without being more restrictive.
+
+\begin{exe}
+	The following are various examples of measurable sets
+	\begin{points}
+	\item \( \R^n \) is measurable since \( \R^n \cap A = A \) and \( (\R^n)^c \cap A = \emptyset \).
+	\item Similarly \( \emptyset \) is also measurable.
+	\item Any set of zero exterior measure is measurable. Indeed, if \( \ext{E} = 0 \) since \( E \cap A \subseteq E \) then \( \ext{E \cap A} = 0 \) and
+		\begin{equation*}
+			\ext{E \cap A} + \ext{E^c \cap A} = \ext{E^c \cap A} \leq \ext{A}.
+		\end{equation*}
+	\end{points}
+\end{exe}
+
+\begin{prop}
+	The set of measurable sets is a \( \sigma \)-algebra.
+\end{prop}
+\begin{proof}
+	Let \( \M \) denote the set of measurable subsets of \( \R^n \). By the previous example we have that \( \R^n, \emptyset \in \M \). We need to show that it is closed under unions and complements. It is certainly closed under complements since \( (E^c)^c = E \). 
+	
+	We will first show that it is closed under finite unions. For any \( A \subseteq \R^n \) and \( E, F \in \M \) measurable sets we have
+	\begin{equation*}
+		\ext{A \cap (E \cup F)} + \ext{A \cap (E \cup F)^c} = \ext{(A \cap E) \cup (A \cap F)} + \ext{A \cap E^c \cap F^c}.
+	\end{equation*}
+	We may use the identity of sets \( (A \cap E) \cup (A \cap F) = (A \cap E) \cup (A \cap E^c \cap F) \) and subadditivity to get
+	\begin{align*}
+		\ext{A \cap (E \cup F)} & + \ext{A \cap (E \cup F)^c} = \\
+														& = \ext{(A \cap E) \cup (A \cap E^c \cap F)} + \ext{A \cap E^c \cap F^c} \\
+														& \leq \ext{A \cap E} + \ext{(A \cap E^c) \cap F} + \ext{(A \cap E^c) \cap F^c} \\
+														& = \ext{A \cap E} + \ext{A \cap E^c} = \ext{A},
+	\end{align*}
+	where we have used the measurability of \( E \) and \( F \) in the last two steps. Arguing by induction we find that \( \M \) is closed under finite unions.
+\end{proof}
 
 \end{document}
