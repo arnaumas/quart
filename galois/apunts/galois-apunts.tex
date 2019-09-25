@@ -42,10 +42,10 @@
 \declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangle]{definition}
 \declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangledown]{example}
 
-\declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theo}
-\declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theo]{prop}
-\declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{defn}
-\declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{exe}
+\declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theorem}
+\declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theorem]{proposition}
+\declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{definition}
+\declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{example}
 
 \newlist{points}{enumerate}{1}
 \setlist[points,1]{label=\textup{(}{\itshape \roman*}\textup{)}, wide}
@@ -74,7 +74,10 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\A}{\mathcal{A}}
+\renewcommand{\S}{\mathfrak{S}}
+\newcommand{\into}{\hookrightarrow}
 \newcommand{\id}{\mathrm{id}}
+\newcommand{\ev}[1]{\mathrm{ev}_{#1}}
 \newcommand{\parbreak}{
 	\begin{center}
 		--- $\ast$ ---
@@ -182,5 +185,34 @@ which is known as Cardano's formula. If we undo the change of variable to elimin
 	x = -\frac{b}{3} &+ \sqrt[3]{\left(-\frac{b^3}{27} + \frac{bc}{6} - \frac{d}{2}\right) + \sqrt{\left(-\frac{b^3}{27} + \frac{bc}{6} - \frac{d}{2}\right)^2 + \left(\frac{c}{3} - \frac{b^2}{9}\right)^3}} \\
 									 & +\sqrt[3]{\left(-\frac{b^3}{27} + \frac{bc}{6} - \frac{d}{2}\right) - \sqrt{\left(-\frac{b^3}{27} + \frac{bc}{6} - \frac{d}{2}\right)^2 + \left(\frac{c}{3} - \frac{b^2}{9}\right)^3}}.
 \end{align*}
+
+
+\section{Polynomial rings}
+The study of polynomial rings is particularly important in Galois theory since they play an important role in many of the constructions and definitions of the theory. Of special relevance is the study of their quotient rings.  
+
+\subsection{The universal property of polynomial rings}
+Given a ring\footnote{We will always assume that we are dealing with commutative rings with identity unless otherwise stated.} \( R \) its polynomial ring \( R[x] \) can be defined in various ways. Most commonly, the elements of \( R[x] \) are said to be ``formal sums'' of the form
+\begin{equation*}
+	\sum_{k = 1}^{n} a_k x^k 
+\end{equation*}
+where the \( a_k \) are elements of \( R \) and \( x \) is refered to as an ``indeterminate'' or some other similarly ambiguous term. This definition may feel imprecise to the more technically inclined reader. A more exact definition of \( R[x] \) is as the set of sequences of elements of \( R \) with finite suport. The sum is defined pointwise and the product is defined in a convoluted manner which correspond to the way one would multiply polynomials with repeated application of the distribuitive law. Then there is a canonical inclusion \( R \into R[x] \) by way of \( a \mapsto (a,0, \cdots) \). And if we define \( x \) to be the sequence \( (0,1, \cdots) \) then we recover the more standard presentation of \( R[x] \).
+
+This discussion, however, is about what a programmer would call the implementation details and it misses the bigger picture. How \( R[x] \) is constructed is not really what is relevant here. It is much more illuminating to think about what we want out of \( R[x] \) instead. For one, \( R[x] \) should contain \( R \). We could require \( R \subseteq R[x] \), but let's be more general and allow for an injective morphism \( \iota \colon R \into R[x] \) that picks out a copy of \( R \) inside \( R[x] \). The other important aspect of \( R[x] \) is the indeterminate. The way to formalize it is with what is known as a universal property: for any morphism \( \phi \colon R \to S \) and distinguished element \( s \in S \) there is a unique morphism \( \tilde{\phi} \colon R[x] \to S \) such that \( \tilde{\phi} \circ \iota = \phi \) and \( \tilde{\phi}(x) = s \). That is, \( \tilde{\phi} \) must agree with \( \phi \) on \( R \) and it must send \( x \) to \( s \). This does indeed uniquely determine \( \tilde{\phi} \). It can be shown that this determines \( R[x] \) up to unique isomorphism, meaning there is a unique isomorphism between any two rings that satisfy the universal property. So you can construct \( R[x] \) in whatever way you like so long as the result satisfies the universal property.
+
+One last remark about polynomial rings in many variables: once we have defined the polynomial ring of a ring \( \R \), we can then proceed inductively to define the polynomial ring on \( n \) variables as \( R[x_1, \cdots, x_n] = R[x_1, \cdots, x_{n-1}][x_n] \). Polynomial rings in more than one variables also satisfy a universal property, which is essentially the same as before except now we have to specify where \( \tilde{\phi} \) sends all of the \( x_i \).
+
+This universal property is not just of theoretical importance, it is also extermely practical. Indeed, it provides a very quick way of specifying morphisms on a polynomial ring. All you need is to specify how it acts on the coeficients and where it sends the indeterminate and you're done.
+
+\begin{example}
+	These are various examples of morphisms defined on a polynomial ring making use of the universal property.
+	\begin{points}
+	\item For any element \( \alpha \in R \) we can define the evaluation morphism \( \ev{\alpha} \colon R[x] \to R \) such that \( \ev{\alpha}\rest{R} = \id_R \) and \( \ev{\alpha}(x) = \alpha \). That is, simply evaluate a polynomial on the element \( \alpha \in R \). The element we evaluate at need not be an element of \( R \), in fact it can be an element of any ring which contains \( R \). 
+
+	\item A trick that is often used when working with polynomials is a change of variable. This idea can be made formal in terms of an automorphism of \( R[x] \). Say we wanted to make the change \( y = x+1 \), or \( x = y-1 \). This amounts to defining a morphism \( \phi \colon R[x] \to R[x] \) such that \( \phi \rest{R} = \id_R \) and \( \phi(x) = y-1 \). \( \phi \) does not move the coeficients and changes \( x \) to \( y-1 \). More generally, we could perform a change of the form \( \phi(x) = ay + b \). In order for \( \phi \) to be an isomorphism, \( a \) must be invertible. Indeed, \( \phi^{-1} \) sends \( x \) to \( a^{-1}(x - b) \). Then, when showing that a certain polynomial is irreducible, for instance, we can do any change of variable we please and rest assured that the resulting polynomial will be irreducible if and only if the original one was irreducible, for irreducibility is preserved under isomorphism.	
+
+	\item Any permutation \( \sigma \in \S_n \) induces an isomorphism on \( R[x, \dots, x_n] \) by permuting the variables according to \( \sigma \). Indeed, let \( \phi_{\sigma} \) be the unique morphism that is the identity on \( R \) and such that \( \phi_{\sigma}(x_i) = x_{\sigma(i)} \). You can check that \( \phi_{\sigma} \circ \phi_{\tau} = \phi_{\sigma \circ \tau} \). And as a corollary \( \phi_{\sigma}^{-1} = \phi_{\sigma^{-1}} \). This is in fact an action of the symmetric group \( \S_n \) on \( R[x_1, \cdots, x_n] \). The polynomials invariant under this action, \( R[x_1, \cdots, x_n]^{\S_n} \) are known as the \emph{symmetric polynomials}.
+
+	\end{points}
+\end{example}
 
 \end{document}
