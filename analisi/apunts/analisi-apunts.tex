@@ -49,6 +49,7 @@
 \declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theorem}
 \declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theorem]{proposition}
 \declaretheorem[name=Lemma, refname={lemma,lemmata}, Refname={Lemma,Lemmata}, numberlike=theorem]{lemma}
+\declaretheorem[name=Corollary, refname={corollary,corollaries}, Refname={Corollary,Corollaries}, numberlike=theorem]{corollary}
 \declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{definition}
 \declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{example}
 
@@ -331,7 +332,7 @@ If the measure we are constructing is to be a useful generalization of the notio
 The set \( A \) is sometimes called a \emph{test set}.
 \end{definition}
 
-Notice that because the subadditivity of the exterior measure we get the other inequality for free so we could have required equality in the definition of a measurable set without being more restrictive.
+Notice that because the exterior measure is subadditive we get the other inequality for free so we could have required equality in the definition of a measurable set without being more restrictive.
 
 \begin{example} \label{exe:measurable sets}
 	The following are various examples of measurable sets
@@ -388,23 +389,76 @@ The collection of measurable subsets of \( \R^n \) forms a \( \sigma \)-algebra.
 \begin{proof}
 	We have already seen in \cref{exe:measurable sets} that \( \R^n \) and \( \emptyset \) are both measurable. It is also immediate that the complement of a measurable set is also measurable. All that remains to be shown is that \( \M \) is closed under countable unions. 
 
-	Let \( \{ E_k \}_{k = 1}^\infty \) be a countable family of measurable subsets. A first observation is that we may, without loss of generality, assume that they are pairwise disjoint. Indeed, define \( F_1 = E_1 \) and \( F_k = E_{k} - F_{k-1} \). The \( F_k \) are disjoint by construction. They are also all measurable and more importantly
+	Let \( \{ E_k \}_{k = 1}^\infty \) be a countable family of measurable subsets. A first observation is that we may, without loss of generality, assume that the \( E_k \) are pairwise disjoint. Indeed, define \( F_1 = E_1 \) and \( F_k = E_{k} - \bigcup_{j = 1}^{k-1}E_j \). The \( F_k \) are disjoint by construction. They are also all measurable by virtue of being finite intersections and unions of measurable sets and more importantly
 	\begin{equation*}
 		\bigcup_{k = 1}^\infty E_k = \bigcup_{k = 1}^\infty	F_k.
 	\end{equation*}
 	What this means is that any union of measurable sets is equal to the union of some other pairwise disjoint measurable sets. So if we manage to show that countable unions of pairwise disjoint measurable sets are measurable we are done. 
 
-	Let's get to it then. We have
-	\begin{align*}
-		\ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)} & + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c} = && \\
-																											 	 & = \ext{\bigcup_{k = 1}^\infty A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c} && \\
-																											 	 & \leq \sum_{k = 1}^{\infty}\ext{A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c} && \text{by countable subadditivity.} 
-	\end{align*}
-	If we truncate the series in the first term we can try to bound it using finite additivity:
-	\begin{align*}
-		\sum_{k = 1}^{N} \ext{A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c} \leq \sum_{k = 1}^{N} \ext{A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^N E_k\right)^c} 
-	\end{align*}
+	Let's get to it then. We want to show that
+	\begin{equation*}
+		\ext{A} \geq \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c}.
+	\end{equation*}
+	We start from the fact that finite unions of measurable sets are measurable and so for any \( n \in \N \)
+	\begin{equation*}
+		\ext{A} \geq \ext{A \cap \left(\bigcup_{k = 1}^n E_k\right)} + \ext{A \cap \left(\bigcup_{k = 1}^n E_k\right)^c}.
+	\end{equation*}
+	Now notice that 	
+	\begin{equation*}
+		\bigcap_{k = 1}^N E_k \subseteq \bigcap_{k = 1}^\infty E_k
+	\end{equation*}
+	so when we take complements the inclusion reverses and we get
+	\begin{equation*}
+		\left(\bigcap_{k = 1}^\infty E_k\right)^c \subseteq \left(\bigcap_{k = 1}^N E_k\right)^c.
+	\end{equation*}
+	Therefore
+	\begin{equation*}
+		\ext{A \cap \left(\bigcup_{k = 1}^n E_k\right)^c} \geq \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c}
+	\end{equation*}
+	which takes care of the second term.
 
+	For the first term, we use the distributivity of intersection over unions and finite additivity ---remember we are assuming the \( E_k \) to be pairwise disjoint--- to get
+	\begin{equation*}
+		\ext{A \cap \left(\bigcup_{k = 1}^n E_k\right)} = \ext{\bigcup_{k = 1}^n A \cap E_k} = \sum_{k = 1}^{n} \ext{A \cap E_k}.
+	\end{equation*}
+
+	All together reads
+	\begin{equation*}
+		\ext{A} \geq \sum_{k = 1}^{n} \ext{A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c}.
+	\end{equation*}
+	By taking the limit \( n \to \infty \) we get
+	\begin{equation*}
+		\ext{A} \geq \sum_{k = 1}^\infty \ext{A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c}.
+	\end{equation*}
+	Finally, we use subadditivity to arrive at the desired result,
+	\begin{align*}
+		\ext{A} & \geq \sum_{k = 1}^\infty \ext{A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c} \\
+						& \geq \ext{\bigcup_{k = 1}^\infty A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c} \\
+						& \geq \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c}.
+	\end{align*}
+\end{proof}
+
+We now have a \( \sigma \)-algebra defined on \( \R^n \), which makes into a measurable space. To make it into a measure space we restrict the exterior measure to the measurable sets. We have to check that this is an honest to goodness measure. We have already seen that the measure of the empty set is 0, but we have to show that the measure is additive for disjoint unions.
+
+\begin{proposition}
+	The exterior measure of the union of disjoint sets is the sum of their measures. That is, if \( E_k \) are pairwise disjoint measurable sets then
+	\begin{equation*}
+		\ext{\bigcup_{k = 1}^\infty E_k} = \sum_{k = 1}^{\infty} \ext{E_k}. 
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	We showed in the proof of the previous proposition that
+	\begin{equation*}
+		\ext{A} \geq \sum_{k = 1}^\infty \ext{A \cap E_k} + \ext{A \cap \left(\bigcup_{k = 1}^\infty E_k\right)^c}.
+	\end{equation*}
+	Take as a test \( A = \bigcup_{k = 1}^\infty E_k \), then, using the fact that the \( E_k \) are pairwise disjoint,
+	\begin{equation*}
+		\ext{\bigcup_{k = 1}^\infty E_k} \geq \sum_{k = 1}^\infty \ext{E_k} + \ext{\emptyset} = \sum_{k = 1}^\infty \ext{E_k}.
+	\end{equation*}
+	The reverse inequality is a statement of subadditivity. So we get
+	\begin{equation*}
+		\ext{\bigcup_{k = 1}^\infty E_k} = \sum_{k = 1}^\infty \ext{E_k}.
+	\end{equation*}
 \end{proof}
 
 \end{document}
