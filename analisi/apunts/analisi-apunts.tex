@@ -461,4 +461,33 @@ We now have a \( \sigma \)-algebra defined on \( \R^n \), which makes into a mea
 	\end{equation*}
 \end{proof}
 
+\subsection{The structure of measurable sets}
+In this section we will give a number of results that shed light into the nature of measurable sets. The \( \sigma \)-algebra \( \M \) is not exactly the Borel \( \sigma \)-algebra \( \B(\R) \). However measaurable sets are really close to Borel sets, as we will see.
+
+{
+	\def\currentprefix{theo:characterization of measurable sets}
+\begin{theorem}
+	For any subset \( E \subseteq \R^n \) the following are equivalent:
+	\begin{points}
+	\item \locallabel{i} \( E \) is measurable.
+	\item \locallabel{ii} For all \( \epsilon > 0 \) there is an open set \( G_{\epsilon} \supseteq E \) such that \(  \ext{G_{\epsilon} - E} < \epsilon \).
+	\item \locallabel{iii} For all \( \epsilon > 0 \) there is a closed set \( F_{\epsilon} \subseteq E \) such that \(  \ext{E - F_{\epsilon}} < \epsilon \).
+	\item \locallabel{iv} For all \( \epsilon > 0 \) there are an open set \( G_{\epsilon} \) and a closed set \( F_{\epsilon} \) such that \( F_{\epsilon} \subseteq E \subseteq G_{\epsilon} \) and \( \ext{G_{\epsilon} - F_{\epsilon}} < \epsilon \).
+	\end{points}
+\end{theorem}
+\begin{proof}
+	Let's first show \localref{i}\( \implies \)\localref{ii}. We tackle first the case \( \ext{E} < \infty \). Then, by definition of the exterior measrue there is a cover of \( E \) by open rectangles, \( \{ R_j \}_{j = 1}^\infty \) such that
+	\begin{equation*}
+		\sum_{j = 1}^{\infty} v(R_j) < \ext{E} + \epsilon.
+	\end{equation*}
+	Let \( G_\epsilon = \bigcup_{j = 1}^\infty R_j \). This is an open set that contains \( E \). Then, because \( G_\epsilon = E \cup G_\epsilon - E \) we have, by additivity of the exterior measure
+	\begin{equation*}
+		\ext{G_\epsilon - E} = \ext{G_\epsilon} - \ext{E} \leq \sum_{j = 1}^{\infty}v(R_j) - \ext{E} < \epsilon.
+	\end{equation*}
+
+There is a usual trick to deal with the case when \( \ext{E} = \infty \). 
+	
+\end{proof}
+}
+
 \end{document}
