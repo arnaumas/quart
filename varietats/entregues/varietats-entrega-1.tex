@@ -1,0 +1,131 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[bf,sf,small,pagestyles]{titlesec}
+\usepackage{titling}
+\usepackage[font={footnotesize, sf}, labelfont=bf]{caption} 
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage[spanish,sort]{cleveref}
+\usepackage{enumitem}
+
+\geometry{
+	a4paper,
+	right = 2.5cm,
+	left = 2.5cm,
+	bottom = 3cm,
+	top = 3cm
+}
+
+\hypersetup{
+	colorlinks,
+	linkcolor = {red!50!blue},
+	linktoc = page
+}
+
+\crefname{figure}{figura}{figures}
+\crefname{table}{taula}{taules}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+
+\graphicspath{{./figs/}}
+
+% Unitats
+\sisetup{
+	inter-unit-product = \ensuremath{ \cdot },
+	allow-number-unit-breaks = true,
+	detect-family = true,
+	list-final-separator = { i },
+	list-units = single
+}
+
+\renewcommand{\arraystretch}{1.4}
+
+\newcommand{\down}{\downarrow}
+\newcommand{\Z}{\mathbb{Z}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Ry}{\mathit{Ry}}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\ket}[1]{\vert {#1} \rangle}
+\newcommand{\bra}[1]{\langle #1 \vert}
+\newcommand{\braket}[2]{\langle {#1} \vert {#2} \rangle}
+\newcommand{\parbreak}{
+	\begin{center}
+		--- $\ast$ ---
+	\end{center} 
+}
+\makeatletter
+\newcommand*{\defeq}{\mathrel{\rlap{%
+    \raisebox{0.3ex}{$\m@th\cdot$}}%
+  \raisebox{-0.3ex}{$\m@th\cdot$}}%
+	=
+}
+\makeatother
+
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Topología de variedades:} Entrega 1}{}{\theauthor}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Topología de variedades:} Entrega 1}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 4 de octubre de 2019}
+
+
+\begin{document}
+\maketitle
+
+El espacio de matrices reales \( n \) por \( n \), es una variedad de dimensión \( n^2 \) difeomorfa a \( \R^{n\times n} \). Sobre \( M_n(\R) \) está definida la función determinante,
+\begin{align*}
+	\det \colon M_n(\R) \to \R
+\end{align*}
+que es una función lisa por ser polinomial. Por lo tanto existe su diferencial en una matriz \( A \), es decir la aplicación lineal
+\begin{align*}
+	T_A \det \colon T_A M_n(\R) \to T_{\det A} \R. 
+\end{align*}
+Calcularemos su diferencial en la matriz identidad, que denotaremos simplemente por \( 1 \). 
+
+En primer lugar, el espacio tangente a \( M_n(\R) \) en cualquier punto es difeomorfo a \( M_n(\R) \) y igualmente, el espacio tangente a \( \R \) en cualquier punto es también \( \R \). Por lo tanto la diferencial del determinante en la identidad es una aplicación lineal \( T_1 \det \colon M_n(\R) \to \R \). Puesto que es lineal queda determinada por su acción sobre una base del espacio de salida \( M_n(\R) \). Las matrices con ceros en todas sus entradas salvo un 1 en la posición \( i,j \), \( E_{ij} \) son una base de \( M_n(\R) \). Por definición de la aplicación diferencial se tiene
+\begin{equation*}
+	T_1 \det(E_{ij}) = \lim_{t \to 0} \frac{\det(1 + tE_{ij}) - \det(1)}{t} = \lim_{t \to 0} \frac{\det(1 + tE_{ij}) - 1}{t}.
+\end{equation*}
+
+Distinguimos ahora dos casos. Cuando \( i = j \) la matriz \( 1 + tE_{ii} \) es diagonal y todas entradas son 1 salvo la de la posición \( i,i \) que es \( 1 + t \). El determinante de esta matriz es \( 1 + t \) por lo que
+\begin{equation*}
+	T_1 \det(E_{ii}) = \lim_{t \to 0} \frac{1 + t - 1}{t} = 1.
+\end{equation*}
+
+Por otro lado, cuando \( i \neq j \) la matriz \( 1 + tE_{ij} \) es la que resulta de sumar \( t \) veces la fila \( j \)-ésima de la matriz identidad a su fila \( i \)-ésima. Puesto que el determinante es multilineal y alternado en las filas, esta operación no altera el valor del determinante de una matriz, por lo que \( \det(1 + tE_{ij}) = \det(1) = 1 \). Luego
+\begin{equation*}
+	T_1 \det(E_{ij}) = \lim_{t \to 0} \frac{1 - 1}{t} = 0.
+\end{equation*}
+Es decir, \( T_1 \det(E_{ij}) \) es 1 cuando \( i = j \) y 0 en caso contrario. Así podemos escribir \( T_1 \det(E_{ij} = \delta_{ij} \) donde \( \delta_{ij} \) es la delta de Kronecker. 
+
+Por linealidad podemos calcular \( T_1\det \) para cualquier matriz. Si \( A = \sum_{i = 1}^{n} \sum_{j = 1}^{n} a_{ij}E_{ij} \) entonces
+\begin{equation*}
+	T_1 \det(A) =	\sum_{i = 1}^{n} \sum_{j = 1}^{n} a_{ij} T_1 \det(E_{ij}) = \sum_{i = 1}^{n} \sum_{j = 1}^{n} a_{ij} \delta_{ij} = \sum_{i = 1}^{n} a_{ii} = \trace A. 
+\end{equation*}
+Es decir, la diferencial del determinante en la identidad es precisamente la traza.
+
+\end{document}
