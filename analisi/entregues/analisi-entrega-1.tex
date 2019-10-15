@@ -1,0 +1,52 @@
+\documentclass[12pt]{article}
+
+\input{prelude-entrega.tex}
+\input{commands-analisi.tex}
+
+% Pagestyles
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Anàlisi real.} Teoria de la mesura}{}{\theauthor}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Entrega 1:} Teoria de la mesura}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 18 d'octubre de 2019}
+
+
+\begin{document}
+\maketitle
+
+\section*{Problema 1}
+El conjunt de Cantor és un subconjunt compacte i completament desconnectat de \( [0,1] \) amb
+mesura 0. La seva construcció estàndard consisteix en eliminar el terç central de
+l'interval unitat. A continuació s'elimina el terç central dels dos intervals resultants,
+i el terç central dels quatre intervals que apareixen. Al pas \( n \) apareixen \( 2^n \)
+intervals, la unió dels cuals escrivim \( C_n \). El conjunt de Cantor és la
+intersecció de tots els \( C_n \). Per a veure que té mesura nu\l.la, observem que \( C_0
+\) és l'interval unitat, un conjunt de mesura 1. Al següent pas s'elimina un conjunt de
+mesura \( \frac{1}{3} \) i per tant \( C_1 \) té mesura \( \frac{2}{3} \). A cada iteració
+s'elimina un terç de la mesura restant, per tant \( m(C_n) = \left(\frac{2}{3}\right)^n
+\). De fet es té \( C_{n+1} \subseteq C_n \). A més, tots els \( C_n \) són mesurables per
+ser unió d'intervals. Per tant \( C \) també és mesurable perquè és intersecció de mesurables, i
+per continuïtat de la mesura de Lebesgue
+\begin{equation*}
+	m(C) = m\left(\bigcap_{n = 0}^{\infty} C_n\right) = \lim_{n \to \infty} m(C_n) = \lim_{n \to
+	\infty} \left(\frac{2}{3}\right)^n = 0. 
+\end{equation*}
+
+De fet, aquest procés es pot repetir treient a cada pas intervals centrats amb longitud
+en proporció \( \alpha \) amb la longitud dels intervals anteriors, amb \( 0 < \alpha < 1
+\) (el cas estàndard del conjunt de Cantor ternari correspon a \( \alpha = \frac{1}{3}
+\)). I pel mateix argument concloem que el conjunt resultant també és un conjunt nul. Així
+doncs, per a obtenir un conjunt de Cantor de mesura positiva haurem de procedir de manera
+diferent. 
+
+\end{document}
