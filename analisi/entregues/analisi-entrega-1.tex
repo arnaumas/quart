@@ -89,7 +89,15 @@ conjunt que obtenim en el límit no és buit, en particular conté el conjunt de
 el resultat és un tancat. Així doncs la seva intersecció \( C_\lambda \) també es tancada,
 i per ser subconjunt de \( [0,1] \) és fitada i per tant compacta. 
 
-Vegem, per últim, que és totalment disconnnex. Siguin \( x, y \in C_\lambda \). 
+Vegem, per últim, que és totalment disconnnex. Siguin \( x, y \in C_\lambda \) i \( n \in
+\N \) tal que 
+\begin{equation*}
+	\abs{x - y} > \frac{\lambda}{3^n}.
+\end{equation*}
+Aleshores \( x \) i \( y \) es troben a intervals diferents a partir de la generació \( n
+\) i per tant a components connexes de \( C_\lambda \) diferents. En particular, com que
+\( C_{\lambda} \) no conté cap interval obert té interior buit. 
+
 
 
 \section*{Problema 2}
@@ -97,22 +105,70 @@ Sigui \( A \subseteq R \) on \( R \) és un rectangle de \( \R^n \) tal que per 
 compacte \( K \subseteq R \) de mesura positiva es té que \( K \cap A \neq \emptyset \).
 Volem veure que \( \ext{A} = v(R) \). 
 
-En primer lloc, com que \( A \subseteq R \) aleshores \( \ext{A} \leq \ext{R} = v(R) \),
-per tant només hem de veure \( v(R) \leq \ext{A} \).
-
-Com que \( R \) és mesurable tenim que
+En primer lloc, com que \( A \subseteq R \) aleshores \( \ext{A} \leq \ext{R} = v(R) \).
+Aleshores, per definició de mesura exterior hi ha un recobriment d'\( A \) per rectangles
+oberts, \( \{ R_n \} \) tal que 
 \begin{equation*}
-	v(R) = m(R) = \sup_{K \subseteq R \text{ compacte}} m(K).
+	\sum_{n = 0}^{\infty}  
 \end{equation*}
-I com que \( m(R) = m(\bar{R}) \) també és cert
-\begin{equation*}
-	v(R) = m(\bar{R}) = \sup_{K \subseteq \bar{R} \text{ compacte}} m(K).
-\end{equation*}
-Sigui, doncs, \( K \subseteq R \) un compacte. Per hipòtesi 
 
-Per qualsevol \( \epsilon > 0 \) existeix \( F \subseteq R \) tancat amb \( \ext{R - F} <
-\epsilon \). Com que \( R \) és fitat aleshores \( F \) també ho és i per tant és
-compacte. Per hipòtesi, doncs, \( F \cap A \neq \emptyset \).
+
+
+
+
+
+
+
+
+% Considerem per a \( c \in (0,1) \) una contracció de l'adherència d'\( R \), \( c\bar{R}
+% \). És clar que \( c\bar{R} \subseteq R \). En concret podem prendre la successió \( R_k =
+% (1 - \frac{1}{k})\bar{R}\). Aleshores és clar que \( R_k \subseteq R_{k+1} \) i que
+% \begin{equation*}
+% 	\bigcup_{k = 0}^{\infty} R_k = R.
+% \end{equation*}
+% En particular
+% \begin{equation*}
+% 	\bigcup_{k = 0}^{\infty} (R_k \cap A) = (R \cap A) = R.
+% \end{equation*}
+% A més 
+% \begin{equation*}
+% 	m(R_k) = \left(1 - \frac{1}{k}\right)^n v(\bar{R}) = \left(1 - \frac{1}{k}\right)^n v(R) > 0
+% \end{equation*}
+% i com que els \( R_k \) són compactes per ser tancats i fitats tenim \( A \cap R_k \neq
+% \emptyset \).
+
+% Considerem per a \( n \geq 1 \) una contracció de l'adherència de \( R \), \( (1 -
+% \frac{1}{n})\bar{R} \)
+
+
+% Per tant hi ha un recobriment d'\( A \) per rectangles oberts, \( \{ R_n \}_{n =
+% 0}^{\infty} \) tal que
+% \begin{equation*}
+% 	\sum_{n = 0}^{\infty} v(R_n) \leq R.
+% \end{equation*}
+% D'aquí se segueix que
+% \begin{equation*}
+% 	\bigcup_{n = 0}^{\infty} R_n \subseteq R.
+% \end{equation*}
+
+
+% Sigui \( \bar{R} \) l'adherència del rectangle \( R \) i considerem per a \( 0 < c < 1 \)
+% una contracció de \( \bar{R} \), \( c\bar{R} \). Sigui \( K \subseteq c\bar{R} \subseteq R
+% \) un compacte. Aleshores, per hipòtesi \( A \cap K \neq \emptyset \). D'altra banda 
+
+% Com que \( R \) és mesurable tenim que
+% \begin{equation*}
+% 	v(R) = m(R) = \sup_{K \subseteq R \text{ compacte}} m(K).
+% \end{equation*}
+% I com que \( m(R) = m(\bar{R}) \) també és cert
+% \begin{equation*}
+% 	v(R) = m(\bar{R}) = \sup_{K \subseteq \bar{R} \text{ compacte}} m(K).
+% \end{equation*}
+% Sigui, doncs, \( K \subseteq R \) un compacte. Per hipòtesi 
+
+% Per qualsevol \( \epsilon > 0 \) existeix \( F \subseteq R \) tancat amb \( \ext{R - F} <
+% \epsilon \). Com que \( R \) és fitat aleshores \( F \) també ho és i per tant és
+% compacte. Per hipòtesi, doncs, \( F \cap A \neq \emptyset \).
 
 \section*{Problema 3}
 Busquem un conjunt \( B \subseteq \R \) no mesurable tal que \( B \cap \Q^c \) sigui
