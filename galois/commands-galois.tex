@@ -1,0 +1,82 @@
+% CUSTOM COMMANDS FOR ALGEBRAIC TOPOLOGY
+% ----------------------------------------------------------
+
+% Restriction of a function
+\newcommand{\rest}[1]{\raisebox{-.5ex}{$|$}_{#1}}
+
+% Real numbers
+\newcommand{\R}{\mathbb{R}}
+
+% Rational numbers
+\newcommand{\Q}{\mathbb{Q}}
+
+% Complex numbers
+\newcommand{\C}{\mathbb{C}}
+
+% Natural numbers
+\newcommand{\N}{\mathbb{N}}
+
+% Integers
+\newcommand{\Z}{\mathbb{Z}}
+
+% Symmetric group
+\renewcommand{\S}{\mathfrak{S}}
+
+% Vector bold
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% Script A, B, M, P
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\M}{\mathcal{M}}
+\renewcommand{\P}{\mathcal{P}}
+
+% Identity
+\newcommand{\id}{\mathrm{id}}
+
+% Injection
+\newcommand{\into}{\hookrightarrow}
+
+% Surjection
+\newcommand{\onto}{\twoheadrightarrow}
+
+% Evaluation map
+\newcommand{\ev}[1]{\mathrm{ev}_{#1}}
+
+% Span
+\newcommand{\gen}[1]{\langle #1 \rangle}
+
+% Absolute value
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+
+% Set
+\newcommand{\set}[1]{ \{ #1 \} }
+
+% Minimal polymomial
+\newcommand{\irr}[2]{m_{#1, #2}(x)}
+\newcommand{\irre}[1]{m_{#1}(x)}
+
+% Degree of an extension
+\newcommand{\ext}[2]{[#1(#2) \colon #1]}
+\newcommand{\exte}[2]{[#1 \colon #2]}
+
+% Image
+\DeclareMathOperator{\im}{im}
+
+% Norm
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+
+\newcommand{\parbreak}{
+	\begin{center}
+		--- $\ast$ ---
+	\end{center} 
+}
+
+% Defined as
+\makeatletter
+\newcommand*{\defeq}{\mathrel{\rlap{%
+    \raisebox{0.3ex}{$\m@th\cdot$}}%
+  \raisebox{-0.3ex}{$\m@th\cdot$}}%
+	=
+}
+\makeatother

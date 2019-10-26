@@ -1,56 +1,8 @@
 \documentclass[12pt,oneside]{book}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english]{babel}
-\usepackage{lmodern}
-\usepackage{geometry}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage[dvipsnames]{xcolor}
-\usepackage[bf,sf,small,pagestyles]{titlesec}
-\usepackage{titling}
-\usepackage[font={footnotesize, sf}, labelfont=bf]{caption} 
-\usepackage{siunitx}
-\usepackage{graphicx}
-\usepackage{tikz-cd}
-\usepackage{booktabs}
-\usepackage{amsmath,amssymb}
-\usepackage[sort]{cleveref}
-\usepackage{amsthm,thmtools}
-\usepackage[shortlabels]{enumitem}
+\input{preamble-apunts.tex}
+\input{commands-galois.tex}
 
-\geometry{
-	a4paper,
-	right = 3cm,
-	left = 3cm,
-	bottom = 3cm,
-	top = 3cm
-}
-\onehalfspace
-
-\hypersetup{
-	colorlinks,
-	linkcolor = {red!50!blue},
-	linktoc = page
-}
-
-\numberwithin{table}{section}
-\numberwithin{equation}{section}
-\numberwithin{figure}{section}
-
-\newcommand{\qedtriangle}{\ensuremath{\triangle}}
-\newcommand{\qedtriangledown}{\ensuremath{\bigtriangledown}}
-\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangle]{definition}
-\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangledown]{example}
-
-\declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theorem}
-\declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theorem]{proposition}
-\declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{definition}
-\declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{example}
-
-\newlist{points}{enumerate}{1}
-\setlist[points,1]{label=\textup{(}{\itshape \roman*}\textup{)}, wide, \topsep=0pt, \itemsep = \parskip}
 
 \graphicspath{{./figs/}}
 \newcommand{\dummyfig}[1]{
@@ -61,53 +13,6 @@
     \end{minipage}
   }
 }
-
-% Unitats
-\sisetup{
-	inter-unit-product = \ensuremath{ \cdot },
-	allow-number-unit-breaks = true,
-	detect-family = true,
-	list-final-separator = { and },
-	list-units = single
-}
-
-\renewcommand{\vec}[1]{\mathbf{#1}}
-\newcommand{\rest}[1]{\raisebox{-.5ex}{$|$}_{#1}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\C}{\mathbb{C}}
-\newcommand{\Q}{\mathbb{Q}}
-\newcommand{\A}{\mathcal{A}}
-\renewcommand{\S}{\mathfrak{S}}
-\newcommand{\into}{\hookrightarrow}
-\newcommand{\id}{\mathrm{id}}
-\newcommand{\ev}[1]{\mathrm{ev}_{#1}}
-\newcommand{\gen}[1]{\langle #1 \rangle}
-\newcommand{\parbreak}{
-	\begin{center}
-		--- $\ast$ ---
-	\end{center} 
-}
-\makeatletter
-\newcommand*{\defeq}{\mathrel{\rlap{%
-    \raisebox{0.3ex}{$\m@th\cdot$}}%
-  \raisebox{-0.3ex}{$\m@th\cdot$}}%
-	=
-}
-\makeatother
-
-\newpagestyle{page}[\sffamily \footnotesize]{
-	\headrule
-	\sethead*{\ifthesection{{\bfseries \thesection} \sectiontitle}{}}{}{{\bfseries Chapter \thechapter.} \chaptertitle}
-	\footrule
-	\setfoot*{}{}{\thepage}
-}
-\renewpagestyle{plain}[\sffamily \footnotesize]{
-	\footrule
-	\setfoot*{}{}{\thepage}
-}
-\assignpagestyle{\chapter}{plain}
-
-\titleformat{\chapter}[block]{\sffamily \bfseries \Huge}{\filleft \large Chapter \Huge \thechapter\\}{0pt}{\Huge \titlerule[1pt] \vspace{1ex} \filleft}
 
 \title{Galois Theory}
 \author{Arnau Mas}
@@ -220,37 +125,242 @@ This universal property is not just of theoretical importance, it is also exterm
 \end{example}
 
 \chapter{Field extensions}
-
-\section{First definitions and examples}
+\section{Definition and examples}
 \begin{definition}[Field extension]
-	We say a field \( F \) is an \emph{extension} of a field \( K \) if \( K \) is a subfield of \( F \). More generally, given any field \( K \) and an injective morphism \( \iota \colon K \hookrightarrow F \) we will refer to the situation as a field extension and often identify \( K \) with \( \iota(K) \) and simply write \( K \subseteq F \). 
+	We say a field \( F \) is an \emph{extension} of a field \( K \) if \( K \) is a
+	subfield of \( F \). More generally, given any field \( K \) and an injective morphism
+	\( 	\iota \colon K \hookrightarrow F \) we will refer to the situation as a field
+	extension and often identify \( K \) with \( \iota(K) \) and simply write \( K \subseteq F \). 
 \end{definition}
 
+There are some immediate examples of field extensions such as \( \R \subseteq \C \) and \(
+\Q \subseteq \R \). In the following examples we detail the construction of three related
+kinds of extensions.
+
+\subsection{Simple extensions}
+Say we already have an extension \( K \subseteq F \) and an element \( \alpha \in F \).
+Then we can define the evaluation on \( \alpha \) morphism, \( \ev{\alpha} \). Since \(
+K[x] \) is a PID there must exist a polynomial \( p(x) \in K[x] \) such that \(
+\ker(\ev{\alpha}) = \gen{p(x)} \). If we denote \( \im(\ev{\alpha}) \) by \( K[\alpha] \)
+we have, by the Isomorphism Theorem
+\begin{equation*}
+	K[\alpha] \cong K[x]/\gen{p(x)}.
+\end{equation*}
+We also have \( K \subseteq K[\alpha] \). Indeed, the image of a constant by \(
+\ev{\alpha} \) is itself, so \( K \subseteq \im(\ev{\alpha}) = K[\alpha] \). We can then
+consider the set \( K(\alpha) \) which is the union of \( K[\alpha] \) and the inverses of
+all of its nonzero elements ---they exist since \( K[\alpha] \subseteq F \)---. This is
+isomorphic to the field of fractions of \( K[\alpha] \). Thus we have \( K \subseteq K[\alpha]
+\subseteq K(\alpha) \), meaning \( K(\alpha) \) is a field extension of \( K \). From the
+
+Various things can happen with \( K(\alpha) \). For one, if \( \alpha \in K \)
+then \( \im(\ev{\alpha}) = K[\alpha] = K \), which is to be expected since \( \alpha \)
+was already in \( \alpha \). In this case then \( \ker(\ev{\alpha}) = \gen{x - \alpha)}
+\), which is essentially the fact that a polynomial has \( \alpha \) as a root if and only
+if it is divisible by \( (x - \alpha) \).
+
+If \( \ev{\alpha} \) has a nontrivial kernel then it follows that its generator is
+irreducible. Indeed, since \( K[x] / \gen{p(x)} \cong K[\alpha] \) and \( K[\alpha] \) is
+a domain then \( p(x) \) is prime, and therefore irreducible. This means that \(
+\gen{p(x)} \) is a maximal ideal and \( K[\alpha] \) is a field, so in this case \(
+K[\alpha] = K(\alpha) \). If this is the case we say the element \( \alpha \) is \emph{algebraic}
+over \( K \). The generator of \( \ker(\ev{\alpha}) \) is not unique, since any scalar
+multiple of a generator is also a generator. However, there is always a unique
+\emph{monic} generator, which is called the \emph{minimal polynomial of \( \alpha \) over
+\( K \)}, written \( \irr{\alpha}{K} \) or simply \( \irre{\alpha} \) if the base field is
+understood.
+
+If, instead, \( \ev{\alpha} \) has a trivial kernel then \( K[\alpha] \cong K[x] / \set{0}
+\cong K[x] \) and so \( K(\alpha) \cong K(x) \). This means that adding \( \alpha \) to \(
+K \) is essentially like adding a free variable. We say \( \alpha \) is
+\emph{transcendental} over \( K \). We will analyse the difference between this two cases
+later on.
+
+Extensions of this sort are called \emph{simple extensions} and \( \alpha \) is called a
+\emph{primitive element} of the extension.
+
+\subsection{Quotient of a polynomial ring by a maximal ideal}
+This is a way of constructing what are essentially simple extensions without requiring the
+prior existence of a primitive element in a larger extension.
+
+The polynomial ring \( K[x] \) is a PID which means that the ideal generated by an irreducible
+polynomial \( p(x) \), \( \gen{p(x)} \) is a maximal ideal. This in turn means that the
+quotient \( F = K[x]/\gen{p(x)} \) is a field. Not only that, \( F \) is in fact a field
+extension of \( K \). Let's see how we can construct an inclusion \( F \into K \).
+
+We have at our disposal an inclusion \( \iota \colon K \into K[x] \) and a projection	\(
+\pi \colon K[x] \onto F \). Since any two elements of \( K \) belong to different
+equivalence classes the restriction of \( \pi \) to \( K \) is injective, which means the
+composition \( \pi \circ \iota \colon K \to F \) is also injective. Thus \( F \) is an
+extension of \( K \).
+
+We may summarise this in the following lemma.
+\begin{lemma}
+	Let \( K \) be a field and \( p(x) \in K[x] \) an irreducible polynomial. Then the
+	quotient \( K[x]/\gen{p(x)}  \) is a field extension of \( K \).
+\end{lemma}
+
+A number of extensions are of this form. Indeed, we have that \( \C \cong \R[x]/\gen{x^2 +
+1} \) and the class of \( x \) is written \( i \). There is also the extension \(
+\Q[x]/\gen{x^2 - 2} \), which is typically written \( \Q(\sqrt{2}) \). More generally, if
+\( b \) is not a square in \( \Q \) then \( x^2 - b \) is irreducible and we have the
+extension \( \Q(\sqrt{b}) = \Q[x]/\gen{x^2 - b} \).
+
+By this process we have enlarged the field \( K \) by ``artificially'' adding a primitive
+element. Indeed, if \( p(x) = \sum_{k = 0}^{n}a_k x^k  \) in the quotient we
+have
+\begin{equation}\label{eq:class of x is root}
+	0 = \overline{p(x)} = \overline{\sum_{k = 0}^{n}a_k x^k } = \sum_{k = 0}^{n} a_k
+	\overline{x}^k 
+\end{equation}
+so \( \bar{x} \), the class of \( x \), is a root of \( p(x) \). Note that in
+\cref{eq:class of x is root} we abused notation and wrote what should have been \(
+\overline{a_k} \) simply as \( a_k \). As we mentioned, the equivalence class of a
+constant does not contain any other constant so we can, and will, get away with this abuse of
+notation.
+
+Conversely, a simple extension \( K(\alpha) \) is isomorphic to \(
+K[x]/\gen{m_{\alpha}} \) if \( \alpha \) is algebraic, essentially by definition.
+
+\subsection{Subfield generated by a set}
+Given an existing extension \( K \subseteq F \) and a set \( S \subseteq F \) we define \(
+K[S] \) to be the smallest subring of \( F \) containing \( K \) and \( X \), and then \(
+K(S) \) as the result of adding to \( K[S] \) the inverses of all its nonzero elements.
+This is, by construction, the smallest subfield of \( F \) that contains both \( K \) and
+\( S \). Notice that \( K(\set{\alpha}) \) coincides with the simple extension \( K(\alpha) \) we
+described in the previous section. Indeed, \( K(\alpha) \) is a subfield of \( F \) and
+it contains \( K \) and \( \alpha \), so it contains, by definition \( K(\set{\alpha}) \).
+On the other hand, it is clear that \( \im(\ev{\alpha}) = K[\alpha] \subseteq
+K(\set{\alpha}) \) since they are linear combinations of powers of \( \alpha \) with
+coefficients in \( K \). And since \( K(\set{\alpha}) \) is a field it contains the
+inverses of nonzero \( K[\alpha] \), that is, it contains \( K(\alpha) \).
+
+If the set \( S \) is finite, say \( S = \set{\alpha_1, \dots, \alpha_n} \) then we will
+drop the brackets and simply write \( K(\alpha_1, \dots, \alpha_n) \) instead of \(
+K(\set{\alpha_1, \dots, \alpha_n}) \). Furthermore, we have
+\begin{equation*}
+	K(\alpha_1, \cdots, \alpha_n) = K(\alpha_1, \cdots, \alpha_{n-1})(\alpha_n).
+\end{equation*}
+Indeed, \( K(\alpha_1, \cdots, \alpha_{n-1})(\alpha_n) \) is, by definition, the smallest
+field which contains \( K(\alpha_1, \cdots, \alpha_{n-1}) \) and \( \alpha_n \). This
+means it contains \( K \) and \( \alpha_1, \cdots, \alpha_n \), so, by definition
+\begin{equation*}
+	K(\alpha_1, \cdots, \alpha_n) \subseteq K(\alpha_1, \cdots, \alpha_{n-1})(\alpha_n).
+\end{equation*}
+For the other inclusion, \( K(\alpha_1, \cdots, \alpha_n) \) contains, \( K
+\) and \( \alpha_1, \cdots, \alpha_{n-1} \), which means that, by definition
+\begin{equation*}
+	K(\alpha_1, \cdots, \alpha_{n-1}) \subseteq K(\alpha_1, \cdots, \alpha_n).
+\end{equation*}
+And since \( \alpha_n \in K(\alpha_1, \cdots, \alpha_n) \), again by definition
+\begin{equation*}
+	K(\alpha_1, \cdots, \alpha_{n-1})(\alpha_n) \subseteq K(\alpha_1, \cdots, \alpha_n).
+\end{equation*}
+This means that extensions of this kind are simply iterated simple extensions.
+
+\section{Degree of an extension}
+\subsection{Definition and properties}
+If we have a field extension \( K \subseteq F \) then \( F \) is a \( K \)-vector space.
+Indeed, the addition is the addition defined on \( F \) by virtue of being a field, as is
+the multiplication by elements of \( K \). All of the vector space axioms follow
+immediately from the fact that \( F \) is a field. This leads to the following definition
+\begin{definition}[Degree of an extension]
+	The \emph{degree} of a field extension \( K \subseteq F \) is the dimension of \( F \)
+	as a vector space. We write it \( [F \colon K] \). An extension of finite degree is called \emph{finite}, otherwise it is called
+	\emph{infinite}.
+\end{definition}
+
+\begin{proposition}[Degree of a simple extension] \label{prop:degree of a simple
+	extension}
+	If \( \alpha \) is algebraic over a field \( K \)\footnote{\( \alpha \) is understood to
+	lie in some extension of \( K \).} then the degree of the simple extension \( K
+	\subseteq K(\alpha)	\) is the degree of the minimal polynomial of \( \alpha \) over \( K
+	\). That is,
+	\begin{equation*}
+		[K(\alpha) \colon K] = \deg(\irr{\alpha}{K}).
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	We will show that \( 1, \alpha, \dots, \alpha^{n-1} \) is a basis for \( K(\alpha) \),
+	where \( n \) is the degree of \( \irre{\alpha} \).
+
+	Since \( \alpha \) is algebraic we know \( K[\alpha] = K(\alpha) \). And since \(
+	K[\alpha]	\) is, by definition, \( \im(\ev{\alpha}) \) every element of \( K(\alpha) \)
+	is a polyomial expression in \( \alpha \) with coefficients in \( K \). Say
+	\begin{equation*}
+		\irre{\alpha} = x^n + \sum_{k = 0}^{n-1}a_k x^k.
+	\end{equation*}
+	Then, since \( m_{\alpha}(\alpha) = 0 \) then
+	\begin{equation} \label{eqn:nth power in terms of lesser powers}
+		\alpha^n = - \sum_{k = 0}^{n-1}a_k x^k.
+	\end{equation}
+	Using \cref{eqn:nth power in terms of lesser powers} we can rewrite any linear combination
+	of powers of \( \alpha \) as a linear combination of powers of \( \alpha \) less than \(
+	n \). This means that \( 1, \alpha, \dots, \alpha^{n-1} \) span \( K(\alpha) \). 
+
+	Let's now show that they are linearly independent. Say there were \( a_0, \dots a_{n-1}
+	\in K \) such that
+	\begin{equation*}
+		\sum_{k = 0}^{n-1} a_k \alpha^k = 0.
+	\end{equation*}
+	This would translate to a polynomial \( q(x) = \sum_{k = 0}^{n-1} a_k x^k  \) that
+	evaluates to \( 0 \) at \( \alpha \). Thus it would be divisible by \( \irre{\alpha} \),
+	but since \( q(x) \) is of degree at most \( n-1 \) the only possibility is that \( q(x)
+	\) is actually the zero polynomial. That means \( a_0 = \cdots = a_{n-1} = 0 \), which
+	shows that \( 1, \alpha, \dots, \alpha^{n-1} \) are linearly independent.
+\end{proof}
+
+On the other hand, if \( \alpha \) is transcendental then \( K(\alpha) \) has infinite
+degree over \( K \). Indeed, since \( K(\alpha) \cong K(x) \) it contains a copy of \(
+K[x] \) which has infinite dimension as a \( K \)-vector space.
+
+A very similar argument to the proof of \cref{prop:degree of a simple extension} shows
+that the degree of an extension of the form \( K[x]/\gen{p(x)} \) where \( p(x) \) is
+irreducible is \( \deg{p(x)} \). Indeed, extensions of this form are essentially simple
+extensions constructed without the need for the primitive element to exist in a prior
+extension, the class of \( x \), \( \bar{x} \) plays its role.
+
 \begin{example}
-Here are various examples of field extensions.
-\begin{points}
-	\item We have some obvious field extensions, \( \Q \subseteq \R \) and \( \R \subseteq \C \). 
-	\item The following is a standard way of constructing a field extension. Let \( K \) be a field and \( p(x) \in K[x] \) an irreducible polynomial. Then, since \( K[x] \) is a PID then the ideal generated by \( p(x) \), \( \gen{p(x)} \) is a maximal ideal. Therefore, the quotient \( F = K[x]/\gen{p(x)} \) is a field, and in fact, a field extension of \( K \). Indeed, we have an inclusion \( \iota \colon K \to K[x] \) and a projection \( \pi \colon K[x] \to F \). The composition \( \pi \circ \iota \) is an injective morphism. This is because passing to the quotient through \( \pi \) leaves \( K \) untouched since the equivalence class of an element of \( K \) modulo \( \gen{p(x)} \) is comprised exactly by the element itself.   
-
-		We can say more about the structure of \( F \). It is in fact a \( K \)-vector space. Simply define scalar multiplication by elements of \( K \) as the product given by a field structure. This a general fact about field extensions. The dimension of \( F \) is precisely \( \deg{p(x)} \). One possible basis is \( \set{1, \bar{x}, \dots, \bar{x}^{n-1}} \). That they span \( F \) is because any terms of degree \( n \) or higher get transformed into terms of lower degree, by virtue of the fact that if \( p(x) = x + \sum_{k = 1}^{n-1}a_k x^k  \) then in \( F \)
+	With \cref{prop:degree of a simple extension} we can calculate the degree of various
+	extensions.
+	\begin{points}
+	\item We have \( [\Q(\sqrt{2}) \colon \Q] = [\Q(\sqrt{3}) \colon \Q] = 2 \). Indeed, the
+		minimal polynomial of \( \sqrt{2} \) over \( \Q \) is \( x^2 - 2 \) given that it is
+		irreducible over \( \Q \) since it has no roots. Similarly, the minimal polynomial of
+		\( \sqrt{3} \) is \( x^2 - 3 \).
+	\item Since the complex numbers have dimension 2 as a \( \R \)-vector space then \( [\C
+		\colon \R ] = 2 \). Another way to show this is by noting that the minimal
+		polynomial of \( i \) over \( \R \) is \( x^2 + 1 \) and \( \C = \R(i) \). By the same
+		argument, \( [\Q(i) \colon \Q] = 2 \) since \( x^2 + 1 \) is also the minimal
+		polynomial of \( i \) over \( \Q \).
+	\item It is known that \( \pi \) and \( e \) are transcendental over the rationals, with
+		proofs due to Lindemann and Hermite respectively. This means that both \(
+		\Q(\pi) \) and \( \Q(e) \) are infinite. Consequently, since both extensions are
+		contained within the reals it follows that \( \R \) is also infinite over \( \Q \).
+	\item Let's calculate \( \ext{\Q}{\sqrt{2} + \sqrt{3}} \). We have 
 		\begin{equation*}
-			\bar{x}^n = \sum_{k = 1}^{n-1}a_k \bar{x}^k. 
+			(\sqrt{2} + \sqrt{3})^2 = 5 + 2 \sqrt{6}.
 		\end{equation*}
-
-	\item Say we have a field extension \( K \subseteq F \). We have seen ()  
-
+		Therefore 
+		\begin{equation*}
+			24 = [(\sqrt{2}+ \sqrt{3})^2 - 5]^2 = (\sqrt{2} + \sqrt{3})^4 - 10(\sqrt{2} +
+			\sqrt{3})^2 + 25.
+		\end{equation*}
+		Thus we have found that \( \sqrt{2} + \sqrt{3} \) is a root of \( p(x) = x^4 - 10 x^2 +1 \).
+		The only possible rational roots of this polynomial are 1 and \( -1 \), and it is
+		easily checked that they are not. However this does not prove that \( p(x) \) is
+		irreducible, since its degree is higher than 3. However this is a biquadratic
+		polynomial (a polynomial that is quadratic in \( x^2 \)), meaning its real roots can
+		be computed, and so it can be factored over \( \R \). With this factorisation, one
+		would	compute all four possible degree 2 factors of \( p(x) \) and find that none of
+		them are rational, thus concluding that \( p(x) \) is irreducible over the rationals
+		---if \( p(x) \) factored as the product of a degree 3 and a degree 1 polynomial it
+		would have a rational root, which is not the case, so it can only factor as two degree
+		2 polynomials---. All of this means that
+		\begin{equation*}
+			\ext{\Q}{\sqrt{2}+ \sqrt{3}} = 4.
+		\end{equation*}
 	\end{points}
 \end{example}
 
-\section{Simple extensions}
-Simple extensions are one of the fundamental building blocks of Galois theory. In what we will give different equivalent constructions and some of their properties.
-
-A simple extension is the result of adding a single element to a field. For example, there is no element in	\( \R \) whose square is \( -1 \). We could define a new element, call it \( i \), 
-such that \( i^2 = -1 \). The field that we get as a result is of course the complex field \( \C \). An analogous example consists of adding an element to \( \Q \) whose square is 2, which we may simply denote by \( \sqrt{2} \). The resulting object is often written as \( \Q[\sqrt{2}] \).
-
-In these two examples we are somehow plucking a new element out of thin air that satisfies a certain property and throwing it into an existing field and see what comes out. There are various ways to formalise this construction.
-
-
-
-Say we wish to adjoin to a field \( K \) an element \( \alpha \) that satisfies some sort of polynomial equation, that is, it is the root of some polynomial \( p(x) \in K[x] \). First, if \( p(x) \) is not irreducible we may factor it into irreducibles ---since \( K \) is a field, the polynomial ring \( K[x] \) is a PID and thus a UFD---, and then \(  d \)
 \end{document}
