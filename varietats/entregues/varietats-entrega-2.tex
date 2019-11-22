@@ -1,0 +1,176 @@
+\documentclass[12pt]{article}
+\input{preamble-entrega.tex}
+\input{commands-varietats.tex}
+
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Topología de variedades:} Entrega 2}{}{\theauthor}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Topología de variedades:} Entrega 2}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 22 de noviembre de 2019}
+
+
+\begin{document}
+\maketitle
+
+Sean \( N \) y \( M \) variedades y \( f \colon N \to M \) una aplicación lisa. A partir
+de \( f \) definimos la aplicación
+\begin{align*}
+	F \colon N & \longrightarrow N \times M \\
+	x & \longmapsto (x, f(x)).
+\end{align*}
+
+Comprovemos que \( F \) es lisa. En general, una aplicación \( g \colon Z \to N \times M
+\) es lisa si y solo si lo son sus componentes, \( \pi_N \circ g \) y \( \pi_M \circ g \),
+donde \( \pi_N \colon N \times M \to N \) y \( \pi_M \colon N \times M \to M \) son las
+proyecciones canónicas. Es un resultado de topología general que \( g \) es contínua si y
+solo si lo son \( \pi_N \circ g \) y \( \pi_M \circ g \). Por lo tanto sólo tenemos que
+verificar que la lectura de \( g \) en cartas es lisa. 
+
+Sea \( (U, \phi) \) una carta de \( Z \) alrededor de un punto \( x \in Z \). Puesto que
+\( g(x) \in N \times M \) podemos tomar \( (V_1 \times V_2, \psi_1 \times \psi_2) \) como
+carta alrededor de \( g(x) \), donde \( (V_1, \psi_1) \) es una carta de \( N \) alrededor
+de \( \pi_N(g(x)) \) y \( (V_2, \psi_2) \) es una carta de \( M \) alrededor de \(
+\pi_M(g(x)) \). Todas estas aplicaciones hacen que el diagrama a continuación commute,
+\begin{equation*}
+	\begin{tikzcd}[row sep = small]
+			& & & & V_2 \arrow[ddd, "\psi_2"] \\
+		U \arrow[rr, "g"] \arrow[ddd, "\phi"] & & V_1 \times V_2 \arrow[ddd, "\psi_1 \times
+		\psi_2"'] \arrow[rru, "\pi_M"] \arrow[rd, "\pi_N"] & & \\
+			& & & V_1  & \\
+			& & & & \psi_2(V_2) \\
+		\phi(U) \arrow[rr, "(\psi_1 \times \psi_2) \circ g \circ \phi^{-1}"] & & \psi_1(V_1)
+		\times \psi_2(V_2) \arrow[dr, "\pi_1"] \arrow[rru, near start, "\pi_2"] & & \\
+			& & & \psi_1(V_1) \arrow[from=uuu, crossing over, near start,"\psi_1"] &
+	\end{tikzcd}
+\end{equation*}
+Si \( Z \) tiene dimensión \( r \) y \( N \) y \( M \) dimensión \( n \) y \( m \)
+respectivamente, entonces \( \psi_1(V_1) \) es un abierto de \( \R^n \) y \( \psi_2(V_2)
+\) es un abierto de \( \R^m \). Por lo tanto \( \pi_1 \) y \( \pi_2 \) son las
+proyecciones de \( \R^n \times \R^m \) sobre \( \R^n \) y \( \R^m \) respectivamente.
+
+Del diagrama leemos que
+\begin{equation*}
+	\psi_2 \circ \pi_N \circ g \circ \phi^{-1} = \pi_1 \circ (\psi_1 \times \psi_2) \circ g
+	\circ \phi^{-1},
+\end{equation*}
+es decir que la lectura en cartas de la primera componente de \( g \), \( \pi_N \circ g \)
+es precisamente la primera componente de la lectura en cartas de \( g \), \( \tilde{g}
+\defeq (\psi_1 \times \psi_2) \circ g \circ \phi^{-1} \). De la misma forma tenemos
+\begin{equation*}
+	\psi_2 \circ \pi_M \circ g \circ \phi^{-1} = \pi_2 \circ (\psi_1 \times \psi_2) \circ g
+	\circ \phi^{-1} = \pi_2 \circ \tilde{g}.
+\end{equation*}
+
+La aplicación \( \tilde{g} \) es una función real de un abierto de \( \R^r \) a un abierto
+de \( \R^n \times \R^m \) por lo que es de clase \( C^\infty \) si y solo si lo son sus
+dos componentes. Por definición, \( g \) es lisa si y solo si su lectura en cualquier carta es de
+clase \( C^\infty \). Por lo tanto, \( g \) será lisa si y solo si las lecturas en
+cartas de sus dos componentes son de clase \( C^{\infty} \), y por lo que hemos visto, si
+y solo si sus dos componentes \( \pi_M \circ g \) y \( \pi_N \circ g \) son lisas. 
+
+Con este resultado más general es immediato ver que \( F \) es lisa, puesto que su
+primera componente es la identidad y su segundo componente es \( f \), que es lisa por
+hipótesis.
+
+\parbreak
+ 
+Podemos entonces hablar de la aplicación tangente a \( F \), \( T_x F \colon T_x N \to
+T_{F(x)}(N \times M) \). El espacio tangente de un producto se identifica canónicamente
+con el producto de espacios tangentes
+\begin{equation}\label{eq:iso entre espacios tangentes}
+	\begin{aligned}
+		T_{(x,y)}(N \times M) & \longrightarrow T_x N \times T_y M \\
+		v & \longmapsto (T_{(x,y)} \pi_N(v), T_{(x,y)}\pi_M (v)).
+	\end{aligned}
+\end{equation}
+Para \( v \in T_x N \) calculamos, usando la regla de la cadena
+\begin{equation*}
+	(T_{F(x)} \pi_N)(T_xF(v)) = (T_{F(x)}\pi_N \circ T_xF)(v) = T_x(\pi_N \circ F)(v) =
+	T_x\id_N(v) = v
+\end{equation*}
+y
+\begin{equation*}
+	(T_{F(x)} \pi_M)(T_xF(v)) = (T_{F(x)}\pi_M \circ T_xF)(v) = T_x(\pi_M \circ F)(v) =
+	T_xf(v).
+\end{equation*}
+Por lo que, mediante el isomorfismo en (\ref{eq:iso entre espacios tangentes}), tenemos
+\begin{equation*}
+	T_xF(v) = (v, T_xf(v)).
+\end{equation*}
+
+\parbreak
+
+Definimos el gráfico de la función \( f \) como
+\begin{equation*}
+	\Gamma_f \defeq \{(x,y) \in N \times M \mid y = f(x)\}
+\end{equation*}
+y de hecho se tiene \( \Gamma_f = F(N) \).
+
+A continuación comprovamos que \( \Gamma_f \) es una subvariedad de \( N \times M \)
+difeomorfa a \( N \). Sea \( (V, \psi) \) una carta de \(
+M\) alrededor de un punto de \( f(N) \), \( f(x) \). Entonces \( f^{-1}(V) \) es un
+entorno abierto de \( x \) en \( N \). Por lo tanto existe una carta de \( N \) alrededor
+de \( x \), \( (U, \phi) \) tal que \( f(U) \subseteq V \) ---si \( U \) es demasiado
+grande simplemente lo intersecamos con \( f^{-1}(V) \) y obtenemos una carta que satisface
+la condición que queremos---. Entonces \( U \times V \) es un abierto de \( N \times M \)
+que contiene \( (x, f(x)) \). Definimos, si \( \dim N = n \) y \( \dim M = m \),
+\begin{align*}
+	\chi \colon U \times V & \longrightarrow \xi(U \times V) \subseteq \R^n \times \R^m \\
+	(x, y) & \longmapsto (\phi(x), \psi(y) - \psi(f(x)))
+\end{align*}
+Tenemos que \( \xi \) es una carta de \( N \times M \). En efecto, está claro que es contínua, y
+además tiene una inversa,
+\begin{align*}
+	\chi^{-1} \colon U \times V & \longrightarrow \xi(U \times V) \subseteq \R^n \times \R^m \\
+	(a, b) & \longmapsto (\phi^{-1}(a), \psi^{-1}(b + \psi(f(\phi^{-1}(a)))))
+\end{align*}
+que también es contínua, por lo que \( \xi \) es un homeomorfismo sobre su imagen, \( W
+\defeq \xi(U \times V) \) que es un abierto de \( \R^{n+m} \) y por lo tanto una
+carta.
+
+En particular, \( \xi \) es una carta linealizante para \( \Gamma_f \) alrededor de \( (x,
+f(x))\). Por un lado, si \( (x, f(x)) \in (U \times V) \cap
+\Gamma_f \) entonces
+\begin{equation*}
+	\chi(x, f(x)) = (\phi(x), \psi(f(x)) - \psi(f(x))) = (\phi(x), 0) \in \phi(U) \times
+	0 = W \cap \R^n \times 0.
+\end{equation*}
+De manera inversa, si \( (a,0) \in W \cap \R^n \times 0 \) entonces existe \( (x,y) \in U
+\times V \) tal que 
+\begin{equation*}
+	(a,0) = \chi(x,y) = (\phi(x), \psi(y) - \psi(f(x)))
+\end{equation*}
+por lo que, como	\( \psi \) es un homeomorfismo y en particular biyectiva, \( y = f(x) \)
+y deducimos \( (a,0) = (\phi(x), 0) \in \chi(\Gamma_f \cap (U \times V)) \). Es decir,
+\( \chi \) nos da una linearización local de \( \Gamma_f \) alrededor de \( (x, f(x))
+\), por lo que \( \Gamma_f \) es una subvariedad de \( N \times M \).
+
+La aplicación \( F \), con su codominio restringido a \( \Gamma_f \), realiza un
+difeomorfismo entre \( N \) y \( \Gamma_f \). Puesto que \( F(N) = \Gamma_f \) tenemos que es exhaustiva. También es inyectiva porque si \( F(x) =
+F(y) \) entonces \( (x, f(x)) = (y, f(y)) \) luego \( x = y \). Hemos comprobado
+inicialmente que es lisa. Por último, la inversa de \( F \) es la restricción de \( \pi_N
+\) sobre \( \Gamma_f \), que es también lisa. Por lo tanto \( F \) es un difeomorfismo.
+
+En particular, la aplicación tangente \( T_xF \) nos da un isomorfismo entre \( T_xN \) y
+\( T_{F(x)}\Gamma_f \):
+\begin{align*}
+	T_x F \colon T_xN & \longrightarrow T_{F(x)} \Gamma_f \\
+	v & \longmapsto (v, T_xf(v))
+\end{align*}
+donde estamos identificando \( T_{(x,f(x))}(N \times M) \) con \( T_x N \times T_{f(x)}M
+\). Por lo tanto todo elemento de \( T_{F(x)} \Gamma_f \) es de la forma \( (v, T_xf(v))
+\), es decir, \( T_{F(x)}\Gamma_f \) es el gráfico de \( T_xf \).
+
+
+
+\end{document}
