@@ -1062,7 +1062,7 @@ This definition suggests a certain relationship between normal extensions and sp
 fields, since both have to do with the property of a polynomial automatically splitting if
 it has a root. The following result clarifies this relationship.
 
-\begin{theorem}
+\begin{theorem}\label{theo:normal and finite iff splitting field}
 	A finite extension is normal if and only if it is the splitting field of a polynomial.
 \end{theorem}
 \begin{proof}
@@ -1180,8 +1180,9 @@ it has a root. The following result clarifies this relationship.
 	normal.
 \end{proof}
 From this result it follows that every splitting field is a normal extension, since a
-splitting field is finite. The converse, however, need note be true.
-converse need not be true.
+splitting field is finite. The converse, however, need note be true, meaning there exist
+normal extensions which are not the splitting field of any polynomial ---although they
+can't of course be finite---.
 
 \begin{example}
 	The extension \( \Q \subseteq \Q(\sqrt[3]{2}) \) is finite but it is not normal. Indeed,
@@ -1197,7 +1198,27 @@ converse need not be true.
 	F\) is also normal over \( K \). 
 \end{example}
 
-% TODO: Discuss normal simple extensions
+\Cref{theo:normal and finite iff splitting field} is helpful in discussing the normality
+of simple extensions. We know a simple extension is finite if and only if it is algebraic.
+Therefore, a simple algebraic extension will be normal if and only if it is a splitting
+field. A natural candidate for the extension \( K(\alpha) \) to be the splitting field of
+is \( \irre{\alpha} \). We have the following result.
+\begin{proposition}
+	A simple algebraic extension \( K(\alpha) \) is normal if and only if it is the
+	splitting field of \( \irre{\alpha} \).
+\end{proposition}
+\begin{proof}
+	If \( K(\alpha) \) is normal then, since \( \irre{\alpha} \) has a root in \( K(\alpha)
+	\), namely \( \alpha \), \( \irre{\alpha} \) must split in \( K(\alpha) \). And if \(
+	\irre{\alpha} \) splits in any other field \( K' \) then \( K' \) must contain every
+	root of \( \irre{\alpha} \), in particular \( \alpha \). Therefore \( K' \) must contain
+	\( K(\alpha) \) which shows \( K(\alpha) \) is the splitting field of \( \irre{\alpha}
+	\).
+
+	Conversely, if \( K(\alpha) \) is the splitting field of \( \irre{\alpha} \) then it
+	must be normal by \Cref{theo:normal and finite iff splitting field}.
+\end{proof}
+
 
 \section{Separable Extensions}
 \begin{definition}[Separable Polynomial]
@@ -1369,6 +1390,7 @@ which means we can dispense with the subindexes altogether.
 	But this would mean \( (x - \alpha)^2 \mid p(x) \) which cannot be the case since \(
 	\alpha \) is a root of \( p(x) \) and therefore assumed to be simple. Thus \( d(x) = 1
 	\).
+	
 	\( (\impliedby) \) Suppose \( p(x) \) has at least a repeated root. This means there
 	exists \( \alpha \in L \) such that 
 	\begin{equation*}
@@ -1466,6 +1488,120 @@ This implies the following
 	An extension of a finite field or a field of characteristic 0 is separable if and only
 	if it is algebraic.
 \end{theorem}
+
+
+\chapter{The Galois Correspondence}
+\begin{definition}[Intermediate field]
+	We say \( L \) is an \emph{intermediate field} of the extension \( K \subseteq F \) if \( L \)
+	is a field such that \( K \subseteq L \subseteq F \). The set of all intermediate fields
+	of an extension \( K \subseteq F \) is denoted \( \L_K(F) \) and is generally called the
+	\emph{lattice of intermediate fields} of the extension.
+\end{definition}
+
+\begin{definition}[Field fixed by a group]
+	Given a subgroup \( H \leq \Gal_K(F) \) we write \( F^H \) for the set of elements of \(
+	F \) which are fixed by the action of \( H \), i.e.
+	\begin{equation*}
+		F^H \defeq \set{x \in F \mid \forall f \in H \colon f(x) = x}.
+	\end{equation*}
+\end{definition}
+It turns out \( F^H \) is actually a field and thus an intermediate field of the
+extension. All that needs to be shown is that the sum, product and inverse of elements
+fixed by \( H \) is again fixed by \( H \). So if \( x, y \in F^H \) then for all \( f \in
+H \) we have
+\begin{gather*}
+	f(x + y) = f(x) + f(y) = x + y \\
+	f(xy) = f(x)f(y) = xy \\
+\end{gather*}
+and provided \( x \neq 0 \) then \( f(x<^{-1}) = f(x)^{-1} = x^{-1} \). Thus \( F^H \) is
+a subfield of \( F \). And since, by definition, any element of \( \Gal_K(F) \) fixes \( K
+\) then we have \( K \) is a subfield of \( F^H \) and so \( F^H \in \L_K(F) \).
+
+\begin{lemma}
+	If \( L \) is an intermediate field of an extension \( K \subseteq F \) then \(
+	\Gal_L(F) \subseteq \Gal_K(F) \).
+\end{lemma}
+\begin{proof}
+	Let \( \sigma \in \Gal_L(F) \). Then \( \sigma \) is a field automorphism of \( F \)
+	which fixes \( L \). But since \( K \subseteq L \) it also fixes \( K \), thus \( \sigma
+	\in \Gal_K(F) \). Since \( \Gal_L(F) \) is by itself a group with composition it follows
+	it is a subgroup of \( \Gal_K(F) \).
+\end{proof}
+
+\begin{definition}[Subgroup lattice]
+	We write \( \L(G) \) for the set of all subgroups of a group \( G \), called the
+	\emph{subgroup lattice} of \( G \).
+\end{definition}
+
+\begin{definition}[Galois correspondence]
+	Given a field extension	\( K \subseteq F \), the pair of maps
+	\begin{align*}
+		\Fi \colon \L(\Gal_K(F)) & \longrightarrow \L_K(F) \\
+		H & \longmapsto F^H \\
+		\\
+		\G \colon \L_K(F) & \longrightarrow \L(\Gal_K(F)) \\
+		K & \longmapsto \Gal_L(F)
+	\end{align*}
+	are called the \emph{Galois correspondence} of the extension.
+\end{definition}
+
+Notice that both \( \L(\Gal_K(F)) \) and \( \L_K(F) \) are partially ordered by
+inclusion.
+
+{\def\currentprefix{prop:properties of Galois correspondence}
+\begin{proposition}
+	The Galois correspondence of an extension \( K \subseteq F \) satisfies
+	\begin{points}
+	\item \locallabel{i} if \( L \in \L_K(F) \) then \( L \subseteq \Fi(\G(L)) =
+		F^{\Gal_L(F)} \)
+	\item \locallabel{ii} if \( H \in \L(\Gal_K(F)) \) then \( H \leq \G(\Fi(H)) =
+		\Gal_{F^H}(F) \)
+	\item \locallabel{iii} both \( \Fi \) and \( \G \) are decreasing, meaning if \( H_1 \leq
+		H_2 \) then \( \Fi(H_1) \supseteq \Fi(H_2) \) and if \( L_1 \subseteq L_2 \) then \(
+		\G(L_1) \geq \G(L_2) \)
+	\item \locallabel{iv} \( \Fi \circ \G \circ \Fi = \Fi \) and \( \G \circ \Fi \circ \G =
+		\G \).
+	\end{points}
+\end{proposition}
+\begin{proof}
+	\localref{i} Let \( x \in L \). Then, for any \( \sigma \in \Gal_L(F) \) one has, by
+	definition, \( \sigma(x) = x \). Thus \( x \in F^{\Gal_L(F)} \), which means \( L
+	\subseteq F^{\Gal_L(F)} \).
+
+	\localref{ii} Let \( h \in H \). Then, by definition, \( h \) is a field automorphism of
+	\( F \) which fixes \( F^H \). Thus \( h \in \Gal_{F^H}(F) \) and \( H \subseteq
+	\Gal_{F^H}(F) \).
+
+	\localref{iii} Let \( H_1 \leq H_2 \leq \Gal_K(F) \). Then, any element of \( \Fi(H_2) =
+	F^{H_2}	\) is fixed by every element of \( H_2 \), which means it is in particular fixed
+	by any element of \( H_1 \). Thus \( F^{H_2} \subseteq F^{H_1} \). This shows \( \Fi \)
+	is decreasing. 
+
+	Similarly, if \( L_1 \) and \( L_2 \) are intermediate fields and \( L_1 \subseteq L_2
+	\) then any field automorphism of \( F \) which fixes \( L_2 \) must fix \( L_1 \),
+	which means \( \Gal_{L_2}(F) \leq \Gal_{L_1}(F) \). This shows \( \G \) is decreasing.
+
+	\localref{iv} Let \( H \leq \Gal_K(F) \). Then we need to show
+	\begin{equation*}
+		(\Fi \circ \G \circ \Fi)(H) = F^{\Gal_{F^H}(F)} = F^H.
+	\end{equation*}
+	Using \localref{i} we have
+	\begin{equation*}
+		(\Fi \circ \G \circ \Fi)(H) = (\Fi \circ \G)(\Fi(H)) \supseteq \Fi(H).
+	\end{equation*}
+	The other inclusion remains to be shown. We need to see that if \( x \in
+	F^{\Gal_{F^H}(F)} \) then \( x \in F^H \). From \localref{ii} follows that \(
+	\Gal_{F^H}(F) = (\G \circ \Fi)(H) \geq H \). Therefore, from \localref{iii} we
+	conclude 
+	\begin{equation*}
+		(\Fi \circ \G \circ \Fi)(H) = \Fi((\G \circ \Fi)(H)) \subseteq \Fi(H),
+	\end{equation*}
+	as we wanted.
+
+	Since \( \Fi \) and \( \G \) have the same properties, the exact same argument shows \( \G
+	\circ \Fi \circ \G = \G \) simply by interchanging \( \Fi \) and \( \G \).
+\end{proof}
+}
 
 
 \end{document}

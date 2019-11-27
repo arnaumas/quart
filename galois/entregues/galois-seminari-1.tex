@@ -1,0 +1,56 @@
+\documentclass[12pt]{article}
+
+\input{preamble-entregues.tex}
+\input{commands-galois-cat.tex}
+
+% Pagestyles
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Teoria de Galois}}{}{Seminari 1}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Seminari 1}}
+\author{\sffamily Arnau Mas, Jaime Pedregal, Sergio Serrano de Haro}
+\date{\sffamily 25 de Novembre de 2019}
+
+\begin{document}
+\maketitle
+
+\section{El Teorema de Dedekind}
+\begin{teorema}[Dedekind]
+	Sigui \( f(x) \in \Q[x] \) un polinomi mònic de grau \( N \) tal que \( \mcd(f(x),
+	f'(x)) = 1 \). Si per a un primer \( p \) la reducció de \( f(x) \) mòdul \( p \), \(
+	f_p(x) \) satisfà \( \mcd(f_p(x), f_p'(x)) = 1 \) aleshores \( \GalQ(f(x)) \) conté un
+	producte de cicles disjunts de longituds \( n_1, \dots, n_k \) on \( n_1, \dots, n_k \) són
+	els graus dels factors irreductibles de \( f_p(x) \) a \( \F_p[x] \).
+\end{teorema}
+
+\begin{lema}
+	Un polinomi irreductible amb coeficients a un cos finit o a un cos de característica 0
+	no té arrels repetides al seu cos de descomposició.
+\end{lema}
+
+\begin{lema}
+	El grup de Galois d'un polinomi irreductible de grau \( n \) és isomorf a un subgrup
+	transitiu de \( \S_n \).
+\end{lema}
+
+\begin{lema}
+	Un subgrup transitiu de \( \S_n \) que conté una transposició i un \( (n-1) \)-cicle és
+	de fet \( \S_n \).
+\end{lema}
+
+\section{Construcció d'un polinomi amb grup de Galois \( \S_9 \)}
+Volem construir un polinomi 
+
+
+
+
+\end{document}

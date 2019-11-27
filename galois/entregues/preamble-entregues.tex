@@ -1,0 +1,75 @@
+% PREAMBLE FOR GALOIS THEORY NOTES
+
+% ----------------------------------------------------------
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[bf,sf,small,pagestyles]{titlesec}
+\usepackage{titling}
+\usepackage[font={footnotesize, sf}, labelfont=bf]{caption} 
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage[sort]{cleveref}
+\usepackage{amsthm,thmtools}
+\usepackage[shortlabels]{enumitem}
+\usepackage{todonotes}
+
+% ----------------------------------------------------------
+% Geometry setup
+\geometry{
+	a4paper,
+	right = 3cm,
+	left = 3cm,
+	bottom = 3cm,
+	top = 3cm
+}
+% Wider space between lines
+\renewcommand{\baselinestretch}{1.3}
+
+% ----------------------------------------------------------
+% Hyperref setup
+\hypersetup{
+	colorlinks,
+	linkcolor = {red!50!blue},
+	linktoc = page
+}
+\numberwithin{table}{section}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+\newcommand{\locallabel}[1]{\label{\currentprefix:#1}}
+\newcommand{\localref}[1]{\ref{\currentprefix:#1}}
+\newcommand{\localcref}[1]{\cref{\currentprefix:#1}}
+
+
+% ----------------------------------------------------------
+% Definition of theorem, example, etc environments
+\newcommand{\qedtriangle}{\ensuremath{\triangle}}
+\newcommand{\qedtriangledown}{\ensuremath{\bigtriangledown}}
+\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries,
+notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangle]{definition}
+
+\declaretheorem[name=Teorema, refname={teorema,teoremes}, Refname={Teorema,Teoremes},
+]{teorema}
+
+\declaretheorem[name=Lema, refname={lema,lemes},
+Refname={Lema,Lemes}, numberlike=teorema]{lema}
+
+\declaretheorem[name=Coro\l.lari, refname={coro\l.lari,coro\l.laris},
+Refname={Coro\l.lari,Coro\l.laris}, numberlike=teorema]{corollari}
+
+\declaretheorem[name=Definició, style=definition, refname={definicio,definicions},
+Refname={Definició,Definicions}]{definicio}
+
+% ----------------------------------------------------------
+% Definition of custom list style
+\newlist{points}{enumerate}{1}
+\setlist[points,1]{label=\textup{(}{\itshape \roman*}\textup{)}, wide}

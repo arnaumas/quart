@@ -20,6 +20,7 @@
 \usepackage[sort]{cleveref}
 \usepackage{amsthm,thmtools}
 \usepackage[shortlabels]{enumitem}
+\usepackage{todonotes}
 
 % ----------------------------------------------------------
 % Geometry setup
@@ -44,6 +45,11 @@
 \numberwithin{equation}{section}
 \numberwithin{figure}{section}
 
+\newcommand{\locallabel}[1]{\label{\currentprefix:#1}}
+\newcommand{\localref}[1]{\ref{\currentprefix:#1}}
+\newcommand{\localcref}[1]{\cref{\currentprefix:#1}}
+
+
 % ----------------------------------------------------------
 % Definition of theorem, example, etc environments
 \newcommand{\qedtriangle}{\ensuremath{\triangle}}
@@ -53,12 +59,19 @@
 
 \declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem},
 numberwithin=chapter]{theorem}
+
 \declaretheorem[name=Proposition, refname={proposition,propositions},
 Refname={Proposition,Propositions}, numberlike=theorem]{proposition}
+
 \declaretheorem[name=Lemma, refname={lemma,lemmas},
 Refname={Lemma,Lemmas}, numberlike=theorem]{lemma}
+
+\declaretheorem[name=Corollary, refname={corollary,corollaries},
+Refname={Corollary,Corollaries}, numberlike=theorem]{corollary}
+
 \declaretheorem[name=Definition, style=definition, refname={definition,definitions},
-Refname={Definitio,Definitions}, numberwithin=chapter]{definition}
+Refname={Definition,Definitions}, numberwithin=chapter]{definition}
+
 \declaretheorem[name=Example, style=example, refname={example,examples},
 Refname={Example,Examples}, numberwithin=chapter]{example}
 
