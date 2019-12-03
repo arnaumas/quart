@@ -1,11 +1,14 @@
-% Commands for real analysis
-\renewcommand{\vec}[1]{\mathbf{#1}}
+% COMMANDS FOR REAL ANALYSIS
+% ----------------------------------------------------------
 
 % Restriction of a function
 \newcommand{\rest}[1]{\raisebox{-.5ex}{$|$}_{#1}}
 
 % Real numbers
 \newcommand{\R}{\mathbb{R}}
+
+% Rational numbers
+\newcommand{\Q}{\mathbb{Q}}
 
 % Complex numbers
 \newcommand{\C}{\mathbb{C}}
@@ -16,20 +19,59 @@
 % Integers
 \newcommand{\Z}{\mathbb{Z}}
 
-% Script A, B, M, P
+% Script A, B, M, P, L
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\B}{\mathcal{B}}
 \newcommand{\M}{\mathcal{M}}
+\renewcommand{\L}{\mathcal{L}}
 \renewcommand{\P}{\mathcal{P}}
+
+\newcommand{\class}[2]{C^{#1}(#2)}
+\newcommand{\cont}[1]{\class{0}{#1}}
 
 % Identity
 \newcommand{\id}{\mathrm{id}}
 
 % Almost everywhere
-\renewcommand{\ae}{\text{ a.e. }}
+\renewcommand{\ae}{\text{ a.e.}}
+
+% Almost everywhere on
+\newcommand{\aeon}[1]{\text{ a.e. on } #1}
 
 % Absolute value
-\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+
+% Norm
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\normu}[1]{\norm{#1}_1}
+\newcommand{\normd}[1]{\norm{#1}_2}
+\newcommand{\normp}[1]{\norm{#1}_p}
+\newcommand{\normi}[1]{\norm{#1}_\infty}
+
+% Inner product
+\newcommand{\inn}[2]{\left\langle #1\, , #2 \right\rangle}
 
 % Exterior measure
 \newcommand{\ext}[1]{m^* \! \left( #1 \right)}  
+
+% Integral differential
+\renewcommand{\d}{\, \mathrm{d}}
+
+% Defined as
+\makeatletter
+\newcommand*{\defeq}{\mathrel{\rlap{%
+    \raisebox{0.3ex}{$\m@th\cdot$}}%
+  \raisebox{-0.3ex}{$\m@th\cdot$}}%
+	=
+}
+\makeatother
+
+% Set
+\newcommand{\set}[1]{ \{ #1 \} }
+
+% Break between paragraphs
+\newcommand{\parbreak}{
+	\begin{center}
+		--- $\ast$ ---
+	\end{center} 
+}

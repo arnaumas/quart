@@ -1,0 +1,219 @@
+\documentclass[12pt]{article}
+
+\input{prelude-entrega.tex}
+\input{commands-analisi.tex}
+
+% Pagestyles
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Anàlisi real.} Espais normats i de Banach}{}{\theauthor}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Entrega 2:} Espais normats i de Banach}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 6 de desembre de 2019}
+
+
+\begin{document}
+\maketitle
+
+\section*{Problema 2}
+Sigui \( (E, \norm{\cdot}) \) un espai normat. Volem veure que per tot \( x,y \in E \) es té
+la desigualtat
+\begin{equation*}
+	\norm{x} \leq \max\set{\norm{x - y}, \norm{x + y}}.
+\end{equation*}
+Per a qualsevol \( t \in [0,1] \) tenim 
+\begin{align*}
+	\norm{t(x - y) + (1 - t)(x + y)} & \leq t\norm{x - y} + (1 - t)\norm{x + y} \\
+																	 & = \norm{x+y} +	(\norm{x-y} - \norm{x+y})t.
+\end{align*}
+L'aplicació
+\begin{align*}
+	f \colon [0,1] & \longrightarrow \R \\
+	t & \longmapsto \norm{x+y} + (\norm{x-y} - \norm{x+y})t
+\end{align*}
+és afí, per tant assoleix el seu màxim a un dels extrems de \( [0,1] \). Tenim que \( f(0) =
+\norm{x+y} \) i \( f(1) = \norm{x -y} \), per tant, per a tot \( t \in [0,1] \) es té
+\begin{equation*}
+	\norm{t(x - y) + (1 - t)(x + y)} \leq f(t) \leq \max\set{\norm{x+y}, \norm{x-y}}.
+\end{equation*}
+Fent \( t = \frac{1}{2} \) arribem a la desigualtat que volíem veure
+\begin{equation*}
+	\norm{x} = \norm{\frac{1}{2}(x-y) + \frac{1}{2}(x+y)} \leq \max\set{\norm{x+y},
+	\norm{x-y}}.
+\end{equation*}
+
+\parbreak
+
+Hem de veure que per tot \( x,y \in E \) es té
+\begin{equation*}
+	\norm{x - y} \geq \frac{1}{2} \max\set{\norm{x}, \norm{y}} \norm{\frac{x}{\norm{x}} -
+	\frac{y}{\norm{y}}}.
+\end{equation*}
+Aixó és equivalent a provar que 
+\begin{equation*}
+	\norm{x - y} \geq \frac{1}{2} \norm{x} \norm{\frac{x}{\norm{x}} -
+	\frac{y}{\norm{y}}}
+\end{equation*}
+i 
+\begin{equation*}
+	\norm{x - y} \geq \frac{1}{2} \norm{y} \norm{\frac{x}{\norm{x}} -
+	\frac{y}{\norm{y}}}.
+\end{equation*}
+
+Demostrem la primera de les desigualtats:
+\begin{align*}
+	\frac{1}{2} \norm{x} \norm{\frac{x}{\norm{x}} -	\frac{y}{\norm{y}}} 
+	& = \frac{1}{2}\norm{x - \frac{\norm{x}}{\norm{y}}y} \\
+	& \leq \frac{1}{2}\norm{x - y} + \frac{1}{2}\norm{y - \frac{\norm{x}}{\norm{y}}y} \\
+	& = \frac{1}{2}\norm{x - y} + \frac{1}{2}\abs{1 - \frac{\norm{x}}{\norm{y}}}\norm{y} \\
+	& = \frac{1}{2}\norm{x - y} + \frac{1}{2}\abs{\norm{y} - \norm{x}} \\
+	& \leq \norm{x - y}
+\end{align*}
+fent servir la desigualtat triangular inversa a l'últim pas.
+
+La segona desigualtat és immediata observant que \( \norm{x - y} = \norm{y - x} \). Així
+doncs tenim el resultat que volíem.
+
+\parbreak
+
+Per últim hem de veure que
+\begin{equation*}
+	\norm{x - y} \geq \frac{1}{4} (\norm{x} + \norm{y}) \norm{\frac{x}{\norm{x}} -
+	\frac{y}{\norm{y}}}.
+\end{equation*}
+Això és una conseqüència immediata de la desigualtat anterior. En efecte, tenim
+\begin{equation*}
+	\norm{x} + \norm{y} \leq 2 \max\set{\norm{x} + \norm{y}}
+\end{equation*}
+per tant
+\begin{align*}
+	\norm{x - y} & \geq \frac{1}{2} \max\set{\norm{x}, \norm{y}} \norm{\frac{x}{\norm{x}} -
+	\frac{y}{\norm{y}}} \\
+							 & \geq \frac{1}{4} (\norm{x} + \norm{y}) \norm{\frac{x}{\norm{x}} -
+	\frac{y}{\norm{y}}}.
+\end{align*}
+
+\section*{Problema 3}
+Volem veure que l'espai
+\begin{equation*}
+	\class{s}{[a,b]} \defeq \set{f \in \cont{[a,b]} \mid p_s(f) < \infty}
+\end{equation*}
+on
+\begin{equation*}
+	p_s(f) \defeq \sup_{x \neq y} \frac{\abs{f(x) - f(y)}}{\abs{x - y}^s}
+\end{equation*}
+és un espai de Banach amb la norma
+\begin{equation*}
+	\norm{f}_s \defeq \abs{f(a)} + p_s(f).
+\end{equation*}
+
+És clar que \( \norm{f}_s \geq 0 \) per tot \( f \in \class{s}{[a,b]} \). Comprovem que \(
+\norm{\cdot}_s \) satisfà els tres requeriments per a ser una norma.
+
+En primer lloc, hem de veure que si \( \norm{f} = 0 \) aleshores \( f = 0 \). Si \(
+\norm{f} = 0 \) aleshores \( \abs{f(a)} = p_s(f) = 0 \). Com que \( p_s(f) = 0 \) es té,
+per tot \( x \in (a,b] \) que
+\begin{equation*}
+	\frac{\abs{f(x) - f(a)}}{\abs{x - a}^s} \leq p_s(f) = 0
+\end{equation*}
+per tant
+\begin{equation*}
+	\frac{\abs{f(x) - f(a)}}{\abs{x - a}^s} = 0.
+\end{equation*}
+Això vol dir que \( \abs{f(x) - f(a)} = 0 \), perquè \( x \neq a \) i per tant \( \abs{x -
+a} \neq 0 \). Per tant, per tot \( x \in (a,b] \) es té \( f(x) = f(a) \). I com que \(
+\abs{f(a)} \) concloem \( f(x) = f(a) = 0 \), és a dir, \( f = 0 \).
+
+Veiem ara que la norma \( \norm{\cdot}_s \) satisfà la desigualtat triangular. Donades \(
+f, g \in \class{s}{[a,b]} \) tenim
+\begin{align*}
+	p_s(f + g) & = \sup_{x \neq y} \frac{\abs{(f+g)(x) - (f+g)(y)}}{\abs{x-y}^s} \\
+						 & = \sup_{x \neq y} \frac{\abs{f(x) - f(y) + g(x) - g(y)}}{\abs{x-y}^s} \\
+						 & \leq \sup_{x \neq y} \frac{\abs{f(x) - f(y)} + \abs{g(x) - g(y)}}{\abs{x-y}^s} \\
+						 & \leq \sup_{x \neq y} \frac{\abs{f(x) - f(y)}}{\abs{x-y}^s} + \sup_{x \neq
+					 y} \frac{\abs{g(x) - g(y)}}{\abs{x-y}} \\
+					 	 & = p_s(f) + p_s(g).
+\end{align*}
+Això de fet demostra que \( \class{s}{[a,b]} \) és un subespai vectorial de \(
+\cont{[a,b]} \), afegint que \( p_s(\lambda f) = \abs{\lambda}p_s(f) \). Tenim aleshores
+\begin{equation*}
+	\norm{f+g}_s = \abs{(f+g)(a)} + p_s(f+g) \leq \abs{f(a)} + \abs{g(a)} + p_s(f) + p_s(g)
+	= \norm{f}_s + \norm{g}_s
+\end{equation*}
+
+Finalment, per tot \( \lambda \in \R \) tenim
+\begin{equation*}
+	p_s(\lambda f) = \sup_{x \neq y} \frac{\abs{\lambda f(x) - \lambda f(y)}}{\abs{x - y}^s}
+	= \abs{\lambda}\sup_{x \neq y} \frac{\abs{ f(x) -  f(y)}}{\abs{x - y}^s} =
+	\abs{\lambda}p_s(f).
+\end{equation*}
+Per tant és clar que \( \norm{\lambda f} = \abs{\lambda}\norm{f} \).
+
+Fins aquí hem vist que \( \class{s}{[a,b]} \) amb la norma \( \norm{\cdot}_s \)	és un
+espai normat. Per veure que és de banach hem de demostrar que és complet, és a dir, que
+tota successió de Cauchy a \( \class{s}{[a,b]} \) és convergent. Sigui \( (f_n) \), doncs,
+una successió de Cauchy a \( \class{s}{[a,b]} \). Per definició, per qualsevol \( \epsilon
+> 0 \) hi ha \( N \in \N \) tal que si \( n, m \geq N \) es té
+\begin{equation*}
+	\norm{f_n - f_m}_s < \epsilon.
+\end{equation*}
+Això vol dir que \( p_s(f_n - f_m) < \epsilon \) i \( \abs{(f_n - f_m)(a)} < \epsilon \).
+Amb això podem demostrar que a tot \( x \in (a,b] \), la successió \( f_n(x) \) és de
+Cauchy i per tant convergent:
+\begin{align*}
+	\abs{f_n(x) - f_m(x)} & \leq \abs{f_n(x) - f_m(x) - f_n(a) + f_m(a)} + \abs{f_n(a) -
+	f_m(a)} \\
+												& = \abs{(f_n - f_m)(x) - (f_n - f_m)(a)} + \abs{(f_n - f_m)(a)}
+												\\
+												& \leq p_s(f_n - f_m)\abs{x - a}^s + \abs{(f_n - f_m)(a)} \\
+												& \leq \epsilon \abs{b - a}^s + \epsilon.
+\end{align*}
+I com que \( \abs{f_n(a) - f_m(a)} < \epsilon \) per a \( n \) i \( m \) prou grans, \(
+f_n(a) \) és de Cauchy i per tant també convergent. La successió \( f_n \), doncs, té
+límit puntual a \( [a,b] \), diguem-li \( f \). 
+
+Per a demostrar que \( \class{s}{[a,b]} \) és complet hem de comprovar que \( f \in
+\class{s}{[a,b]} \) i que \( f_n \to f \) en la norma \( \norm{\cdot}_s \). Com que \(
+(f_n) \) és de Cauchy es té, per tot \( x, y \in [a,b] \) amb \( x \neq y \) i \( m,n \)
+prou grans
+\begin{equation*}
+	\frac{\abs{(f_m - f_n)(x) - (f_m - f_n)(y)}}{\abs{x - y}^s} < \epsilon.
+\end{equation*}
+Prenent el límit puntual quan \( m \to \infty \) tenim, per tot \( x,y \in [a,b] \) amb \(
+x \neq y \)
+\begin{equation*}
+	\frac{\abs{(f - f_n)(x) - (f - f_n)(y)}}{\abs{x - y}^s} < \epsilon,
+\end{equation*}
+per tant \( p_s(f - f_n) < \epsilon \). Això vol dir que \( f - f_n \in \class{s}{[a,b]}
+\). En efecte, si per a una funció \( g \) definida a \( [a,b] \) es té \( p_s(g) \)
+aleshores \( g \) és \( s \)-Hölder a \( [a,b] \) i en particular contínua. Per tant, com
+que \( f_n \in \class{s}{[a,b]} \) per tot \( n \), tenim
+\begin{equation*}
+	f = f - f_n + f_n \in \class{s}{[a,b]}.
+\end{equation*}
+
+Amb el que acabem de veure és immediat comprovar que \( f_n \to f \) en la norma \(
+\norm{\cdot}_s \). D'una banda, com que \( f \) és el límit puntual de les \( f_n \), és
+clar que 
+\begin{equation*}
+	\abs{(f - f_n)(a)} \to 0
+\end{equation*}
+quan \( n \to \infty \). D'altra banda, pel que hem vist prèviament, per a \( n \) prou
+gran \( p_s(f - f_n) < \epsilon \). És a dir, \( p_s(f - f_n) \to 0 \) quan \( n \to
+\infty \). I per tant
+\begin{equation*}
+	\norm{f - f_n}_s \xrightarrow{n \to \infty} 0
+\end{equation*}
+com volíem.
+
+
+\end{document}
