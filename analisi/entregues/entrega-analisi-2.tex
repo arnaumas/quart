@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 
-\input{prelude-entrega.tex}
+\input{preamble-entrega.tex}
 \input{commands-analisi.tex}
 
 % Pagestyles
@@ -23,6 +23,117 @@
 
 \begin{document}
 \maketitle
+\section*{Problema 1}
+Sigui \( f(x) = x^{-1/2}\chi_{(0,1)}(x) \). Donada una enumeració de \( \Q \), \(
+\set{r_n}_{n = 1}^\infty \) definim
+\begin{equation*}
+	g(x) = \sum_{n = 1}^{\infty} \frac{1}{2^n} f(x - r_n).
+\end{equation*}
+Si definim 
+\begin{equation*}
+	f_n(x) \defeq \frac{1}{2^n}f(x - r_n) = \frac{\chi_{(0,1)}(x - r_n)}{2^n\sqrt{x - r_n}}
+	= \frac{\chi_{(r_n, r_n + 1)}(x)}{2^n \sqrt{x - r_n}}
+\end{equation*}
+aleshores les \( f_n \) són totes positives i mesurables. Aleshores, aplicant el Teorema
+de Beppo-Levi tenim
+\begin{equation*}
+	\int_\R \abs{g} = \int_\R g = \int_\R \sum_{n = 1}^{\infty} f_n = \sum_{n = 1}^{\infty} \int f_n.  
+\end{equation*}
+Calculem, doncs, la integral de \( f_n \). \( f_n \) és no nu\l.l si i només si \( 0 < x -
+r_n < 1 \), és a dir, si i només si \( x \in (r_n, r_n + 1) \), per tant
+\begin{align*}
+	\int_\R f_n & = \int_{(r_n, r_n + 1)} f_n = \frac{1}{2^n}\int_{(r_n, r_n + 1)}
+	\frac{1}{\sqrt{x - r_n}} \d{x} \\
+							& = \frac{1}{2^n} \int_{(0,1)} \frac{1}{\sqrt{x}} \d{x} = \frac{2}{2^n} =
+							\frac{1}{2^{n-1}}.
+\end{align*}
+I aleshores
+\begin{equation*}
+	\int_\R \abs{g} = \sum_{n = 1}^{\infty} \frac{1}{2^{n-1}} = 2 < \infty
+\end{equation*}
+per tant \( g \in L^1(\R) \).
+
+Per a demostrar que \( g \) és finita\( \gpta{x \in \R} \) podem fer servir la desigualtat de Chebyshev, que
+ens dóna, per tot \( N \in \N \)
+\begin{equation*}
+	m(g^{-1}([N,\infty])) \leq \frac{1}{N} \int_\R g = \frac{2}{N}.
+\end{equation*}
+El conjunt de punts on \( g(x) = \infty \) és la intersecció
+\begin{equation*}
+	\bigcap_{N = 1}^\infty g^{-1}([N, \infty])	
+\end{equation*}
+perquè si \( g(x) > \infty \) aleshores per tot \( N \in \N \), \( g(x) > N \). Com que \(
+g^{-1}([N+1, \infty]) \subseteq g^{-1}([N, \infty]) \) i \( m(g^{-1}([1,\infty])) \leq 2 \)
+es té, per continuïtat de la mesura de Lebesgue
+\begin{equation*}
+	\leb{\bigcap_{N = 1}^\infty g^{-1}([N, \infty])} = \lim_{N \to \infty} \leb{g^{-1}([N,
+	\infty])} \leq \lim_{N \to \infty} \frac{2}{N} < 0.
+\end{equation*}
+Per tant, el conjunt de punts on \( g \) no és finita és nul, és a dir \( g(x) < \infty \gpta{x
+\in \R} \).
+
+\parbreak
+
+A continuació demostrem que \( g \) no està fitada en cap interval d'interior no buit.
+Sigui \( I \subseteq \R \) un interval amb \( \mathring{I} \neq \emptyset \). Per la
+densitat de \( \Q \) dins de \( \R \) hi ha un racional dins de \( \mathring{I} \), \(
+r_N \). I per tant, com que \( \mathring{I} \) conté una bola centrada en \( r_N \), \(
+(r_N - \alpha, r_N + \alpha) \), i sense pèrdua de generalitat podem suposar \( \alpha <
+1 \). Sigui \( x \in (r_N, r_N + \alpha \). Podem posar \( x = r_N + \epsilon \) amb \(
+\epsilon \in (0,\alpha) \). Aleshores 
+\begin{equation*}
+	g(x) = \sum_{n = 1}^{\infty} f_n(x) \geq f_N(x) = \frac{\chi_{(0,1)}(x - r_N)}{2^N
+	\sqrt{x - r_N}} = \frac{1}{2^N \sqrt{\epsilon}}.
+\end{equation*}
+El que ens diu això és que per tot \( x \in (r_N, r_N + \epsilon) \) es té
+\begin{equation*}
+	g(x) \geq \frac{1}{2^N \sqrt{\epsilon}},
+\end{equation*}
+per tant \( g \) no pot estar fitada en un entorn de \( r_N \) perquè sempre hi ha punts
+prop de \( r_N \) que superen qualsevol fita. En particular \( g \) no està fitada a \( I
+\), com volíem veure.
+
+Com a conseqüència, \( g \) no pot ser contínua en un punt on és finita ja que no està
+fitada en cap interval que contingui aquest punt. Com que el conjunt de punts on \( g \)
+no pren valors finits és nul, concloem que \( g \) és discontínua gairebé a tot punt de \(
+\R \).
+
+\parbreak
+
+Sabem que\( \gpta{x \in \R} \) \( g(x) < \infty \), per tant \( g(x)^2 < \infty \gpta{x
+\in \R} \). 
+
+Volem veure que \( g^2 \) no és integrable en cap interval \( I \) amb interior no buit. Tenim
+\begin{equation*}
+	\int_I \abs{g^2} = \int_I g^2 = \int_I \left(\sum_{n = 1}^{\infty} f_n \right)^2 \geq
+	\int_I \sum_{n = 1}^{\infty} f_n^2 = \sum_{n = 1}^{\infty} \int_I f_n^2 
+\end{equation*}
+fent servir Beppo-Levi a l'última igualtat. Calculem, doncs, la integral de \( f_n^2 \) a
+un interval \( I \). Com que
+\begin{equation*}
+	f_n(x)^2 = \left(\frac{\chi_{(r_n, r_n + 1)}(x)}{2^n \sqrt{x - r_n}}\right)^2 =
+	\frac{\chi_{(r_n, r_n + 1)}(x)}{2^{2n} (x - r_n)}
+\end{equation*}
+es té
+\begin{equation*}
+	\int_I f_n^2 = \int_I \frac{\chi_{(r_n, r_n + 1)}(x)}{2^{2n} (x - r_n)} \d{x} = \int_{I
+	\cap (r_n, r_n + 1)} \frac{1}{2^{2n} (x - r_n)} \d{x}.
+\end{equation*}
+Per a molts \( n \) aquesta integral serà nu\l.la perquè \( I \) i \( (r_n, r_n + 1) \)
+seran disjunts. Ara bé, per la densitat de \( \Q \) dins de \( \R \), sempre trobarem \( N
+\in \N \) tal que \( r_N \in \mathring{I} \). Aleshores \( I \cap (r_N, r_N + 1) = (r_N,
+\alpha) \) amb \( \alpha > r_N \), i per tant
+\begin{equation*}
+	\int_I f_N^2 = \int_{(r_N, \alpha)} \frac{1}{2^{2N} (x - r_N)} \d{x} = \frac{1}{2^{2N}}
+	\int_{(0, \alpha - r_N)} \frac{1}{x} \d{x} = \infty.
+\end{equation*}
+Amb això ens és suficient per a provar que la integral de \( g^2 \) sobre \( I \)
+divergeix:
+\begin{equation*}
+	\int_I g^2 \geq \sum_{n = 1}^{\infty} \int_I f_n^2 \geq \int_I f^2_N = \infty. 
+\end{equation*}
+Per tant \( g^2 \notin L^1(I) \) per a qualsevol interval \( I \) de \( \R \).
+
 
 \section*{Problema 2}
 Sigui \( (E, \norm{\cdot}) \) un espai normat. Volem veure que per tot \( x,y \in E \) es té
@@ -92,7 +203,7 @@ Per últim hem de veure que
 \end{equation*}
 Això és una conseqüència immediata de la desigualtat anterior. En efecte, tenim
 \begin{equation*}
-	\norm{x} + \norm{y} \leq 2 \max\set{\norm{x} + \norm{y}}
+	\norm{x} + \norm{y} \leq 2 \max\set{\norm{x}, \norm{y}}
 \end{equation*}
 per tant
 \begin{align*}
