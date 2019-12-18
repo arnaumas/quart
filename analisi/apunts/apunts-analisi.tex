@@ -817,7 +817,7 @@ commutative.
 \end{proof}
 
 \part{Banach Spaces}
-\chapter{Banach Spaces}
+\chapter{Definition and Examples}
 The theory of Banach and Hilbert spaces generalises the basic analytical and geometric
 ideas and tools of Euclidean space to a more general class of spaces. By Euclidean space
 we mean \( \R^n \) with the topology that is induced by the standard inner product, i.e.
@@ -910,26 +910,1068 @@ x\) then for any \( \epsilon > 0 \) there is \( N \in \N \) such that if \( n, m
 \begin{equation*}
 	\norm{x_n - x_m} \leq \norm{x_n - x} + \norm{x_m - x} < 2\epsilon.
 \end{equation*}
-The converse if, of course, not true in general. The most famous offender is of course the
+The converse if, of course, not true in general. The most famous offender is the
 set of real numbers. If there exists a Cauchy sequence that fails to be convergent it
 means that our space has a sort of hole. Indeed, the terms of a Cauchy sequence all get
 arbitrarily close to each other so if they fail to converge it means they are circling a
 point which should be there but isn't.  
 
+A useful fact to keep in mind is that the norms of the terms of a Cauchy sequence are
+convergent.
+\begin{proposition}\label{prop:norms of Cauchy sequence are convergent}
+	If \( x_n \) is a Cauchy sequence in a normed space \( E \), then the sequence \(
+	\norm{x_n}  \) is convergent in \( \R \).
+\end{proposition}
+\begin{proof}
+	This follows from the Cauchy condition and the reverse triangle inequality. Indeed, for
+	sufficiently large \( n \) and \( m \) we have
+	\begin{equation*}
+		\norm{x_n - x_m} < \epsilon.
+	\end{equation*}
+	Then
+	\begin{equation*}
+		\abs{\norm{x_n} - \norm{x_m}} \leq \norm{x_n - x_m} < \epsilon
+	\end{equation*}
+	thus the real sequence \( \norm{x_n} \) is Cauchy and thus convergent. 
+\end{proof}
+
 A metric space in which every Cauchy sequence is convergent is called \emph{complete}, and
 a complete normed space is known as \emph{Banach space}.
 
 \section{Examples}
-\begin{example}[Continuous functions on a compact set]
-	Let \( K \subseteq \R^n \) be a compact set and consider \( \cont{K} \), the set of
-	continuous functions on \( K \). This a vector space with pointwise addition and scalar
-	multiplication. We define the norm 
+The examples of Banach spaces come in various different flavours. In this section we will
+discuss three of these: spaces of functions on a compact domain, sequence spaces and
+Lebesgue spaces.
+\subsection{Function spaces}
+Consider a compact set, \( K \subseteq \R^m \). Then we can consider various sets of
+functions defined on \( K \). We will write, as is standard, \( B(K) \) for the set of all
+bounded functions on \( K \), \( \cont{K} \) for the set of all continuous functions on \(
+K \) and \( \class{n}{K} \) for the set of \( n \) times differentiable functions with
+continuous \( n \)-th partial	derivatives on \( K \). All of these sets are actually
+vector spaces with pointwise addition and scalar multiplication. And in fact we have the
+chain of inclusions
+\begin{equation*}
+	B(K) \supseteq \cont{K} \supseteq \class{1}{K} \supseteq \cdots \supseteq \class{n}{K}
+	\supseteq \cdots.
+\end{equation*}
+All of these are standard results from elementary real analysis. On \( B(K) \) we can
+define the norm
+\begin{equation*}
+	\norm{f}_\infty \defeq \sup_{x \in K} \abs{f(x)}.
+\end{equation*}
+Which we will refer to as the \emph{uniform norm}. This is indeed a norm ---check it!---, which
+makes \( B(K) \) into a normed space.  Restricting it to each of the \( \class{n}{K} \)
+also makes them into normed spaces.  Convergence with respect to this norm is known as
+\emph{uniform convergence}.
+
+% TODO: Provide picture to give intuition for the balls in this norm
+
+With the uniform norm, however, only	\( B(K) \) and \( C^0(K) \) are complete, therefore Banach
+spaces. Let's show it. Let \( (f_n) \) be a Cauchy sequence of bounded functions on \( K
+\), i.e. for all \( \epsilon > 0 \) there is \( N \in \N \) such that if \( n, m > N \)
+then
+\begin{equation}\label{eq:uniformly cauchy}
+	\norm{f_n - f_m} = \sup_{x \in K} \abs{f_n(x) - f_m(x)} < \epsilon.
+\end{equation}
+One often says that the sequence is \emph{uniformly Cauchy}, as opposed to pointwise
+Cauchy, which would mean that the sequence \( f_n(x) \) is Cauchy at every point \( x \in
+K\). \Cref{eq:uniformly cauchy} implies that the sequence is pointwise Cauchy. Indeed, at
+any \( x \in K \) we have
+\begin{equation*}
+	\abs{f_n(x) - f_m(x)} < \norm{f_n - f_m}_\infty < \epsilon
+\end{equation*}
+for sufficiently large \( n \) and \( m \). In particular, this means the sequence of real
+numbers \( (f_n(x)) \) is convergent since it is Cauchy. This gives us a candidate for the
+limit of the \( f_n \) by defining
+\begin{align*}
+	f \colon K & \longrightarrow \R \\
+	x & \longmapsto \lim_{n \to \infty} f_n(x).\footnote{There really is no magic here,
+		since it is easy to show that if a sequence is uniformly convergent then it is also
+	pointwise convergent and both limits must coincide.}
+\end{align*}
+
+If \( f \) is indeed the uniform limit of the \( f_n \) then we must show that \( f \) is
+bounded and that \( \norm{f - f_n}_\infty \xrightarrow{n \to \infty} \infty \). Let's
+first show that \( f \) is bounded, so \( f \in B(K) \). Using \Cref{prop:norms of Cauchy
+sequence are convergent} we find that the sequence \( \norm{f_n}_\infty \) is convergent. It then follows that for all \( x \in K \)
+\begin{equation*}
+	\abs{f(x)} = \lim_{n \to \infty} \abs{f_n(x)} \leq \lim_{n \to \infty}
+	\norm{f_n}_\infty
+\end{equation*}
+which means \( f \) is bounded, as we wanted.
+
+Let's now show that the convergence is uniform. At every \( x \in K \) we have, for
+sufficiently large \( n \) and \( m \)
+\begin{equation*}
+	\abs{f_n(x) - f_m(x)} < \epsilon
+\end{equation*}
+which means that when we take the limit \( m \to \infty \) we obtain
+\begin{equation*}
+	\abs{f_n(x) - f(x)} \leq \epsilon
+\end{equation*}
+thus \( \norm{f_n - f} \leq \epsilon \) for a sufficiently large \( n \), which shows the
+convergence is indeed uniform.
+
+This shows \( B(K) \) is complete. To prove that \( \cont{K} \) is complete we must show
+that if the \( f_n \) are contiuous then their uniform limit is also continuous, not just
+bounded. This is fairly straightforward once we know the convergence of the \( f_n \) is
+uniform. There is \( N \in \N \) beyond which \( \norm{f - f_n}_\infty < \epsilon \), and
+since the \( f_n \) are continuous, if \( x \) and \( y \) are sufficiently close then \(
+\abs{f_n(x) - f_n(y)} < \epsilon \). Putting this all together we find
+\begin{align*}
+	\abs{f(x) - f(y)} & \leq \abs{f(x) - f_n(x)} + \abs{f_n(x) - f_n(y)} + \abs{f_n(y) -
+	f(y)} \\
+										& \leq \norm{f - f_n}_\epsilon + \abs{f_n(x) - f_n(y)} + \norm{f_n -
+										f}_\infty < 3\epsilon
+\end{align*}
+so \( f \) is also continuous.
+
+As we mentioned before, \( \class{n}{K} \) is not complete with respect to the uniform
+norm for \( n \geq 1 \). For now let's take \( K \) to be a closed interval, say \( [a,b]
+\). There exist sequences of differentiable functions whose limit is not differentiable,
+and furthermore, there are sequences of differentiable functions whose limit is also
+differentiable but its derivative need not be the limit of the derivatives of the
+functions of the sequence. This then shows that \( \class{1}{[a,b]} \). To ensure that
+derivatives interact well with limits one needs to require not only uniform convergence of
+the functions but also uniform convergence of the derivatives, which then ensures that the
+derivative of the limit is the limit of the derivatives. This sort of convergence is
+captured by the so-called \( C^1 \) norm
+\begin{equation*}
+	\norm{f}_{C^1} \defeq \norm{f}_\infty + \norm{f'}_\infty
+\end{equation*}
+which then makes \( \class{1}{[a,b]} \) into a Banach space. More generally, the \( C^n \)
+norm
+\begin{equation*}
+	\norm{f}_{C^n} \defeq \sum_{k = 0}^{n} \norm{f^{(k)}}_\infty 
+\end{equation*}
+makes \( \class{n}{[a,b]} \) into a normed space. The appropriate generalisation to an \(
+m \)-dimensional fomain must take into account all possible partial derivatives.
+
+\subsection{Sequence Spaces}
+Another common family of Banach spaces are the so-called sequence spaces. They are all
+subsets of the space of real\footnote{All of these examples also work if one replaces real
+with complex} sequences, \( \R^\N \). This is a vector space with pointwise addition and
+scalar multiplication. There are various subspaces of \( \R^\N \) which can be made into
+Banach spaces with the appropriate norm. First, we have the space \( \ell^\infty \) of
+bounded sequences with the uniform norm defined as
+\begin{equation*}
+	\norm{x}_\infty \defeq \sup_{n \in \N} \abs{x(n)}. \footnote{Since we will be dealing with
+		sequences of sequences we adopt the convention to write \( x(n) \) for the \( n \)-th
+		term of the sequence \( x \), as opposed to the more standard \( x_n \), and reserve the
+	subscript to refer to the terms of a sequence in \( \R^\N \).}
+\end{equation*}
+The proof that this is indeed a Banach space is essentially identical to the proof that \(
+B(K) \) is a Banach space, so I will spare you the details. The main steps are to show
+that, given a Cauchy sequence \( x_n \) in \( \ell^\infty \), the sequence of images \(
+x_n(m) \) is Cauchy, which gives a pointwise limit, which is then shown to be bounded and
+finally one shows that the sequence \( x_n \) converges to its pointwise limit uniformly. 
+
+For \( p > 1 \) one talks about the \( \ell^p \) spaces, which are the spaces of
+sequences \( x \) such that
+\begin{equation*}
+	\sum_{n = 1}^{\infty} \abs{x(n)}^p < \infty 
+\end{equation*}
+each with the so-called \( p \)-norm
+\begin{equation*}
+	\norm{x}_p \defeq \left(\sum_{n = 1}^{\infty} \abs{x(n)}\right)^{\frac{1}{p}}.
+\end{equation*}
+Showing that the \( p \)-norms satisfy the triangle inequality is not trivial ---at least
+not for \( p > 1 \)---. We will see that in fact they do when we prove Minkowski's
+inequality. 
+
+For the sake of illustration, I will show the completeness of \( \ell^1 \). This will be
+standard fare. To begin, we have a Cauchy sequence in	\( \ell^1 \), \( x_n \). The Cauchy condition
+with respect to the 1-norm means that for sufficiently large \( n \) and \( m \) one has
+\begin{equation*}
+	\norm{x_n - x_m}_1 = \sum_{k = 1}^{\infty} \abs{x_n(k) - x_m(k)} < \epsilon. 
+\end{equation*}
+Since all of the terms of the series are postive this means, in particular, that for any
+\( k \in \N \)
+\begin{equation*}
+	\abs{x_n(k) - x_m(k)} < \norm{x_n - x_m} < \epsilon
+\end{equation*}
+meaning the sequence \( x_n(k) \) is Cauchy for any \( k \) and therefore convergent. We
+then define the pointwise limit of the \( x_n \) as 
+\begin{equation*}
+	x(k) \defeq \lim_{n \to \infty} x_n(k).
+\end{equation*}
+We need to show that \( x \in \ell^1 \) and that \( x_n \to x \) uniformly.
+
+To show that \( x \in \ell^1 \) we will make use of \Cref{prop:norms of Cauchy sequence
+are convergent}, which gives us that the sequence \( \norm{x_n}_1 \) is convergent and in
+particular bounded. That is, there is \( M \in \R \) such that \( \norm{x_n}_1 \leq M \)
+for all \( n \in \N \). Let's write this out: for all \( n \in \N \) we have
+\begin{equation} \label{eq:partial sums are bounded}
+	\sum_{k = 1}^{\infty} \abs{x_n(k)} < M. \tag{\( \ast \)} 
+\end{equation}
+Because every term in the series is positive we can cut it off wherever we want, meaning
+for any \( K \in \N \) we have the bound
+\begin{equation*}
+	\sum_{k = 1}^{K} \abs{x_n(k)} < M. 
+\end{equation*}
+Now, by definition, the norm of \( x \) is
+\begin{equation*}
+	\norm{x}_1 = \sum_{k = 1}^{\infty} \abs{x(k)} = \sum_{k = 1}^{\infty} \abs{\lim_{n \to
+	\infty} x_n(k)} = \sum_{k = 1}^{\infty} \lim_{n \to \infty} \abs{x_n(k)}.
+\end{equation*}
+Because all of the terms of this series are positive, to show it converges it suffices to
+show that its partial sums are bounded, but this follows immediately from the bound in
+\eqref{eq:partial sums are bounded}:
+\begin{equation*}
+	\sum_{k = 1}^{K} \lim_{n \to \infty} \abs{x_n(k)} = \lim_{n \to \infty} \sum_{k =
+	1}^{K} \abs{x_n(k)} < M.
+\end{equation*}
+Thus \( \norm{x}_1 < \infty \) and \( x \in \ell^1 \).
+
+\section{Inequalities}
+
+\begin{definition}[Conjugate exponents]
+	We say two numbers \( p, q \in (1, \infty) \) are \emph{conjugate exponents} if
 	\begin{equation*}
-		\normi{f} \defeq \max_{x \in K} \abs{f(x)}.
+		\frac{1}{p} + \frac{1}{q} = 1.
 	\end{equation*}
-	This exists since \( \abs{f} \) is a continuous function on a compact set, thus it
-	achieves a maximum value. 
-\end{example}
+	By convention, the conjugate exponent of 1 is taken to be \( \infty \), and vice versa.
+\end{definition}
+Note that 2 is its own conjugate exponent.
+
+\begin{theorem}[Young's Inequality]\label{theo:young}
+	If \( p \) and \( q \) are conjugate exponents then the inequality
+	\begin{equation*}
+		ab \leq \frac{a^p}{p} + \frac{b^q}{q}
+	\end{equation*}
+	holds for any two \( a, b \in \R \).
+\end{theorem}
+\begin{proof}
+	This follows from the fact that the logarithm is a concave function, for
+	\begin{equation*}
+		\log\left(\frac{a^p}{p} + \frac{b^q}{q}\right) \geq \frac{1}{p} \log\left(a^p\right) +
+		\frac{1}{q}\log\left(b^q\right) = \log(a) + \log(b) = \log(ab).
+	\end{equation*}
+	And since the logarithm is increasing,
+	\begin{equation*}
+		ab \leq \frac{a^p}{p} + \frac{b^q}{q}
+	\end{equation*}
+	as we wanted.
+\end{proof}
+
+\begin{theorem}[Hölder's Inequality]\label{theo:holder}
+	For any two measurable functions, \( f \) and \( g \), on a measurable domain \( E
+	\subseteq \R \), and conjugate exponents \( p, q \in (1,\infty) \) one has the
+	inequality
+	\begin{equation*}
+		\int_E \abs{fg} \leq \left(\int_E \abs{f}^p\right)^{\frac{1}{p}} \left(\int_E \abs{g}^q\right)^{\frac{1}{q}}
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	If \( \int_E \abs{f}^p \) is infinite then the inequality is trivially true, as it is if
+	\( \int_E \abs{g}^q \) is infinite. On the other hand, if either of the integrals on the
+	right is zero then either \( f \) or \( g \) is zero almost everywhere, which means the
+	integral on the left is zero and the inequality is also true.  We can then asssume that
+	both integrals are finite and strictly positive. 
+	
+	Let
+	\begin{equation*}
+		\tilde{f} \defeq \frac{f}{\left(\int_E \abs{f}^p\right)^\frac{1}{p}}
+	\end{equation*}
+	and
+	\begin{equation*}
+		\tilde{g} \defeq \frac{g}{\left(\int_E \abs{g}^q\right)^{\frac{1}{q}}}.
+	\end{equation*}
+	It is clear that both \( \abs{\tilde{f}}^p \) and \( \abs{\tilde{g}}^q \) integrate to 1
+	over \( E \). Using \nameref{theo:young} we have
+	\begin{equation*}
+		\abs{\tilde{f}} \abs{\tilde{g}} \leq \frac{1}{p} \abs{\tilde{f}}^p + \frac{1}{q}
+		\abs{\tilde{g}}^q.
+	\end{equation*}
+	From this follows, integrating over \( E \),
+	\begin{equation*}
+		\int_E \abs{\tilde{f} \tilde{g}} \leq \frac{1}{p} \int_E \abs{\tilde{f}}^p +
+		\frac{1}{q} \int_E \abs{\tilde{g}}^q \leq \frac{1}{p} + \frac{1}{q} = 1.
+	\end{equation*}
+	And this implies
+	\begin{equation*}
+		\int_E \abs{fg} \leq \left(\int_E \abs{f}^p\right)^\frac{1}{p} \left(\int_E
+		\abs{g}^q\right)^\frac{1}{q}
+	\end{equation*}
+
+
+	
+	
+\end{proof}
+\begin{corollary}[Hölder's Inequality for \( L^p \) spaces]
+	Given \( f \in L^p(E) \) and \( g \in L^q(E) \) where \( p \) and \( q \) are conjugate
+	exponents we have that \( fg \in L^1(E) \) and
+	\begin{equation*}
+		\norm{fg}_1 \leq \norm{f}_p \norm{g}_q.
+	\end{equation*}
+\end{corollary}	
+\begin{proof}
+	The case where \( p, q \in (1,\infty) \) is \nameref{theo:holder}. And for the case
+	where \( p = 1 \) and \( q = \infty \) we have
+	\begin{equation*}
+		\norm{fg}_1 = \int_E \abs{fg} \leq \int_E \abs{f} \norm{g}_\infty = \norm{g}_\infty
+		\int_E \abs{f} = \norm{f}_1 \norm{g}_\infty.
+	\end{equation*}
+\end{proof}
+
+\chapter{Bounded Operators}
+\section{Bounded Operators}
+We now ask what the appropriate structure preserving maps are between Banach spaces and
+more generally normed spaces. They should certainly be linear, since normed spaces are
+vector spaces. They also are, of course, normed, so the maps we will be interested in
+should somehow preserve that. We could simply ask that they be continuous or we could be
+stricter and ask that they preserve the norm. Or we could settle somewhere in-between and
+ask that they be nondecreasing in norm, meaning \( \norm{Tx} \leq \norm{x} \). However,
+the agreed upon notion in the field is that of boundedness.
+
+\begin{definition}[Bounded operator]
+	Let \( E \) and \( F \) be normed spaces. We say a map \( T \colon E \to F \) is
+	\emph{bounded} if there exists \( M > 0 \), sometimes called a bounding constant, such
+	that for all \( x \in E \)
+	\begin{equation*}
+		\norm{Tx} \leq M \norm{x}\footnote{Strictly speaking, since \( E \) and \( F \) both
+			come with their own norms we should somehow distinguish between them. In most cases,
+			however, it is clear which norm we are talking about from the context ---for
+			instance, \( \norm{Tx} \) must refer to the norm of \( F \) since \( Tx \in F \)---
+			so we will mostly dispense with any distinction unless required.}.
+	\end{equation*}
+	
+	We call a bounded linear map a \emph{bounded operator}.
+\end{definition}
+When dealing with linear maps in the context of normed spaces it is customary to ommit
+parentheses when writing the image of an element ny a map, that is, we will generally
+write \( Tx \) instead of \( T(x) \).
+
+\parbreak
+
+As it turns out, linear maps are bounded if and only if they are continuous, so really we
+are settling for the weaker class of structure preserving maps: continuous and linear. 
+{\def\currentprefix{prop:characterisation of bounded operators}
+\begin{proposition}
+	Let \( E \) and \( F \) be normed spaces and \( T \colon E \to F \) a linear map between
+	the two. Then the following are all equivalent:
+	\begin{points}
+	\item \locallabel{i} \( T \) is bounded.
+	\item \locallabel{ii} \( T \) is continuous. 
+	\item \locallabel{iii} \( T \) is continuous at 0.
+	\item \locallabel{iv} The image of the unit ball of \( E \) by \( T \), \( T(B(0,1)) \) is bounded. 
+	\item \locallabel{v} \( T \) sends bounded sets to bounded sets.
+	\end{points}
+\end{proposition}
+\begin{proof}
+	Let's first show \localref{ii}\( \iff \)\localref{iii}. Obviously, if \( T \) is
+	continuous then it is continuous at 0. Suppose, then, \( T \) is continuous at 0. Let \(
+	x_n \) be any sequence in	\( E \) that converges to \( x \). Then \( x_n - x \) converges
+	to 0. Because \( T \) is continuous at 0, \( T(x_n - x) \to T(0) \). Because \( T \) is
+	linear, \( T(0) = 0 \), and again because of linearity, \( T(x_n - x) = T(x_n) - T(x)
+	\). Thus \( T(x_n) \) converges to \( T(x) \), which implies \( T \) is continuous at \(
+	x \in E \), therefore continuous. 
+
+	Now we prove \localref{iii}\( \implies \)\localref{i}. \( T \) being continuous at 0
+	means that for any \( \epsilon > 0 \) there is \( \delta > 0 \) such that if \( \norm{x}
+	< \delta \) then \( \norm{Tx} < \epsilon \). Choose \( \epsilon = 1 \). Then, for any \(
+	x \in E \) we have
+	\begin{equation*}
+		\norm{\frac{\delta}{2} \frac{x}{\norm{x}}} = \frac{\delta}{2} < \delta
+	\end{equation*}
+	thus
+	\begin{equation*}
+		\norm{\frac{\delta}{2}\frac{Tx}{\norm{x}}} < 1
+	\end{equation*}
+	which means, for any \( x \in E \) we have
+	\begin{equation*}
+		\norm{Tx} < \frac{2}{\delta} \norm{x}
+	\end{equation*}
+	which shows \( T \) is bounded.
+
+	Conversely, if \( T \) is bounded it is easy to show it is continuous at 0. If \( M \) is
+	a bounding constant of \( T \) then, for any \( \epsilon > 0 \), provided \( \norm{x} <
+	\frac{\epsilon}{M} \) we have
+	\begin{equation*}
+		\norm{Tx} < M\norm{x} < \epsilon
+	\end{equation*}
+	meaning \( T \) is continuous at 0 ---since \( T(0) = 0 \)---.
+
+	We now show \localref{i}\( \iff \)\localref{iv}. If \( T \) is bounded with bounding
+	constant \( M \), then, for any \( x \in B(0,1) \) we have
+	\begin{equation*}
+		\norm{Tx} \leq M \norm{x} < M
+	\end{equation*}
+	which means \( T(B(0,1)) \subseteq B(0,M) \), which shows \( T(B(0,1)) \) is bounded.
+	Conversely, if \( T(B(0,1)) \subseteq B(0,M) \) then for any \( x \in E \) we have
+	\begin{equation*}
+		\frac{\norm{Tx}}{\norm{x}} = \norm{T\frac{x}{\norm{x}}} < M
+	\end{equation*}
+	therefore \( \norm{Tx} < M\norm{x} \), showing \( T \) is bounded.
+
+	Finally we prove \localref{iv}\( \iff \)\localref{v}. \localref{v}\( \implies
+	\)\localref{iv} is obvious, since the unit ball is by definition bounded. On the other
+	hand, if \( A \subseteq E \) is bounded then there is \( R > 0 \) such that \( A
+	\subseteq B(0,R) = R(B(0,1)) \), thus
+	\begin{equation*}
+		T(A) \subseteq T(B(0,R)) = RT(B(0,1))
+	\end{equation*}
+	which is bounded, provided \( T(B(0,1)) \) is bounded.
+\end{proof}
+}
+
+\section{Compactness}
+\begin{theorem}
+	A metric space \( X \) is compact if and only if every sequence in \( X \) has a
+	convergent subsequence.\footnote{This property is usually called \emph{sequential
+	compactness}.}
+\end{theorem}
+\begin{proof}
+	\( (\implies) \) We will show the contrapositive: if \( X \) has a sequence with no
+	convergent subsequence then it cannot be compact. Let \( (x_n) \) be such a sequence.
+	This means, in particular, that the sequence must have infinitely many different terms
+	---i.e., its image cannot be finite--- since otherwise we would be able to find a convergent
+	subsequence.	Since no subsequence of	\( (x_n) \) is convergent, for any point \( y \in
+	X \) there must be an open ball \( B(y, r_y) \) which only contains finitely many
+	different terms of the sequence ---otherwise \( y \) would be an accumulation point of
+	the sequence and therefore the  limit of a subsequence---. Thus we have an open cover of
+	\( X \),
+	\begin{equation*}
+		X = \bigcup_{y \in X} B(y, r_y).
+	\end{equation*}
+	If we were able to extract a finite subcover from this cover, say
+	\begin{equation*}
+		X = \bigcup_{n = 1}^N B(y_n, r_{y_n})
+	\end{equation*}
+	then, by the pigeonhole principle, at least one of these balls would have to contain
+	infinitely many different terms of the sequence, which is not the case. Thus \( X \) is
+	not compact.
+
+	\( (\impliedby) \) Let's now assume that \( X \) is sequentially compact. This implies
+	that it is totally bounded. Indeed, if it weren't, we could find a sequence in \( X \)
+	with no convergent subsequence. Let \( \epsilon > 0 \) be such that \( X \) can not be
+	covered by a finite number of balls with radius \( \epsilon \) or less. Take \( x_1 \in
+	X\) and consider the ball \( B(x_1, \epsilon) \). There must then exist a point \( x_2
+	\in X \) outside of this ball. Since \( B(x_1, \epsilon) \cup B(x_2, \epsilon) \) cannot
+	cover \( X \), there must exist \( x_3 \in X \) outside of these balls. In general,
+	there must exist, for each \( n \in \N \) a point \( x_n \) such that
+	\begin{equation*}
+		x_n \in X - \bigcup_{k = 1}^{n-1} B(x_k, \epsilon).
+	\end{equation*}
+	This gives a sequence with the property that
+	\begin{equation*}
+		\norm{x_n - x_m} \geq \epsilon
+	\end{equation*}
+	when \( m \geq n \). It is easy to see that none of its subsequences is Cauchy and
+	therefore cannot converge.
+
+	Let's show now that \( X \) is compact. Consider an open cover of \( X \),
+	\begin{equation*}
+		X = \bigcup_{\alpha \in I} U_\alpha.
+	\end{equation*}
+	We have to show that we can extract from it a finite subcover. For any \( x \in X \) let 
+	\begin{equation*}
+		R(x) \defeq \sup \set{r > 0 \mid \exists \beta \in I \colon B(x,r) \subseteq
+		U_\beta},
+	\end{equation*}
+	that is, \( R(x) \) is the largest possible radius such that a ball with that radius
+	fits inside one of the open sets in the cover. We will show that \( \epsilon \defeq
+	\inf_{x \in X} R(x) > 0 \). By definition of the infimum, there must be a sequence \( x_n
+	\) in \( X \) such that \( R(x_n) \xrightarrow{n \to \infty} \epsilon \). Using the
+	hypothesis of the sequential compactness of \( X \), we extract a convergent
+	subsequence, \( (x_{n_k}) \), with limit \( x \). By definition of convergence, there is
+	\( K \in \N \) such that
+	\begin{equation*}
+		x_{n_k} \in B(x, R(x))
+	\end{equation*}
+	provided \( k \geq K \), therefore \( R(x) \) must be strictly greater than 0, since
+	otherwise \( B(x, R(x)) \) could not contain points other than \( x \). 
+
+	% TODO: Not clear how to show that \epsilon > 0
+
+	Since \( \epsilon > 0 \), because \( X \) is totally bounded, there must be a finite set
+	of points \( y_1, \dots, y_N \in X \) such that
+	\begin{equation*}
+		X \subseteq \bigcup_{n = 1}^N B(y_n, \epsilon) \subseteq B(y_n, R(y_n)) \subseteq
+		\bigcup_{n = 1}^N U_n.
+	\end{equation*}
+\end{proof}
+
+\part{Hilbert Spaces}
+\chapter{Inner and Hermitian Products}
+As we mentioned earlier, Hilbert spaces are Banach spaces with the special property that
+the norm they are equipped with comes from an inner product, in the real case, and a
+Hermitian product in the complex case.
+
+\section{Definition}
+\begin{definition}[Inner product]
+	An \emph{inner product} on a real vector space \( E \) is a map \( \phi \colon E \times
+	E \to \R \) which is
+	\begin{points}
+	\item bilinear, that is, for all \( u, v, w \in E \) and \( \lambda, \mu \in \R \):
+		\begin{gather*}
+			\phi(\lambda u + \mu v, w) = \lambda \phi(u,w) + \mu \phi(v,w) \\
+			\phi(u, \lambda v + \mu w) = \lambda \phi(u, v) + \mu \phi(u,w),
+		\end{gather*}
+		
+	\item symmetric, meaning for all \( u, v \in E \)
+		\begin{equation*}
+			\phi(u,v) = \phi(v,u),
+		\end{equation*}
+		
+	\item and positive definite, so that for all \( u \in E \) 
+		\begin{equation*}
+			\phi(u,u) \geq 0
+		\end{equation*}
+		and \( \phi(u,u) = 0 \) if and only if \( u = 0 \).
+	\end{points}
+\end{definition}
+
+The properties of such an inner product mimic those of the standard dot product on \(
+\R^n \). This gives our space a geometry that is richer than what a norm gives, as we will
+see. In the complex case, the correct notion is that of a Hermitian product:
+\begin{definition}
+	A \emph{Hermitian product} on a complex vector space \( E \) is a map \( \phi \colon E
+	\times E \to \C \) which is
+	\begin{points}
+	\item sesquilinear, meaning that for any \( u, v, w \in E \) and \( \lambda, \mu \in \C\)
+		\begin{gather*}
+			\phi(\lambda u + \mu v, w) = \lambda \phi(u,w) + \mu \phi(v,w) \\
+			\phi(u, \lambda v + \mu w) = \bar{\lambda} \phi(u, v) + \bar{\mu} \phi(u,w),
+		\end{gather*}
+		where \( \bar{\lambda} \) is the complex conjugate of \( \lambda \),
+	\item conjugate symmetric, so that for any \( u, v \in E \)
+		\begin{equation}
+			\phi(u,v) = \overline{\phi(v,u)},
+		\end{equation}
+
+	\item and positive definite.
+	\end{points}
+\end{definition}
+This definition requires some remarks. Firstly, note that linearity in the first argument
+and conjugate symmetry imply sesquilinearity. One often says that a Hermitian product is
+\emph{linear} in its first argument and \emph{semilinear}\footnote{This just means that
+scalars are conjugated when they come out} in its second\footnote{On the other hand,
+physicists tend to use a different convention and assume semilinearity in the first
+argument instead}. This means a Hermitian product is altogether sesquilinear, sesqui being
+Latin for one and a half, as opposed to bilinear. Finally, because of conjugate
+symmetry, the product of a vector with itself is always real, for a complex number is
+equal to its conjugate if and only if it is real. Therefore the requirement of
+positive-definiteness is sound.
+
+It is customary to write the inner product with angle brackets, so
+\begin{equation*}
+	\inn{u}{v} \defeq \phi(u,v).
+\end{equation*}
+
+In what follows you should almost always have a Hermitian product in mind. In the case any
+result is specialised to an inner product, so it makes use of the fact it is over the
+reals, it will be duly noted. Spaces equipped with an inner or Hermitian product are called,
+unsurprisingly, inner product spaces, and less often, pre-Hilbert spaces (which refers to
+the fact that they are not quite product spaces, not that they were worked on before
+Hilbert).
+
+\section{The norm induced by an inner product}
+An inner product induces a norm by
+\begin{equation*}
+	\norm{u} \defeq \sqrt{\inn{u}{u}}.
+\end{equation*}
+We can check it satisfies two of the properties of a norm immediately. For one, because of
+positive-definiteness, \( \inn{u}{u} \) is always positive, so \( \norm{u} \) is positive
+as well. And if \( \norm{u} = 0 \) then it must be \( \inn{u}{u} = 0 \), which implies \(
+u = 0 \), again by positive-definiteness. 
+
+Additionally, for any scalar \( \lambda \in \C \) one has
+\begin{equation*}
+	\norm{\lambda u} = \sqrt{\inn{\lambda u}{\lambda u}} = \sqrt{\lambda \bar{\lambda}
+	\inn{u}{u}} = \sqrt{\abs{\lambda}^2 \inn{u}{u}} = \abs{\lambda} \sqrt{\inn{u}{u}} =
+	\abs{\lambda} \norm{u}.
+\end{equation*}
+
+The proof of subadditivity does not follow as easily. It requires a very important
+inequality of inner products, namely the Cauchy-Schwarz inequality.
+
+\begin{theorem}[Cauchy-Schwarz Inequality] \label{theo:cauchy-schwarz}
+	Let \( E \) be an inner product space. Then for any \( u, v \in E \)
+	\begin{equation*}
+		\abs{\inn{u}{v}}^2 \leq \inn{u}{u} \inn{v}{v}.
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	For any \( u, v \in E \) and \( t \in \C \) we have, by positive-definiteness
+	\begin{align*}
+		0 \leq \inn{u - tv}{u - tv} & = \inn{u}{u} + t\bar{t}\inn{v}{v} - t \inn{v}{u} - \bar{t}
+		\inn{u}{v} \\
+																& = \inn{u}{u} + \abs{t}^2\inn{v}{v} - t \inn{v}{u} - \bar{t}
+		\inn{u}{v}.
+	\end{align*}
+	Thus
+	\begin{equation*}
+		t \inn{v}{u} + \bar{t} \inn{u}{v} \leq \inn{u}{u} + \abs{t}^2 \inn{v}{v}.
+	\end{equation*}
+	It is now a question of making an astute choice of \( t \). Letting \( t =
+	\frac{\inn{u}{v}}{\inn{v}{v}} \) we find, for the LHS,
+	\begin{align*}
+		\frac{\inn{u}{v}}{\inn{v}{v}} \inn{v}{u} + \frac{\overline{\inn{u}{v}}}{\inn{v}{v}}
+		\inn{u}{v} & = \frac{\inn{u}{v}}{\inn{v}{v}} \inn{v}{u}	+
+		\frac{\inn{v}{u}}{\inn{v}{v}} \inn{u}{v} \\
+							 & = \frac{2\abs{\inn{u}{v}}^2}{\inn{v}{v}}.
+	\end{align*}
+	Meanwhile, the RHS becomes
+	\begin{equation*}
+		\inn{u}{u} + \frac{\abs{\inn{u}{v}}^2}{\inn{v}{v}^2} \inn{v}{v} = \inn{u}{u} +
+		\frac{\abs{\inn{u}{v}}^2}{\inn{v}{v}}.
+	\end{equation*}
+	Thus
+	\begin{equation*}
+		\frac{2\abs{\inn{u}{v}}^2}{\inn{v}{v}} \leq \inn{u}{u} +
+		\frac{\abs{\inn{u}{v}}^2}{\inn{v}{v}}
+	\end{equation*}
+	or, equivalently,
+	\begin{equation*}
+		\abs{\inn{u}{v}}^2 \leq \inn{u}{u} \inn{v}{v}.
+	\end{equation*}
+\end{proof}
+
+The Triangle Inequality then follows. Indeed, taking square roots in Cauchy-Schwarz (which
+we can do since everything is positive, we find
+\begin{equation*}
+	\abs{\inn{u}{v}} \leq \sqrt{\inn{u}{u} \inn{v}{v}} = \norm{u} \norm{v}.
+\end{equation*}
+And from this follows
+\begin{align*}
+	\norm{u + v}^2 & = \inn{u + v}{u + v} \\
+								 & = \inn{u}{u} + \inn{v}{v} + \inn{u}{v} + \inn{v}{u} \\
+								 & = \norm{u}^2 + \norm{v}^2 + 2 \Re \inn{u}{v} \\
+								 & \leq \norm{u}^2 + \norm{v}^2 + 2\abs{\inn{u}{v}} \\
+								 & = \norm{u}^2 + \norm{v}^2 + 2\norm{u}\norm{v} \\
+								 & = (\norm{x} + \norm{y})^2
+\end{align*}
+which becomes the Triangle Inequality after taking square roots. This then shows that the
+Hermitian product does indeed induce a norm.
+
+An inner product space which is complete with respect to the norm induced by its inner
+product\footnote{More often than not we will simply say it is complete with respect to the
+inner product} is called a \emph{Hilbert space}. A Hilbert space is in particular a Banach
+space, so all of the theory developed in the previous cahpters still holds true.
+
+\parbreak
+
+It is possible to write the product of two vectors simply in terms of their norms, using
+the so-called polarisation identities.
+\begin{theorem}[Polarisation Identity] \label{theo:polarisation}
+	In an inner product space \( E \) the \emph{polarisation identity}
+	\begin{equation*}
+		\inn{u}{v} = \frac{1}{4}\left(\norm{u + v}^2 - \norm{u - v}^2 + i\norm{u + iv}^2 - i
+		\norm{u - iv}^2\right)
+	\end{equation*}
+	holds for any \( u, v \in E \).
+
+	If \( E \) is a real vector space, rather than a complex vector space, then the
+	polarisation identity becomes
+	\begin{equation*}
+		\inn{u}{v} = \frac{1}{4}\left(\norm{u + v}^2 - \norm{u - v}^2\right).
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	This is a direct computation using the definition of the norm induced by the inner
+	product. Let's work out the first two terms
+	\begin{gather*}
+		\norm{u+v}^2 = \inn{u+v}{u+v} = \inn{u}{u} + \inn{v}{v} + \inn{u}{v} + \inn{v}{u} \\
+		\norm{u-v}^2 = \inn{u-v}{u-v} = \inn{u}{u} + \inn{v}{v} - \inn{u}{v} - \inn{v}{u}.
+	\end{gather*}
+	Subtracting these two yields
+	\begin{equation*}
+		\norm{x+y}^2 - \norm{x-y}^2 = 2\inn{u}{v}	+ 2\inn{v}{u}.
+	\end{equation*}
+	If we have an inner product, rather than a Hermitian product, then we are done because
+	of symmetry. If we don't we need to get rid of the second term, which is what the other
+	two terms in the polarisation expression do:
+	\begin{gather*}
+		i\norm{u+iv}^2 = i\inn{u+iv}{u+iv} = i\inn{u}{u} + i\inn{v}{v} + \inn{u}{v} - \inn{v}{u} \\
+		i\norm{u-iv}^2 = i\inn{u-iv}{u-iv} = i\inn{u}{u} + i\inn{v}{v} - \inn{u}{v} +
+		\inn{v}{u}
+	\end{gather*}
+	for when we subtract we get
+	\begin{equation*}
+		i\norm{u+iv}^2 - i\norm{u-iv}^2 = 2 \inn{u}{v} - 2 \inn{v}{u}.
+	\end{equation*}
+	And then polarisation follows.
+\end{proof}
+
+Another useful identity satisfied by norms induced by an inner product is the
+parallelogram law.
+\begin{theorem}[Parallelogram Law]\label{theo:parallelogram}
+	The following identity holds for a norm induced by an inner product:
+	\begin{equation*}
+		\norm{u+v}^2 + \norm{u-v}^2 = 2\norm{u}^2 + 2\norm{v}^2.
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	This is again a simple computation:
+	\begin{align*}
+		\norm{u+v}^2 + \norm{u-v}^2 & = \inn{u+v}{u+v} + \inn{u-v}{u-v} \\
+																& = 2\inn{u}{u} + 2\inn{v}{v}+ \inn{v}{u} + \inn{u}{v} -
+																\inn{v}{u} - \inn{u}{v} \\
+																& = 2\norm{u}^2 + 2\norm{v}^2.
+	\end{align*}
+\end{proof}
+
+This identity can be used to show that many of the normed spaces we have dealt with before
+are not inner product spaces. Take \( \cont{K} \) with the uniform norm, for instance: one
+can find a function \( f \in \cont{K} \) which is zero outside of a ball centered aroound
+a point \( x \in K \) and such that \( \norm{f}_\infty = \abs{f(x)} = 1 \). We could then
+pick another \( g \in \cont{K} \) which is zero outside of a ball centered at \( y \in
+\cont{K} \) which does not intersect the ball in which \( f \) is nonzero, and such that
+\( \norm{g}_\infty = \abs{f(y)} = 1 \). Then
+\begin{equation*}
+	\norm{f + g}_\infty + \norm{f - g}_\infty = 2 \neq 4 = 2\norm{f}_\infty + 2
+	\norm{g}_\infty
+\end{equation*}
+which shows \( \norm{\cdot}_\infty \) cannot come from an inner product on \( \cont{K}
+\). On the other hand, \( L^2(E) \) is an inner product space, for its norm is induced by
+the product
+\begin{equation*}
+	\inn{f}{g} = \int_E fg
+\end{equation*}
+in the real case and 
+\begin{equation*}
+	\inn{f}{g} = \int_E f\bar{g}
+\end{equation*}
+in the real case. It's easy to see that these are indeed an inner product and a Hermitian
+product, respectively.
+
+A remarkable fact is that the converse is true, meaning a norm which satisfies the
+Parallelogram Law must be induced by an inner product, and we can use the
+\nameref{theo:polarisation} to recover said inner product. The proof of this is
+non-trivial. As a consequence, it can be shown that the spaces \( L^p(X) \) and \( \ell^p
+\) are inner product spaces exactly when \( p = 2 \).
+
+
+\section{Orthogonality and orthogonal complements}
+Once we have an inner product at our disposal we can define an important geometrical
+notion on our space, that of orthogonality.
+
+\begin{definition}[Orhtogonality]
+	We say two non-zero vectors \( u \) and \( v \) of an inner product space \( E \) are
+	orthgonal if \( \inn{u}{v} = 0 \).
+\end{definition}
+
+A generalised version of Pythagoras' Theorem holds in inner product spaces.
+\begin{theorem}[Pythagoras]
+	If \( u_1, \dots , u_n \in E \) are pairwise orthogonal vectors in an inner product
+	space \( E \) then
+	\begin{equation*}
+		\norm{x_1 + \dots + x_n}^2 = \norm{x_1}^2 \dots \norm{x_n}^2.
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	Let's first show the result for \( n = 2 \). We have
+	\begin{align*}
+		\norm{x+y}^2 & = \inn{x+y}{x+y} \\
+								 & = \inn{x}{x} + \inn{y}{y} + \inn{x}{y} + \inn{y}{x} \\
+								 & = \inn{x}{x} + \inn{y}{y} \\
+								 & = \norm{x}^2 + \norm{y}^2.
+	\end{align*}
+	
+	The general case then follows by induction and by observing that if \( x_n \) is
+	orthogonal to \( x_1, \dots, x_n \) then it is orthogonal to their sum.
+\end{proof}
+
+\parbreak
+
+\begin{definition}[Orthogonal complement]
+	We define the \emph{orthogonal complement} of a subset \( A \subseteq E \) of an inner
+	product space \( E \) as the set of all vectors in \( E \) orthogonal to every vector in
+	\( A \):
+	\begin{equation*}
+		A^\perp \defeq \set{x \in E \mid \forall a \in A \colon \inn{x}{a} = 0}.
+	\end{equation*}
+\end{definition}
+Note that the set \( A \) need not be a linear subspace of \( E \). Nonetheless, the
+orthogonal complement of any subset is a closed linear subspace. To prove this we make use
+of the following result.
+
+\begin{proposition}
+	The inner product is continuous and for any \( x \in E \), the map
+	\begin{align*}
+		\inn{\cdot}{x} \colon H & \longrightarrow \C	\\
+		y & \longmapsto \inn{y}{x}
+	\end{align*}
+	is a bounded operator with norm \( \norm{x} \).
+\end{proposition}
+\begin{proof}
+	The continuity of the inner product follows from the following estimate:
+	\begin{align*}
+		\abs{\inn{x}{y} - \inn{a}{b}} & = \abs{\inn{x}{y} - \inn{a}{y} + \inn{a}{y} -
+		\inn{a}{b}} \\
+																	& = \abs{\inn{x-a}{y} - \inn{a}{y-b}} \\
+																	& \leq \abs{\inn{x-a}{y}} - \abs{\inn{a}{y-b}} \\
+																	& \leq \norm{x-a}\norm{x-a} + \norm{a}\norm{b-y}
+	\end{align*}
+	where we used Cauchy-Schwarz in the last step.  
+
+	The linearity of \( \inn{\cdot}{x} \) is a consequence of the sesquilinearity of the inner
+	product. The boundedness follows from Cauchy-Schwarz, since for any \( a \in E \)
+	\begin{equation*}
+		\abs{\inn{a}{x}} \leq \norm{x}\norm{a}
+	\end{equation*}
+	therefore \( \norm{\inn{\cdot}{x}} \leq \norm{x} \). And to show equality observe that,
+	by definition,
+	\begin{equation*}
+		\abs{\inn{x}{x}} = \norm{x}^2
+	\end{equation*}
+	thus \( \norm{\inn{\cdot}{x}} = \norm{x} \).
+\end{proof}
+
+We can then show that the orthogonal complement satisfies the following useful
+properties.
+{\def\currentprefix{prop:properties of perp}
+\begin{proposition}
+	Let \( E \) be an inner product space. Then the follwoing are true
+	\begin{points}
+	\item \locallabel{i} If \( A \subseteq B \subseteq E \) are any two subsets then
+		\begin{equation*}
+			B^\perp \subseteq A^\perp.
+		\end{equation*}
+
+	\item \locallabel{ii} The orthogonal complement of any subset of \( E \) is a closed
+		linear subspace of \( E \).
+	\end{points}
+\end{proposition}
+\begin{proof}
+	\localref{i} If \( x \in B^\perp \) then \( x \) is orthogonal to every element of \( B
+	\), which means, in particular, it is orthogonal to any element of \( A \). Thus \( x
+	\in A^\perp \). 
+	\localref{ii} If \( x, y \in A^\perp \) then, for any \( \lambda, \mu \in \R \) and \( a
+	\in A \)
+	\begin{equation*}
+		\inn{\lambda x + \mu y}{a} = \lambda \inn{x}{a} + \mu \inn{y}{a} = 0
+	\end{equation*}
+	so \( \lambda x + \mu y \in A^\perp \). Since \( 0 \in A^\perp \) we conclude \( A^\perp
+	\) is a linear subspace. To show it is closed, consider a sequence \( (x_n) \) in \(
+	A^\perp \) which converges to \( x \in E \). If we can show \( x \in A^\perp \) then we
+	are done. But this follows from the continuity of the inner product we just proved: indeed, for any \(
+	a \in A \)
+	\begin{equation*}
+		\inn{x}{a} = \inn{\lim_{n \to \infty}}{a} = \lim_{n \to \infty} \inn{x_n}{a} = \lim_{n
+		\to \infty} 0 = 0 
+	\end{equation*}
+	so \( x \in A^\perp \).
+
+	Alternatively, observe that 
+	\begin{equation*}
+		A^\perp = \bigcap_{a \in A} \inn{\cdot}{a}^{-1}(\set{0}).
+	\end{equation*}
+	As we proved before, the linear form \( \inn{\cdot}{a} \) is bounded, therefore continuous,
+	thus \( \inn{\cdot}{a}^{-1}(\set{0}) \) is closed since \( \set{0} \). Thus \( A^\perp
+	\) is also closed since it is the intersection of closed sets.
+\end{proof}
+}
+
+\chapter{Projection onto subspaces}
+\section{Existence and uniqueness of optimal approximations}
+Recall that given a closed subset \( A \) of a normed space\footnote{We could consider
+this for metric spaces if we wanted to be extra general but normed spaces suffice}, so in
+particular of an inner product space \( H \), we can talk of the distance between a point
+\( x \in H \) and \( A \), which is
+\begin{equation*}
+	d(x,A) = \inf_{a \in A} \norm{x - a}.
+\end{equation*}
+The closedness of \( A \) is necessary if we want the property that \( d(x,A) = 0 \) if
+and only if \( x \in A \). We have, then, that \( d(x,A) \geq 0 \) provided \( x \notin A
+\). This does not mean, however, that there exists \( a \in A \) such that \( \norm{x - a}
+= d(x,A) \). If this is the case, though, we say \( a \) is an \emph{optimal
+approximation} of \( x \) in \( A \). This means \( a \) is the closest we will ever get
+to \( x \) if we restrict ourselves to \( A \).
+
+In this section we will investigate the existence and uniqueness of optimal approximations
+depending on the properties of \( A \).
+
+\begin{proposition}
+	If \( A \subseteq H \) is a closed and convex\footnote{Recall that a subset \( A \) of a
+	vector space is convex if, for any two points \( a \) and \( b \) in \( A \) then the
+segment between them is also in	\( A \), and the segment between \( a \) and \( b \) is
+the set of all linear combinations of \( a \) and \( b \) such that their coefficients add
+up to 1.} and \( x \) has an optimal approximation in	\( A \) then it is unique.
+\end{proposition}
+\begin{proof}
+	Let \( y, z \in A \) be optimal approximations of \( x \) in \( A \). To prove
+	uniqueness we need to show that \( y = z \). By definition of optimal approximation, we
+	have
+	\begin{equation*}
+		\norm{y - x} + \norm{z - x} = d(x,A) > 0,
+	\end{equation*}
+	the last inequality because \( A \) is closed. 
+
+	The idea of the proof is to use the fact that if two points \( y \) and \( z \)  are
+	equidistant from a third point \( x \), then any other point in the segment between \( y
+	\) and \( z \) is closer to \( x \) than \( y \) and \( z \). Then, if \( y \) and \( z \) are
+	optimal approximations of \( x \) then, because of the convexity of \( A \), there must
+	be other points in \( A \) which are closer to \( x \). This cannot be the case unless
+	the segment between \( z \) and \( y \) contains no points other than \( z \) and \( y
+	\) themselves, which implies \( y \) and \( z \) are equal.
+
+	Let's write this out. By virtue of \( A \) being convex, the point \( \frac{y+z}{2} \)
+	lies in	\( A \). This means
+	\begin{equation*}
+		\norm{\frac{y+z}{2} - x} \geq d(x,A).
+	\end{equation*}
+	
+	On the other hand, using the \nameref{theo:parallelogram} we have
+	\begin{equation*}
+		2\norm{y-x}^2 + 2\norm{z-x}^2  = \norm{y-z}^2 + \norm{y+z - 2x^2} = \norm{y-z}^2 +
+		4\norm{\frac{y+z}{2} - x}^2.
+	\end{equation*}
+	Since \( \norm{y-x}^2 = \norm{z-x}^2 = d(x,A)^2 \), we have
+	\begin{equation*}
+		4\norm{\frac{y+z}{2} - x}^2 = 4d(x,A)^2 - \norm{y - z}^2.
+	\end{equation*}
+	But using \( \norm{\frac{y+z}{2} - x} \geq d(x,A) \) one finds \( \norm{y - z} = 0 \),
+	which means, of course, that \( y = z \), as we wanted.
+\end{proof}
+The requirement that \( A \) be convex is important. Indeed, consider the unit circle \(
+S^1 \) in \( \R^2 \). Then every point of \( S^1 \) is distance 1 from the origin, thus
+they all are optimal approximations of it. \( S^1 \) is not convex, however.
+
+When \( x \) has a unique optimal approximation in a set \( A \) we write it \( P_A x \)
+and call it its \emph{projection onto \( A \)}.
+\begin{theorem}
+	Let \( H \) be a Hilbert space and \( A \subseteq H \) a subset. The map
+	\begin{align*}
+		P_A \colon H & \longrightarrow A \\
+		x & \longmapsto P_A x
+	\end{align*}
+	is well-defined provided \( A \) is closed and convex.
+\end{theorem}
+\begin{proof}
+	All that remains to be shown is that an optimal approximation in \( A \) exists, since
+	the previous proposition shows that it is unique if it does exist. For this we need to
+	use the fact that \( A \) is closed. 
+
+	Since \( d(x,A) \) is defined as an infimum, there exists a sequence \( y_n \) in \( A
+	\) such that \( \norm{y_n - a} \xrightarrow{n \to \infty} d(x,A) \). Using the
+	\nameref{theo:parallelogram} we find
+	\begin{align*}
+ 		\norm{y_n - y_m}^2 + 4\norm{\frac{y_n + y_m}{2} - x}^2 & = \norm{y_n - y_m}^2 +
+ 		\norm{y_n + y_m - 2x}^2 \\
+ 																													 & = 2\norm{y_n - x}^2 +
+ 																													 2\norm{y_m - x}^2.
+	\end{align*}
+	Because \( A \) is convex, \( \frac{y_n + y_m}{2} \in A \) and thus
+	\begin{equation*}
+		\norm{\frac{y_n + y_m}{2} - x} \geq d(x,A).
+	\end{equation*}
+	This means
+	\begin{align*}
+		\norm{y_n - y_m}^2 & \leq 2\norm{y_n - x}^2 + 2\norm{y_m - x}^2 - 4d(x,A)^2 \\
+											 & = 2(\norm{y_n - x}^2 - d(x,A)^2) + 2(\norm{y_m - x}^2 -
+											 d(x,A)^2). 
+	\end{align*}
+	And now just use the fact that \( \norm{y_n - x} \) converges to \( d(x,A) \) to
+	conclude \( y_n \) is Cauchy. Because \( H \) is a Hilbert space it is complete and
+	therefore \( y_n \) converges to \( y \in H \). But because \( A \) is closed, in fact
+	\( y \in A \). And, thus
+	\begin{equation*}
+		d(x,A) = \lim_{n \to \infty} \norm{y_n - x} = \norm{\lim_{n \to \infty} y_n - a} =
+		\norm{y - a}.
+	\end{equation*}
+	It follows, then, that \( y = P_Ax \).
+\end{proof}
+\begin{corollary}
+	The projection onto a closed linear subspace of a Hilbert space is well defined.
+\end{corollary}
+\begin{proof}
+	This follows from the fact that a linear subspace is convex.
+\end{proof}
+
+For the case of linear subspaces, we can give a useful characterisation of the projection
+in terms of the orthogonal complement.
+\begin{proposition}
+	Let \( F \subseteq H \) be a closed linear subspace of a Hilbert space. Then \( y \in F
+	\) is the projection of \( x \in H \) onto \( F \) if and only if \( x - y \in F^\perp
+	\).
+\end{proposition}
+\begin{proof}
+	\( (\implies) \) Say \( y \in F \) is such that \( y - x \in F^\perp \). Then, for any
+	other \( z \in F \) we have \( \inn{x - y}{y - z} = 0 \). Then, since \( x - z = x-y +
+	y-z \) use Pythagoras to conclude
+	\begin{equation*}
+		\norm{x - z}^2 = \norm{x-y}^2 + \norm{y-z}^2 \geq \norm{x-y}^2.
+	\end{equation*}
+	This means \( \norm{x-y} \leq \inf_{z \in F} \norm{x - z} \). But since \( y \in F \) we
+	conclude
+	\begin{equation*}
+		\norm{x-y} = \inf_{z \in F}\norm{x-z} = d(x,F)
+	\end{equation*}
+	which means \( y = P_Fx \).
+
+	\( (\impliedby) \) The proof of the converse is a bit more involved. Suppose \( y =
+	P_Fx \). This means \( \norm{y-x} = d(x,F) \). We need to show \( \inn{y-x}{z} = 0 \)
+	for all \( z \in F \). Since \( y = P_F x \) we have, for all \( \lambda \in \C \) and
+	\( z \in F \)
+	\begin{equation*}
+		\norm{x - (y+\lambda z)}^2 \geq \norm{x-y}^2.
+	\end{equation*}
+	Then
+	\begin{align*}
+		\norm{x-y}^2 & \leq \norm{x-(y + \lambda z)}^2 = \inn{x-(y + \lambda z)}{x-(y +
+		\lambda z)} \\
+								 & = \norm{x-y}^2 + \norm{\lambda z}^2 - \inn{x-y}{\lambda z} -
+								 \inn{\lambda z}{x-y} \\
+								 & = \norm{x-y}^2 + \norm{\lambda z}^2 - 2 \Re\left(\lambda
+								 \inn{z}{x-y}\right).
+	\end{align*}
+	Cancelling \( \norm{x-y}^2 \) and rearranging, this is equivalent to
+	\begin{equation*}
+		\abs{\lambda z}^2 \norm{z}^2 \geq 2\Re\left(\lambda \inn{z}{x-y}\right).
+	\end{equation*}
+	Let's pick \( \lambda = s \inn{x-y}{z} \) with \( s \in \R \). Then this means
+	\begin{equation*}
+		s^2 \norm{z}^2 \abs{\inn{x-y}{z}}^2 \geq 2s\abs{\inn{x-y}{z}}^2.
+	\end{equation*}
+	Now, since \( \frac{cs^2}{2s} \xrightarrow{s \to 0} \) for any \( c > 0 \) we can find
+	\( s \in \R \) such that \( 2s \leq \norm{z}^2s^2 \) (why?). This must mean \(
+	\inn{x-y}{z} = 0 \) since otherwise the inequality could not possibly hold for any \( s
+	\in \R \). Therefore \( x-y \in F^\perp \), as we wished.
+\end{proof}
+
+All of these facts lead to the following important result in the theory of Hilbert
+spaces.
+\begin{theorem}[Projection Theorem]\label{theo:projection}
+	Given any closed linear subspace \( F \) of a Hilbert space \( H \) then for any \( x
+	\in H \)
+	\begin{equation*}
+		P_F x + P_{F^\perp} x = x.
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	First, since both \( F \) and \( F^\perp \) are closed linear subspaces, the projections
+	onto both are well defined. If we show \( P_{F^\perp}x = x - P_F x \) then we are done.
+	For any \( y \in F^\perp \) we have
+	\begin{equation*}
+		\norm{x -y}^2 = \norm{x - P_Fx + P_Fx - y}^2 
+	\end{equation*}
+	We showed \( x - P_Fx \in F^\perp \), which means \( x-P_Fx - y \) is also in \( F^\perp
+	\), thus
+	\begin{equation*}
+		\inn{P_F x}{x - P_Fx - y} = 0,
+	\end{equation*}
+	 which in turns implies, by Pythagoras
+	\begin{equation*}
+		\norm{x -y}^2 = \norm{P_Fx}^2 + \norm{x-P_Fx-y}^2 \geq \norm{P_Fx}^2 = \norm{x -
+		(x-P_Fx)}^2.
+	\end{equation*}
+	This lets conclude \( P_F^\perp = x - P_Fx \). 
+\end{proof}
+\begin{corollary}
+	Any Hilbert space \( H \) can be decomposed as
+	\begin{equation*}
+		H = F \oplus F^\perp
+	\end{equation*}
+	where \( F \) is a closed linear subspace of \( H \).
+\end{corollary}
+\begin{proof}
+	By the \nameref{theo:projection}, we have \( H = F + F^\perp \), so all we need to show
+	is \( F \cap F^\perp = \gen{0} \). And this is true. Indeed, if \( x \in F \cap F^\perp
+	\) then, in particular, \( \inn{x}{x} = 0 \). And this means \( x = 0 \), by
+	positive-definiteness.
+\end{proof}
 
 \end{document}
 
