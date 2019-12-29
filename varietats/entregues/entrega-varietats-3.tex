@@ -1,0 +1,314 @@
+\documentclass[12pt]{article}
+\input{preamble-entrega.tex}
+\input{commands-varietats.tex}
+
+\declaretheorem[name=Lema de la Serpiente, refname={lema de la serpiente},
+Refname={Lema de la serpiente}, numbered=no]{serpiente}
+
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Topología de variedades:} Entrega 3}{}{\theauthor}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Entrega 3:} Lema de la serpiente}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 19 de enero de 2019}
+
+
+\begin{document}
+\maketitle
+
+A continuación demostraremos el siguiente resultado, útil para cçálculos de álgebra
+hommológica.
+
+\begin{serpiente}
+Supongamos que se tiene, en la categoría \( \mathsf{Vect}_K \) de \( K \)-espacios
+vectoriales ---aunque el resultado es válido en cualquier categoría abeliana---, el
+diagrama commutativo
+\begin{equation*}
+	\begin{tikzcd}
+		0 \arrow[r] & A_1 \arrow[r, "f_1"] \arrow[d, "a"] & B_1 \arrow[r, "g_1"] \arrow[d, "b"] & C_1
+		\arrow[r] \arrow[d, "c"] & 0 \\
+		0 \arrow[r] & A_2 \arrow[r, "f_2"] & B_2 \arrow[r, "g_2"] & C_2 \arrow[r] & 0 
+	\end{tikzcd}
+\end{equation*}
+donde ambas filas son sucesiones exactas. Entonces existe una sucesión exacta
+\begin{equation*}
+	\begin{tikzcd}
+		0 \arrow[r] & \ker{a} \arrow[r] & \ker{b} \arrow[r] & \ker{c} \arrow[dll, "\delta"
+		description, out=0, in=180, looseness=2, overlay] \\
+			& \coker{a} \arrow[r] & \coker{b} \arrow[r] & \coker{c} \arrow[r] & 0
+	\end{tikzcd}
+\end{equation*}
+\end{serpiente}
+
+En primer lugar, recordemos que el conúcleo de un morfismo \( f \colon A \to B \) es el
+cociente \( B/\im{f} \). Consideremos la siguiente sucesión para el morfismo \( a \),
+\begin{equation*}
+	\begin{tikzcd}
+		\ker{a} \arrow[r, "\iota_a", tail] & A_1 \arrow[r, "a"] & A_2 \arrow[r,
+		"\pi_a", two heads] & \coker{a}
+	\end{tikzcd}
+\end{equation*}
+donde \( \iota_a \) es la inclusión de \( \ker{a} \) dentro de \( A_1 \) y \( \pi_a \) es
+la proyección de \( A_2 \) sobre \( \coker{a} \). Esta sucesión es de hecho exacta.
+Efectivamente, \( \im{\iota_a} = \ker{a} \) esencialmente por definición, que es una de
+las condiciones de exactitud. Similarmente, \( \pi_a \) manda \( \im{a} \) a 0, por lo que
+\( \ker{\pi_a} = \im{a} \), que es el último requerimiento para la exactitud. Este mismo
+argumento funciona con \( b \) y \( c \), por lo que podemos expandir el diagrama original
+verticalmente resultando en el diagrama commutativo
+\begin{equation*}
+	\begin{tikzcd}
+		& \ker{a} \arrow[d, "\iota_a", tail] & \ker{b} \arrow[d, "\iota_b", tail] & \ker{c}
+		\arrow[d, "\iota_c", tail] \\
+		0 \arrow[r] & A_1 \arrow[r, "f_1"] \arrow[d, "a"] & B_1 \arrow[r, "g_1"] \arrow[d, "b"] & C_1
+		\arrow[r] \arrow[d, "c"] & 0 \\
+		0 \arrow[r] & A_2 \arrow[r, "f_2"] \arrow[d, "\pi_a", two heads] & B_2 \arrow[r,
+		"g_2"] \arrow[d, "\pi_b", two heads] & C_2 \arrow[r] \arrow[d, "\pi_c", two heads] & 0
+		\\
+								& \coker{a} & \coker{b} & \coker{c}.
+	\end{tikzcd}
+\end{equation*}
+Tenemos que conectar los núcleos y los conúcleos de manera exacta, y después definir el
+morfismo \( \delta \) que conecta \( \ker{c} \) con \( \coker{a} \). Empezamos con los
+núcleos.
+
+Sea \( x \in \ker{a} \). Entonces, usando que \( b \circ f_1 = f_2 \circ a \), se tiene
+\begin{equation*}
+	(b \circ f_1)(x) = (f_2 \circ a)(x) = f_2(0) = 0
+\end{equation*}
+por lo que \( f_1(x) \in \ker{b} \). Dicho de otra forma, la imagen de la restricción de
+\( f_1 \) a \( \ker{a} \), \( f_1 \circ \iota_a \), está dentro de \( \ker{b} \), por lo
+que obtenemos una factorización
+\begin{equation*}
+	f_1 \circ \iota_a = \iota_b \circ \hat{f}_1
+\end{equation*}
+donde \( \hat{f}_1 \) es la restricción de \( f_1 \) a \( \ker{a} \) y \( \ker{b} \). Por
+el mismo argumento, usando que \( c \circ g_1 = g_2 \circ b \) obtenemos la factorización
+\begin{equation*}
+	g_1 \circ \iota_b = \iota_c \circ \hat{g}_2.
+\end{equation*}
+Todo esto nos da el diagrama commutativo
+\begin{equation}\label{eq:kernels}
+	\begin{tikzcd}
+		\ker{a} \arrow[d, "\iota_a", tail] \arrow[r, "\hat{f}_1"] & \ker{b} \arrow[d,
+		"\iota_b", tail] \arrow[r, "\hat{g}_1"] & \ker{c}
+		\arrow[d, "\iota_c", tail] \\
+		A_1 \arrow[r, "f_1"] & B_1 \arrow[r, "g_1"]  & C_1 \\
+	\end{tikzcd}
+\end{equation}
+Tenemos que comprovar que la sucesión \( 0 \to \ker{a} \xrightarrow{\hat{f}_1} \ker{b}
+\xrightarrow{\hat{g}_1} \ker{c} \) es exacta. 
+
+Si \( \hat{f}_1(x) = 0 \) entonces \( (\iota_b \circ \hat{f}_1)(x) = 0 \). Pero por
+\eqref{eq:kernels}, \( \iota_b \circ \hat{f}_1 = f_1 \circ \iota_a \), y este último
+morfismo es composición de morfismos inyectivos, por lo tanto inyectivo. Entonces
+deducimos que \( x = 0 \) y que \( \hat{f}_1 \) es inyectivo. Tenemos que comprovar
+también que \( \im{\hat{f}_1} = \ker{\hat{g}_1} \).  Si \( x \in \im{\hat{f}_1} \)
+entonces podemos escribir \( x = \hat{f}_1(y) \) para \( y \in \ker{a} \) y entonces,
+usando la commutatividad de \eqref{eq:kernels}
+\begin{equation*}
+	(\iota_c \circ \hat{g}_1)(x) = (\iota_c \circ \hat{g}_1 \circ \hat{f}_1)(y) = (g_1 \circ
+	f_1 \circ \iota_a)(y) = 0
+\end{equation*}
+donde usamos la exactitud de la sucesión inicial, que implica \( g_1 \circ f_1 = 0 \).
+Entonces, como \( \iota_c \) es inyectiva, se concluye \( \hat{g}_1(x) = 0 \). Tenemos,
+pues, \( \im{\hat{f}_1} \subseteq \ker{\hat{g}_1} \). En el otro sentido, sea \( x \in
+\ker{\hat{g}_1} \). Entonces \( 0 = (\iota_c \circ \hat{g}_1)(x) = (g_1 \circ \iota_b)(x)
+\). Por exactitud, se tiene que \( \iota_b(x) \in \ker{g_1} = \im{f_1} \), por lo que
+podemos escribir \( \iota_b(x) = f_1(y) \) para \( y \in A_1 \). Usamos que \( b \circ f_1
+= f_2 \circ a \) y encontramos
+\begin{align*}
+	(f_2 \circ a)(y) & = (b \circ f_1)(y) \\
+									 & = (b \circ \iota_b)(x) \\
+									 & = 0.
+\end{align*}
+Como \( f_2 \) es inyectivo, \( a(y) = 0 \), por lo que \( y \in \ker{a} \). Por lo tanto
+\begin{equation*}
+	\iota_b(x) = f_1(y) = f_1(\iota_a(y)) = \iota_b(\hat{f}_1(y))
+\end{equation*}
+y como \( \iota_b \) es inyectiva, \( x = \hat{f}_1(y) \). Es decir, \( x \) tiene una
+preimagen por \( \hat{f}_1 \) en \( \ker{a} \), por lo tanto \( x \in \im{\hat{f}_1} \) y
+tenemos la igualdad que buscábamos, \( \im{\hat{f}_1} = \ker{\hat{g}_1} \).
+
+De manera análoga se obtiene la sucesión exacta \( \coker{a} \to \coker{b}
+\to \coker{c} \to 0 \). Construimos primero los morfismos entre los conúcleos.  
+
+Sea \( x \in \im{a} \), por lo que se tiene \( x = a(y) \) para \( y \in A_2 \). Entonces 
+\begin{align*}
+	(\pi_b \circ f_2)(x) & = (\pi_b \circ f_2)(a(y)) \\
+											 & = \pi_b\big((f_2 \circ a)(y)\big) \\
+											 & = \pi_b\big((b \circ f_2)(y)\big) \\
+											 & = 0.
+\end{align*}
+La última igualdad es porque \( (b \circ f_1)(y) = b(f_1(y)) \) está en la imagen de \( b
+\) y la proyección \( \pi_b \) manda \( \im{b} \) a 0. Como \( \pi_b \circ f_2 \) es nula
+en \( \im{a} \), debe factorizar a través de \( A_2/\im a = \coker{a} \). Esto significa
+que existe \( \bar{f}_2 \colon \coker{a} \to \coker{b} \) tal que \( \bar{f}_2 \circ \pi_a
+= \pi_b \circ f_2 \). Por el mismo argumento obtenemos otro morfismo \( \bar{g}_2 \colon
+\coker{b} \to \coker{c} \), y por lo tanto el diagrama commutativo
+\begin{equation}\label{eq:cokernels}
+	\begin{tikzcd}
+		A_2 \arrow[d, "\pi_a", two heads] \arrow[r, "f_2"] & B_2 \arrow[d, "\pi_b", two heads]
+		\arrow[r, "g_2"] & C_2 \arrow[d, "\pi_c", two heads] \\
+		\coker{a} \arrow[r, "\bar{f}_2"] & \coker{b} \arrow[r, "\bar{g}_2"]  & \coker{c} \\
+	\end{tikzcd}
+\end{equation}
+
+Queda por verificar que la sucesión \( \coker{a} \xrightarrow{\bar{f}_2} \coker{b}
+\xrightarrow{\bar{g}_2} \coker{c} \to 0 \) es exacta. Veamos primero que \( \bar{g}_2 \)
+es exhaustiva. Sea \( x \in \coker{c} \). Puesto que tanto \( \pi_c \) como \( g_2 \) son
+exhaustivas, \( x \) tiene en \( B_2 \) una preimagen por \( \pi_c \circ g_1 \), \( y \).
+Usando la commutatividad de \eqref{eq:cokernels} obtenemos
+\begin{equation*}
+	x = (\pi_c \circ g_2)(y) = (\bar{g}_2 \circ \pi_b)(y)
+\end{equation*}
+luego \( \pi_b(y) \) es una preimagen de \( x \) por \( \bar{g}_2 \), que demuestra que \(
+\bar{g}_2 \) es exhaustiva.
+
+Queda por ver que \( \ker{\bar{g}_2} = \im{\bar{f}_2} \). Sea \( x \in \im{\bar{f}_1} \),
+es decir, que \( x = \bar{f}_1(y) \) para \( y \in \coker{b} \). Por la exhaustividad de
+\( \pi_a \), \( y = \pi_a(z) \) para algun \( z \in A_2 \). Entonces, usando la
+commutatividad de \eqref{eq:cokernels},
+\begin{align*}
+	\bar{g}_2 (x) = (\bar{g}_2 \circ \bar{f}_2 \circ \pi_a)(z) = (\pi_c \circ g_2 \circ
+	f_2)(z) = 0
+\end{align*}
+puesto que \( g_2 \circ f_2 = 0 \) por exactitud. En el otro sentido, sea \( x \in
+\ker{\bar{g}_2} \). Tenemos que demostrar que \( x \) tiene una preimagen por \(
+\bar{f}_2 \). Podemos poner \( x = \pi_b(y) \) para algún \( y \in B_2 \). Entonces \(
+0 = \bar{g}_2(x) = (\bar{g}_2 \circ \pi_b)(y) = (\pi_c \circ g_2)(y) \). Es decir, \( g_2(y) \in
+\ker{\pi_c} \) y \( \ker{\pi_c} = \im{c} \) por exactitud. Entonces existe \( z \in C_1 \)
+tal que \( c(z) = g_2(y) \). Y como \( g_1 \) es exhaustivo, \( z = g_1(w) \) para algún
+\( w \in B_1 \). Entonces \( g_2(y) = (c \circ g_1)(w) = (g_2 \circ b)(w) \). Por lo tanto
+\( g_2(y - b(w)) = 0 \), por lo que, por exactitud, existe \( y' \in A_2 \) tal que \(
+f_2(y') = y - b(w) \). Y entonces
+\begin{equation*}
+	(\pi_b \circ f_2)(y') = \pi_b(y - b(w)) = \pi_b(y) = x.
+\end{equation*}
+Pero \( \pi_b \circ f_2 = \bar{f}_2 \circ \pi_a \), luego \( \pi_a(y') \in \coker{a} \) es
+una preimagen de \( x \) por \( \bar{f}_2 \), lo que completa la prueba de que \(
+\ker{\bar{g}_2} = \im{\bar{f}_2} \).
+
+Podemos resumir todo esto en el diagrama commutativo
+\begin{equation*}
+	\begin{tikzcd}
+		0 \arrow[r] & \ker{a} \arrow[d, "\iota_a", tail] \arrow[r, "\hat{f}_1"] & \ker{b} \arrow[d,
+		"\iota_b", tail] \arrow[r, "\hat{g}_1"] & \ker{c}
+		\arrow[d, "\iota_c", tail] \\
+		0 \arrow[r] & A_1 \arrow[r, "f_1"] \arrow[d, "a"] & B_1 \arrow[r, "g_1"] \arrow[d, "b"] & C_1
+		\arrow[r] \arrow[d, "c"] & 0 \\
+		0 \arrow[r] & A_2 \arrow[r, "f_2"] \arrow[d, "\pi_a", two heads] & B_2 \arrow[r,
+		"g_2"] \arrow[d, "\pi_b", two heads] & C_2 \arrow[r] \arrow[d, "\pi_c", two heads] & 0
+		\\
+																				 & \coker{a} \arrow[r, "\bar{f}_2"] &
+		\coker{b} \arrow[r, "\bar{g}_2"]  & \coker{c} \arrow[r] & 0 \\
+	\end{tikzcd}
+\end{equation*}
+donde todas las filas y columnas son exactas.
+
+Por último tenemos que construir el morfismo de conexión \( \delta \colon \ker{c} \to
+\coker{a} \) que haga que la secuencia cojunta sea exacta. Sea \( x \in \ker{c} \). Por
+ser \( g_1 \) exhaustiva, existe \( y \in B_1 \) tal que \( g_1(y) = \iota_c(x) \), luego
+\begin{equation*}
+	0 = (c \circ \iota_c)(x) = (c \circ g_1)(y) = (g_2 \circ b)(y).
+\end{equation*}
+Entonces \( b(y) \) está en el núcleo de \( g_2 \), que por exactitud es lo mismo que la
+imagen de \( f_2 \). Entonces existe \( z \in A_2 \) tal que \( f_2(z) = b(y) \). Pero por
+la inyectividad de \( f_2 \), cada elemento de \( \im{f_2} \) tiene una única preimagen,
+por lo que \( z \) es único. Entonces \( \pi_a(z) \in \coker{a} \), por lo que podemos
+definir \( \delta(x) = \pi_a(z) \). Tenemos que ver que así definido \( \delta \) es un
+morfismo. La elección de \( z \) no es ambigua, tal y como hemos argumentado. Sí lo es, en
+cambio, al elección de \( y \). Si \( y' \) es otra preimagen de \( \iota_c(x) \) por \(
+g_1 \) se tiene que \( y' - y \) está en el núcleo de \( g_1 \). Y por exactitud podemos
+escribir
+\begin{equation*}
+	y' = y + f_1(w)
+\end{equation*}
+para algún \( w \in A_1 \). Sea \( z' \) la preimagen de \( y' \) por \( f_2 \). Tenemos
+\begin{equation*}
+	f_2(z - z') = b(y - y') = (b \circ f_1)(w) = (f_2 \circ a)(w). 
+\end{equation*}
+Como \( f_2 \) es inyectiva se concluye \( z - z' = a(w) \), por lo que \( \pi_a(z - z') =
+0 \) y \( \pi_a(z) = \pi_a(z') \). Por lo tanto \( \delta \) está bien definido. También
+es lineal, pues si \( \delta(x_1) = \pi_a(z_1) \) y \( \delta(x_2) = \pi_a(z_2) \)
+entonces para todo \( \lambda \in K \) 
+\begin{equation*}
+	f_2(z_1 + \lambda z_2) = f_2(z_1) + \lambda f_2(z_2) = b(y_1) + \lambda b(y_2)
+\end{equation*}
+donde \( y_1 \) y \( y_2 \) son una preimagen de \( \iota_c(x_1) \) y \( \iota_c(x_2) \)
+por \( b \), respectivamente. Por lo que \( f_2(z_1 + \lambda z_2) = \iota_c(x_1) +
+\lambda \iota_c(x_2) = \iota_c(x_1 + \lambda x_2) \) y entonces \( \delta(x_1 + \lambda
+x_2) = \pi_a(z_1 + \lambda z_2) = \pi_a(z_1) + \lambda \pi_a(z_2) = \delta(x_1) + \lambda
+\delta(x_1) + \lambda \delta(x_2). \)
+
+Tenemos la sucesión
+\begin{equation*}
+	\begin{tikzcd}
+		0 \arrow[r] & \ker{a} \arrow[r, "\hat{f}_1"] & \ker{b} \arrow[r, "\hat{g}_1"] &
+		\ker{c} \arrow[dll, "\delta" description, out=0, in=180, looseness=2, overlay] \\ &
+		\coker{a} \arrow[r, "\bar{f}_2"] & \coker{b} \arrow[r, "\bar{g}_2"] & \coker{c}
+		\arrow[r] & 0
+	\end{tikzcd}
+\end{equation*}
+Solo queda demostrar que es exacta, y para ello es suficiente comprovar que es exacta en
+\( \ker{c} \) y \( \coker{a} \), puesto que ya hemos visto que es exacta en el resto de
+puntos. 
+
+Demostremos que \( \ker{\delta} = \im{\hat{g}_1} \). Si \( x \in \im{\hat{g}_1} \)
+entonces \( x = \hat{g}_1(y) \) para \( y \in \ker{b} \). Entonces
+\begin{equation*}
+	(g_1 \circ \iota_b)(y) = (\iota_c \circ \hat{g}_1)(y) = \iota_c(x)
+\end{equation*}
+por lo que \( \iota_b(y) \) es una preimagen de \( \iota_c(x) \) por \( g_1 \). Entonces
+\( (b \circ \iota_b)(y) = 0 \), luego su preimagen por \( f_2 \) es 0 y \( \delta(x) =
+\pi_a(0) = 0 \). En el otro sentido, supongamos \( \delta(x) = 0 \). Tenemos que ver que
+\( x \) es la imagen de algún elemento de \( \ker{b} \). Sea \( y \) una preimagen de \(
+\iota_c(x) \) por \( g_1 \) y \( z \) la preimagen de \( b(y) \) por \( f_2 \). Por
+la construcción de \( \delta \), \( \pi_a(z) = 0 \), por lo que \( z = a(w) \) para \( w
+\in A_1 \). Entonces
+\begin{equation*}
+	b(y) = f_2(z) = (f_2 \circ a)(w) = (b \circ f_1)(w)
+\end{equation*}
+y \( b(y - f_1(w)) = 0 \). Escribamos \( y - f_1(w) = \iota_b(u) \) para \( u \in \ker{b}
+\), con lo que resulta
+\begin{equation*}
+	(\iota_c \circ \hat{g}_1)(u) = (g_1 \circ \iota_b)(u) = g_1(y) - (g_1 \circ f_1)(w) =
+	g_1(y) = \iota_c(x)
+\end{equation*}
+con lo que, por la inyectividad de \( \iota_c \), \( \hat{g_1}(u) = x \).
+
+La demostración de exactitud en \( \coker{a} \) es muy parecida. Sea \( x \in \im{\delta}
+\), por lo que \( x = \delta(y) \) para algún \( y \in \ker{c} \). Por la construcción de
+\( \delta \), existe \( z \in A_2 \) tal que \( \delta(y) = \pi_a(z) \). Aplicando \(
+\bar{f}_2 \) se obtiene
+\begin{equation*}
+	\bar{f}_2(x) = (\bar{f}_2 \circ \pi_a)(z) = (\pi_b \circ f_2)(z).
+\end{equation*}
+Recordemos que, en la construcción de \( \delta \), \( f_2(z) \) estaba en la imagen de	\(
+b \), por lo que \( \bar{f}_2(x) = \pi_b(f_2(z)) = 0 \). Por lo tanto \( \im{\delta} \subseteq
+\ker{\bar{f}_2} \).
+
+En el otro sentido, si \( x \in \coker{a} \) es tal que \( \bar{f}_2(x) = 0 \) tenemos que
+ver que existe algún elemento en \( \ker{c} \) cuya imagen por \( \delta \) es \( x \).
+Existe \( z \in A_2 \) tal que \( x = \pi_a(z) \), luego
+\begin{equation*}
+	0 = \bar{f}_2(x) = (\bar{f}_2 \circ \pi_a)(z) = (\pi_b \circ f_2)(z)
+\end{equation*}
+lo que nos dice que \( f_2(z) \) está en la imagen de \( b \). Es decir, existe \( y \in
+B_1 \) tal que \( b(y) = f_2(z) \). Queremos saber si \( c(g_1(y)) = 0 \), puesto que si
+lo es tendremos que \( g_1(y) \in \ker{c} \) y entonces \( \delta(g_1(y)) = \pi_a(z) = x
+\). Y efectivamente
+\begin{equation*}
+	(c \circ g_1)(y) = (g_2 \circ b)(y) = (g_2 \circ f_2)(z) = 0
+\end{equation*}
+por exactitud. Entonces \( x \in \im{\delta} \), lo que termina la prueba de la exactitud
+de la sucesión en \( \coker{a} \), y por lo tanto de la exactitud de la sucesión entera.
+\end{document}
