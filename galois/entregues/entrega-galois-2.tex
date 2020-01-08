@@ -1,0 +1,459 @@
+\documentclass[12pt]{article}
+
+\input{preamble-entregues.tex}
+\input{commands-galois-cat.tex}
+
+% Pagestyles
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Teoria de Galois}}{}{Entrega 2}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Entrega 2}}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 9 de gener de 2019}
+
+\begin{document}
+\maketitle
+
+\section*{Problema 1}
+Sigui \( F \) el cos \( \Q(\sqrt[4]{2}, i) \). Hem de veure que \( F \) és una extensió de
+Galois de \( \Q \). \( F \) és una extensió separable perquè \( \Q \) té característica 0
+i \( F \) és una extensió algebraica ---tant \( i \) com \( \sqrt[4]{2} \) són algebraics
+sobre \( \Q \). Només hem de veure, doncs, que \( F \) és una extensió normal. I com que
+es tracta d'una extensió finita, és equivalent a comprovar que és el cos de descomposició
+d'algun polinomi. Considerem el polinomi \( x^4 - 2 \). Les seves arrels a \( \C \) són \(
+\sqrt[4]{2} \), \( -\sqrt[4]{2} \), \( i \sqrt[4]{2} \) i \( -i \sqrt[4]{2} \), per tant
+el seu cos de descomposició sobre \( \Q \) és
+\begin{equation*}
+	\Q(x^2 - 4) = \Q(\sqrt[4]{2}, -\sqrt[4]{2}, i\sqrt[4]{2}, -i\sqrt[4]{2}) =
+	\Q(\sqrt[4]{2}, i\sqrt[4]{2}).
+\end{equation*}
+I de fet \( \Q(x^2 - 4) = F \). D'una banda, és car que \( F \) conté \( \Q(x^2 - 4) \), i
+com que
+\begin{equation*}
+	i = \frac{i \sqrt[4]{2}}{\sqrt[4]{2}}
+\end{equation*}
+\( F \) està contingut dins de \( \Q(x^2 - 4) \). Per tant \( F \) és un cos de
+descomposició sobre \( \Q \) i per tant n'és una extensió normal.
+
+\parbreak
+
+Com que \( F \) és una extensió de Galois tenim la igualtat
+\begin{equation*}
+	\abs{\GalQ{F}} = \exte{F}{\Q}. 
+\end{equation*}
+Per a calcular el grau \( \exte{F}{\Q} \) observem que \( F \) no pot ser igual a \(
+\Q(\sqrt[4]{2}) \) donat que \( \Q(\sqrt[4]{2}) \) està contingut dins de \( \R \) però \(
+F \) no. Això implica que \( \exte{F}{\Q(\sqrt[4]{2}} = 2 \). Efectivament,
+l'irreductible de \( i \) a qualsevol extensió de \( \Q \) ha de dividir \( x^2 + 1 \).
+I si fos de grau 1 sobre \( \Q(\sqrt[4]{2}) \) voldria dir que \( i \in \Q(\sqrt[4]{2})
+\), que no és el cas. Pel lema de les torres, i fent servir que l'irreductible de \(
+\sqrt[4]{2} \) sobre \( \Q \) és \( x^4 - 2 \) es té
+\begin{equation*}
+	\exte{F}{\Q} = \exte{F}{\Q(\sqrt[4]{2})} \ext{\Q}{\sqrt[4]{2}} = 4 \cdot 2 = 8. 
+\end{equation*}
+Això és suficient per a concloure que \( \GalQ{F} \) és isomorf al grup dihedral del
+quadrat, \( D_{2 \times 4} \), ja que és l'únic subgrup d'ordre 8 de \( \S_4 \), i \(
+\GalQ{F} \) és isomorf a un subgrup de \( \S_4 \).
+
+\parbreak
+
+Per a trobar el reticle de cossos intermitjos de l'extensió \( F/\Q \) fem servir la
+correspondència de Galois. Abans, però, determinem l'estructura de \( \GalQ{F} \) amb una
+mica més de detall. Com que \( F \) és el cos de descomposició de \( x^2 - 4 \), tenim que
+\( \GalQ{F} = \GalQ{x^2 - 4} \), per tant els elements de \( \GalQ{F} \) permuten les
+arrels de \( x^2 - 4 \), que són \( \sqrt[4]{2}, i\sqrt[4]{2}, -\sqrt[4]{2}, -i\sqrt[4]{2}
+\). Denotem-les, en aquest ordre, per \( 1, 2, 3 \) i \( 4 \). D'altra banda, un element
+de \( \GalQ{F} \) queda determinat per on envia \( \sqrt[4]{2} \) i \( i \). Les opcions
+per a \( \sqrt[4]{2} \) són les quatre arrels del seu irreductible sobre \( \Q \), \( x^4
+- 2 \). I les possibilitats per a \( i \) són les dues arrels de \( x^2 + 1 \), \( i \) i
+\( -i \). Així, hi ha quatre elements de \( \GalQ{F} \) que fixen \( i \) i quatre que no.
+Això correspon al fet de que de les 8 simetries d'un quadrat, és a dir, elements de \(
+D_{2 \times 4} \), n'hi ha 4 que no involucren una reflexió i 4 que si. 
+
+Els quatre automorfismes que fixen \( i \) són les quatre potències del morfisme que envia
+\( \sqrt[4]{2} \) a \( i\sqrt[4]{2} \), és a dir, de la permutació \( (1 \, 2 \, 3 \, 4)
+\). Els quatre morfismes restants són la composició d'un d'aquests pel morfisme
+conjugació, és a dir, el que envia \( i \) a \( -i \), i que per tant queda representat
+per a \( (2\,4) \). Els elements de \( D_{2 \times 4} \) són, doncs
+\begin{table}[h]
+	\center
+	\begin{tabular}{cc}
+		\toprule
+		Rotacions & Reflexions \\
+		\midrule
+		id & (2 4) \\
+		(1 2 3 4) & (1 2)(3 4) \\
+		(1 3)(2 4) & (1 3) \\
+		(1 4 3 2) & (1 4)(2 3) \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Anem a determinar el reticle de subgrups de \( D_{2 \times 4} \). El únics ordres
+possibles per a subgrups no trivials de \( D_{2 \times 4} \) són 2 i 4. Els subgrups
+d'ordre 2 estan generats per elements d'ordre 2. Els elements d'ordre 2 de \( D_{2 \times
+4} \) són tots tret dels dos 4-cicles i la identitat, per tant hi ha 5 subgrups d'ordre 2.
+Els dos 4-cicles generen el mateix subgrup d'ordre 4, que és isomorf a \( \Z/4\Z \). Dos
+elements d'ordre 2 diferents poden generar un subgrup d'ordre 4 isomorf al grup de Klein \( V_4
+\) ---equivalentment \( \Z/2\Z \times \Z/2\Z \)---. A priori tenim \( \binom{5}{2} = 10 \)
+possibilitats. Tenim el subgrup
+\begin{equation*}
+	\gen{(1\,3)(2\,4)} = \gen{(1\,3), (1\,3)(2\,4)} = \gen{(2\,4), (1\,3)(2\,4)} = \set{\id,
+		(1\,3), (2\,4), (1\,3)(2\,4)}.
+\end{equation*}
+Un altre subgrup és
+\begin{align*}
+	\gen{(1\,2)(3\,4), (1\,4)(2\,3)} & = \gen{(1\,2)(3\,4), (1\,3)(2\,4)} =
+	\gen{(1\,4)(2\,3), (1\,3)(2\,4)} \\
+																	 & = \set{\id, (1\,2)(3\,4), (1\,4)(2\,3),
+																	 (1\,3)(2\,4)}.
+\end{align*}
+AMb tot això hem exhaurit 6 possibilitats. Les altres 4 generen tot el grup. Efectivament,
+com que \( (1\,3)(1\,2)(3\,4) = (1\,2\,3\,4) \), el subgrup \( \gen{(1\,3), (1\,2)(3\,4)}
+\) té ordre superior a 4, i per tant és el total. Conjugant per les potències de \(
+(1\,2\,3\,4) \) arribem a la conclusió de que passa el mateix per a les altres tres
+possibilitats. El reticle de subgrups és
+\begin{equation*}
+	\begin{tikzcd}[column sep = 0.8]
+		& & D_{2 \times 4} \arrow[dl, no head] \arrow[d, no head] \arrow[dr, no head] \\
+		& \makebox[\widthof{$\gen{(1\,2)(3\,4), (1\,4)(2\,3)}$}][c]{$\gen{(1\,3),(2\,4)}$} & \gen{(1\,2\,3\,4)} & \gen{(1\,2)(3\,4), (1\,4)(2\,3)} \\
+		\gen{(1\,3)} \arrow[ur, no head] & \gen{(2\,4)} \arrow[u, no head] &
+		\gen{(1\,3)(2\,4)} \arrow[ul, no head] \arrow[u, no head] \arrow[ur, no head] &
+		\gen{(1\,2)(3\,4)} \arrow[u, no head] & \gen{(1\,4)(2\,3)} \arrow[ul, no head] \\
+																					& & \gen{\id} \arrow[ull, no head] \arrow[ul, no
+																					head] \arrow[u, no head] \arrow[ur, no head]
+																					\arrow[urr, no head] 
+	\end{tikzcd}
+\end{equation*}
+
+Un cop coneixem l'estructura de \( \GalQ{F} \cong D_{2\times 4} \) podem determinar
+el reticles de cossos intermitjos de \( F/\Q \), fent servir la correspondència de Galois,
+\( H \mapsto F^H \) per a \( H \leq \GalQ{F} \).  Com que l'extensió és de Galois, la
+correspondència és bijectiva. En particular es dedueix que hi ha tres cossos intermitjos
+de grau 2 sobre \( \Q \) i cinc cossos intermitjos de grau 4 sobre \( \Q \), fent servir
+que \( \exte{F^H}{\Q} = \abs{\GalQ{F}}/\abs{H} \).
+
+% Com que \( F = \Q(\sqrt[4]{2})(i) \), tot element de \( F \) es pot escriure com \(
+% \alpha + \beta i \) on \( \alpha, \beta \in \Q(\sqrt[4]{2}) \). I \( \Q(\sqrt[4]{2}) \) és
+% una extensió de grau 4 sobre \( \Q \) per tant podem escriure'n un element qualsevol com
+% \begin{equation*}
+% 	\alpha = \alpha_1 + \alpha_2 \sqrt[4]{2} + \alpha_3 \sqrt{2} + \alpha_4 2^{3/4}. 
+% \end{equation*}
+% Amb \( \alpha_i \in \Q \). Per a poder determinar els cossos fixos per subgrups de
+% \( \GalQ{F} \) ens cal saber com actuen els elements de \( \GalQ{F} \) sobre els sis
+% elements no racionals de la \( \Q \)-base de \( F \) que acabem de donar.
+
+Comencem pel subgrup \( H_1 = \gen{(1\,3),(2\,4)} \). Com que \( H_1 \) té ordre 4 \(
+F^{H_1} \) ha de tenir ordre 2 sobre \( \Q \). Recordem que \( (2\,4) \) representa
+el morfisme conjugació, pel que tots els elements de \( F^{H_1} \) han de ser reals. A
+més
+\begin{equation*}
+	(1\,3)(\sqrt{2}) = \left((1\,3)(\sqrt[4]{2})\right)^2 = (-\sqrt[4]{2})^2 = \sqrt{2}
+\end{equation*}
+per tant \( \Q(\sqrt{2}) \subseteq F^H_1 \). Però de fet es té igualtat perquè \(
+\Q(\sqrt{2}) \) té grau 2 sobre \( \Q \).
+
+Considerem el subgrup \( H_2 = \gen{(1\,2\,3\,4)} \). Com abans, té ordre 2 per tant el
+corresponent cos \( F^{H_2} \) ha de tenir ordre 2 sobre \( \Q \). Recordem que \(
+(1\,2\,3\,4) \) permuta les arrels de \( x^4 - 2 \) cíclicament però fixa \( i \), per
+tant \( \Q(i) \subseteq F^{H_2} \), però de fet es té igualtat perquè \( \Q(i) \) té grau
+2 sobre \( \Q \). 
+
+L'últim dels subgrups d'ordre 4 és \( H_3 = \gen{(1\,2)(3\,4), (1\,4)(2\,3)} \). Tenim 
+\begin{gather*}
+	(1\,2)(3\,4)(i \sqrt{2}) = \left((1\,2)(3\,4)(\sqrt[4]{2})\right)
+	\left((1\,2)(3\,4)(i\sqrt[4]{2})\right) = (i \sqrt[4]{2})(\sqrt[4]{2}) = i \sqrt{2} \\
+	(1\,4)(2\,3)(i \sqrt{2}) = \left((1\,4)(2\,3)(\sqrt[4]{2})\right)
+	\left((1\,4)(2\,3)(i\sqrt[4]{2})\right) = (-i \sqrt[4]{2})(-\sqrt[4]{2}) = i \sqrt{2}
+\end{gather*}
+per tant \( \Q(i\sqrt{2}) = F^{H_3} \) perquè \( \Q(i\sqrt{2}) \) té grau 2 sobre \( \Q
+\).
+
+Fem el mateix per als cincs subgrups d'ordre 2, que donen lloc a extensions de grau 4.
+Ràpidament, com que \( (1\,3)(i \sqrt[4]{2}) = i \sqrt[4]{2} \) i \( (2\,4)(\sqrt[4]{2}) =
+\sqrt[4]{2} \) concloem
+\begin{equation*}
+	F^{\gen{(1\,3)}} = \Q(i\sqrt[4]{2}) \text{ i } F^{\gen{(2\,4)}} = \Q(\sqrt[4]{2})
+\end{equation*}
+perquè tant \( \sqrt[4]{2} \) com \( i\sqrt[4]{2} \) tenen grau sobre \( \Q \), perquè són
+arrels de \( x^4 - 2 \). 
+
+Considerem ara el subgrup \( \gen{(1\,3)(2\,4)} \). Ja hem vist que \( \sqrt{2} \) és fix
+tant per \( (1\,3) \) com per \( (2\,4) \), per tant també ho és per la seva composició.
+També ho és \( i \):
+\begin{equation*}
+	(1\,3)(2\,4)(i) = \frac{(1\,3)(2\,4)(i\sqrt[4]{2})}{(1\,3)(2\,4)(\sqrt[4]{2})} =
+	\frac{-i\sqrt[4]{2}}{-\sqrt[4]{2}} = i.
+\end{equation*}
+Aleshores, com que \( \Q(i,\sqrt{2}) \) té grau 2 sobre \( \Q \), és \(
+F^{\gen{(1\,3)(2\,4)}} \). Mirem de trobar un element primitiu d'aquesta extensió.
+Considerem \( \gamma = i + \sqrt{2} \). Aleshores \( \gamma^3 = 7i + \sqrt{2} \), per tant
+\begin{equation*}
+	i = \frac{\gamma^3 - \gamma}{6}
+\end{equation*}
+és a dir, \( i \in \Q(\gamma) \), i per tant \( \sqrt{2} = \gamma - i \in \Q(\gamma)
+\). Això ens dona \( \Q(\gamma) = \Q(i, \sqrt{2}) \). 
+
+Queden dos extensions de grau 4. Per a la que correspon a \( \gen{(1\,2)(3\,4)} \), com
+que \( (1\,2)(3\,4) \) intercanvia \( \sqrt[4]{2} \) amb \( i\sqrt[4]{2} \), \(
+\beta = \sqrt[4]{2} + i \sqrt[4]{2} \) és fix per la seva acció, per tant \( \Q(\beta)
+\subseteq F^{\gen{(1\,2)(3\,4)}} \). Tenim que \( \beta^2 = 2(i\sqrt{2}) \), per tant \(
+\Q(i\sqrt{2}) \subseteq \Q(\beta) \). Però la inclusió és estricta perquè \( \beta \) no
+és fix per \( (1\,4)(2\,3) \), a diferència de tots els elements de \( \Q(i\sqrt{2}) \).
+Per tant \( \Q(\beta) \) té grau almenys 4 sobre \( \Q \). I de fet exactament 4 perquè \(
+\beta^4 = -8 \). 
+
+Per un argument molt similar, \( \Q(\alpha) = F^{\gen{(1\,4)(2\,3)}} \) amb \( \alpha =
+\sqrt[4]{2} - i\sqrt[4]{2} \). Així doncs, el reticle de cossos intermitjos queda
+\begin{equation*}
+	\begin{tikzcd}
+		& & \Q(i, \sqrt[4]{2}) \arrow[dll, no head] \arrow[dl, no head] \arrow[d, no head]
+		\arrow[dr, no head] \arrow[drr, no head] & & \\
+		\Q(i \sqrt[4]{2}) & \Q(\sqrt[4]{2}) & \Q(\sqrt{2} + i)  
+											&	\makebox[\widthof{$\Q(\sqrt[4]{2})$}][c]{$\Q(\sqrt[4]{2} +
+											i\sqrt[4]{2})$}
+											&	\Q(\sqrt[4]{2} - i\sqrt[4]{2}) \\
+		& \Q(\sqrt{2}) \arrow[ul, no head] \arrow[u, no head] \arrow[ur, no head] & \Q(i)
+		\arrow[u, no head] & \Q(i\sqrt{2}) \arrow[ul, no head] \arrow[u, no head] \arrow[ur, no head]\\
+		& & \Q \arrow[ul, no head] \arrow[u, no head] \arrow[ur, no head] & &
+	\end{tikzcd}
+\end{equation*}
+
+% TODO: trobar element primitiu de F
+
+\section*{Problema 2}
+El conjunt d'automorfismes d'un grup \( G \), \( \Aut(G) \) és un grup amb la composició.
+Tenim que la composició d'automorfismes és automorfisme: en efecte, la composició de
+morfismes és morfisme, i si \( \phi, \psi \in \Aut(G) \) aleshores
+\begin{equation*}
+	(\phi \circ \psi)^{-1} = \psi^{-1} \circ \phi^{-1} 
+\end{equation*}
+per tant \( \phi \circ \psi \) és un automorfisme i no només un morfisme. A més la
+composició d'aplicacions és sempre associativa. El morfisme identitat fa el paper
+d'element neutre. També hi ha inversos perquè la inversa d'un automorfisme també és un
+morfisme. Així doncs \( (\Aut(G), \circ) \) és un grup. 
+
+\parbreak
+
+Considerem una acció d'un grup \( H \) sobre un grup \( G \), \( \phi \colon H \to
+\Aut(G) \). Es defineix el producte semidirecte \( G \rtimes_\phi H \) o simplement \( G
+\rtimes H \) com \( G \times H \) amb l'operació
+\begin{equation*}
+	(g_1, h_1)(g_2, h_2) = (g_1 \phi(h_1)(g_2), h_1 h_2).
+\end{equation*}
+Aquesta operació dóna a \( G \rtimes H \) estructura de grup. Efectivament, és clar que
+defineix una operació a \( G\rtimes H \), és a dir, \( (g_1, h_1)(g_2, h_2) \in G\rtimes H
+\). L'element neutre és \( (e_G, e_H) \):
+\begin{gather*}
+	(g,h)(e_G, e_H) = (g \phi(h)(e_G), he_H) = (g e_G, h) = (g,h) \\
+	(e_G, e_H)(g,h) = (e_G \phi(e_H)(g), e_H h) = (\id_G(g), h) = (g,h).
+\end{gather*}
+L'invers de \( (g,h) \) és \( (\phi(h^{-1})(g^{-1}), h^{-1}) \):
+\begin{gather*}
+	(g,h)(\phi(h^{-1})(g^{-1}), h^{-1}) = \left(g \left(\phi(h) \circ \phi(h^{-1})\right)(g^{-1}),
+	hh^{-1}\right) = (gg^{-1}, e_H) = (e_G, e_H) \\
+	\begin{aligned}
+		(\phi(h^{-1})(g^{-1}), h^{-1})(g,h) & = (\phi(h^{-1})(g^{-1}) \phi(h^{-1})(g),
+		h^{-1}h) \\
+																				& =	\left(\left(\phi(h^{-1})(g)\right)^{-1}
+																				\phi(h^{-1})(g), e_H\right) = (e_G, e_H).
+	\end{aligned}
+\end{gather*}
+Per últim cal comprovar l'associativitat:
+\begin{align*}
+	(g_1,h_1)\big((g_2, h_2)(g_3, h_3)\big) & = (g_1,h_1) \big(g_2 \phi(h_2)(g_3), h_2
+	h_3)\big) \\
+																					& = \Big(g_1 \phi(h_1)\big(g_2
+																					\phi(h_2)(g_3)\big), h_1(h_2h_3)\Big) \\
+																					& = \Big(g_1 \phi(h_1)(g_2)
+																					\big(\phi(h_1h_2)(g_3)\big), (h_1h_2)h_3\Big)
+																				\\
+																					& = \big(g_1\phi(h_1)(g_2), h_1h_2\big)(g_3,h_3) \\
+																					& =
+																					\big((g_1,h_1)(g_2,h_2)\big)(g_3,h_3).
+\end{align*}
+
+Observem que amb l'acció trivial \( e \colon H \to \Aut(G) \) on \( e(h) = \id_G \) per
+tot \( g \in G \) recuperem el producte directe de grups estàndard.
+
+\parbreak
+
+Considerem un producte directe \( G = G_1 \rtimes G_2 \). Considerem el subconjunt
+\begin{equation*}
+	K = \set{(g,h) \in G \mid g = e_{G_1}}.
+\end{equation*}
+\( K \) és un subgrup. Si \( (e_{G_1},h_1) \) i \( (e_{G_1},h_2) \) són a \( K \)
+aleshores
+\begin{align*}
+	(e_{G_1}, h_1)(e_{G_1}, h_2)^{-1} & = (e_{G_1}, h_1)(\phi(h_2^{-1})(e_{G_1}), h_2^{-1})
+	\\
+																		& = (e_{G_1},h_1)(e_{G_1}, h_2^{-1}) = (e_{G_1}
+																		\phi(h_1)(e_{G_1}), h_1h_2^{-1}) \\
+																		& = (e_{G_1}, h_1h_2^{-1}) \in K.
+\end{align*}
+
+Similarment tenim el subgrup \( H = \set{(g,h) \in G \mid h = e_{G_2}} \). Si \(
+(g_1,e_{G_2}) \) i \( (g_2,e_{G_2}) \) són a \( H \) aleshores 
+\begin{align*}
+	(g_1,e_{G_2})(g_2, e_{G_2})^{-1} & = (g_1,e_{G_2})(\phi(e_{G_2})(g_2^{-1}), e_{G_2}) \\
+																	 & = (g_1,e_{G_2})(g_2^{-1}, e_{G_2}) = (g_1
+																	 \phi(e_{G_2})(g_2^{-1}), e_{G_2}) \\
+																	 & = (g_1 g_2^{-1}, e_{G_2}) \in H.
+\end{align*}
+A més \( H \) és normal a \( G \): per tot \( (x,y) \in G \) i \( g \in G_1 \) aleshores 
+\begin{align*}
+	(x,y)(g,e_{G_2})(x,y)^{-1} &= (x \phi(y)(g), y)\left(\phi(y^{-1})(x^{-1}), y^{-1}\right) \\
+														 & = \left(x \phi(y)(g) \left(\phi(y) \circ
+														 \phi(y^{-1})(x^{-1})\right), yy^{-1}\right) \\
+														 & = (x \phi(y)(g) x^{-1}, e_{G_2}) \in H.
+\end{align*}
+
+És clar que \( H \cap K = \gen{(e_1, e_2)} \)	i que \( H \cong G_1 \) i \( K \cong G_2 \)
+mitjançant les projeccions sobre el primer factor i el segon, respectivament. I per tot \(
+(g,h) \in G \) es té
+\begin{equation*}
+	(g,e_{G_2})(e_{G_1}, h) = (g \phi(e_{G_2})(e_{G_1}), e_{G_2}h) = (g,h),
+\end{equation*}
+és a dir, \( HK = G \). 
+
+A continuació veiem el recíproc del que acabem de provar: si un grup \( G \) té dos
+subgrups \( H \) i \( K \) tals que \( HK = G \), \( H \cap K = \gen{e} \) i \( H \) és
+normal a \( G \) aleshores \( G \) és isomorf a \( H \rtimes K \). 
+
+En general, la conjugació per un element fix \( y \in G \) és un automorfisme.
+Efectivament, si la denotem per \( \phi_y \) es té
+\begin{equation*}
+	\phi_y(x_1 x_2) = yx_1 x_2y^{-1} = yx_1y^{-1} yx_2y^{-1} =
+	\phi_y(x_1)\phi_y(x_2),
+\end{equation*}
+i la conjugació per \( y^{-1} \) n'és l'invers. Com que \( H \) és normal a \( G \),
+\( \phi_y(h) \in H \) si \( h \in H \), per qualsevol \( y \in G \). Així, \( \phi_y \) es
+pot restringir a un automorfisme d'\( H \). Això ens permet definir una acció de \( K \)
+sobre \( H \) mitjançant \( k \mapsto \phi_k \). Això funciona perquè 
+\begin{equation*}
+	(k_1k_2)h(k_1k_2)^{-1} = k_1 (k_2hk_2^{-1}) k_1^{-1},
+\end{equation*}
+és a dir, \( \phi_{k_1 k_2} = \phi_{k_1} \circ \phi_{k_2} \). Tenim, doncs, el producte
+semidirecte \( H \rtimes K \) mitjançant aquesta acció. 
+
+Definim \( \Phi \colon H \rtimes K \to G \) com \( \Phi(h,k) = hk \). A continuació veiem
+que \( \Phi \) és un isomorfisme. Tenim
+\begin{align*}
+	\Phi\big((h_1,k_1)(h_2,k_2)\big) & = \Phi(h_1 \phi_{k_1}(h_2), k_1 k_2) \\
+																	 & = \Phi(h_1k_1h_2 k_1^{-1}, k_1k_2) \\
+																	 & = h_1k_1h_2k_2 = \Phi(h_1,k_1) \Phi(h_2,k_2).
+\end{align*}
+Que \( \Phi \) és exhaustiva és perquè \( HK = G \). I que és injectiva és conseqüència de
+que \( H \cap K = \gen{e} \). En efecte, si \( (h,k) \in \ker \Phi \) aleshores \( hk = e
+\), per tant \( h = k^{-1} \in H\cap K \), és a dir \( h = k = e \). Així \( \Phi \) té
+nucli trivial i per tant és injectiva. Tenim que \( \Phi \) és un morfisme bijectiu, és a
+dir un isomorfisme.
+
+\section*{Problema 3}
+Considerem el polinomi \( p(x) = x^5 - 2 \in \Q[x] \). Hem de veure que el seu cos de
+descomposició sobre \( \Q \) és \( F = \Q(\sqrt[5]{2}, \zeta) \) on \( \zeta =
+e^{\frac{2\pi i}{5}} \). És clar que \( \zeta^k \sqrt[5]{2} \) amb \( 0 \leq k \leq 4 \)
+són cinc arrels de \( p(x) \) diferents a \( \C \). Pel Teorema Fonamental de l'Àlgebra,
+de fet són totes les arrels. Per tant el cos de descomposició de \( p(x) \) és
+\begin{equation*}
+	\Q(\sqrt[5]{2}, \zeta \sqrt[5]{2}, \zeta^2\sqrt[5]{2}, \zeta^3 \sqrt[5]{2}, \zeta^4
+	\sqrt[5]{2}).
+\end{equation*}
+Certament aquest cos està contingut a \( F \), i també el conté perquè \( \zeta =
+\frac{\zeta \sqrt[5]{2}}{\sqrt[5]{2}} \). Per tant són iguals. 
+
+L'extensió \( \Q(\sqrt[5]{2}) \) és de grau 5 sobre \( \Q \) perquè \( \sqrt[5]{2} \) és
+arrel de \( x^5 - 2 \), que és irreductible per Eisenstein. D'altra banda, \( \Q(\zeta) \)
+és una extensió de grau 4 sobre \( \Q \) perquè \( \zeta \) és arrel de \( x^4 + x^3 + x^2
++ x + 1 \), que és irreductible perquè és un polinomi ciclotòmic. Tenim el següent
+diagrama d'inclusions
+\begin{equation*}
+	\begin{tikzcd}[column sep = 0.5]
+		& \Q(\sqrt[5]{2},\zeta) \arrow[dl, no head], \arrow[dr, no head] & \\
+		\Q(\sqrt[5]{2}) & & \Q(\zeta) \\
+									 & \Q \arrow[ur, "4", no head, swap] \arrow[ul, "5", no head] & 
+	\end{tikzcd}
+\end{equation*}
+\( \zeta \) continua sent arrel de \( x^4 + x^3 + x^2 + x + 1 \) a \( F \), així
+com \( \sqrt[2]{4} \) ho és de \( x^5 - 2 \),  el que vol dir que \(
+\exte{F}{\Q(\sqrt[5]{2})} \) no pot ser més gran que 4 i \( \exte{F}{\Q(\zeta)} \) no pot
+ser més gran que 5. Això, combinat amb el lema de les torres i amb el fet que 4 i 5 són
+coprimers ens permet concloure que \( \exte{F}{\Q} = 4 \times 5 = 20 \).
+
+\parbreak
+
+Sigui \( G = \GalQ(F) \). Per a determinar els elements de \( G \) considerem el següent
+diagrama
+\begin{equation*}
+	\begin{tikzcd}
+		\Q(\zeta)(\sqrt[5]{2}) \arrow[r, "\sigma"] & \Q(\zeta)(\sqrt[5]{2}) \\
+		\Q(\zeta) \arrow[u, tail] \arrow[ur, "\iota"] \\
+		\Q \arrow[u, tail] \arrow[uur, tail]
+	\end{tikzcd}
+\end{equation*}
+El morfisme \( \iota \) és la inclusió que ve determinada per \( \iota(\zeta) = \zeta \),
+que existeix perquè \( \zeta \) és arrel de \( x^4 + x^3 + x^2 + x + 1 \) a \( F \). Pel
+lema d'extensió de morfismes, \( \iota \) es pot extendre a \( \sigma \) tal que \(
+\sigma(\sqrt[5]{2}) = \zeta \sqrt[5]{2} \) perquè \( \zeta \sqrt[5]{2} \) és una arrel de
+\( x^5 - 2 \) a \( F \). Aleshores \( \sigma \in G \). 
+
+Similarment considerem 
+\begin{equation*}
+	\begin{tikzcd}
+		\Q(\zeta)(\sqrt[5]{2}) \arrow[r, "\tau"] & \Q(\zeta)(\sqrt[5]{2}) \\
+		\Q(\zeta) \arrow[u, tail] \arrow[ur, "\bar{\tau}"] \\
+		\Q \arrow[u, tail] \arrow[uur, tail]
+	\end{tikzcd}
+\end{equation*}
+on \( \bar{\tau}(\zeta) = \zeta^2 \), que és un morfisme perquè \( \zeta^2 \) és arrel de
+\( x^4 + x^3 + x^3 + x + 1 \) a \( F \), i \( \tau(\sqrt[5]{2}) = \sqrt[5]{2} \). Pel lema
+d'extensió de morfismes, \( \tau \) és un element de \( G \). 
+
+\parbreak
+
+Com que \( F \) és un cos de descomposició, pel matiex argument que al problema 1, és una
+extensió e Galois de \( \Q \) i per tant \( \abs{G} = \exte{F}{\Q} = 20 \).
+
+\( \sigma \) té ordre 5 perquè \( \sigma^5(\sqrt[5]{2}) = \zeta^5 \sqrt[5]{2} =
+\sqrt[5]{2} \) i \( \tau \) té ordre 4:
+\begin{equation*}
+	\zeta \xmapsto{\tau} \zeta^2 \xmapsto{\tau} \zeta^4 \xmapsto{\tau} \zeta^8 = \zeta^3
+	\xmapsto{\tau} \zeta^6 = \zeta.
+\end{equation*}
+Aleshores \( \gen{\sigma} \) és un subgrup de \( G \) d'ordre 5 i \( \gen{\tau} \) és un
+subgrup de \( G \) d'ordre 4. Per qüestions de grau, \( \gen{\sigma} \cap \gen{\tau} =
+\gen{\id} \), ja que l'ordre d'un element de la intersecció ha de dividir 5 i 4, per tant
+només pot ser 1. En particular, si \( \sigma^n \tau^m = \sigma^k \tau^l \) aleshores \(
+\sigma^n \sigma^{-k} = \tau^l \tau^{-m} = \id \), pel que \( \sigma^n = \sigma^k \) i
+\( \tau^m = \tau^l \). Això vol dir, en particular, que \( \gen{\sigma}\gen{\tau} \) conté
+almenys 20 elements diferents, els 20 possibles productes d'elements de \( \gen{\sigma} \)
+amb elements de \( \gen{\tau} \). Però \( \abs{G} = 20 \), el que vol dir \(
+\gen{\sigma}\gen{\tau} = G \). 
+
+Observem que \( \gen{\sigma} \) és un 5-subgrup de Sylow de \( G \). El nombre de
+5-subgrups de Sylow de \( G \), pel tercer teorema de Sylow, divideix 4 i és congruent a
+1 mòdul 5, per tant només pot ser 1. Això vol dir que \( \gen{\sigma} \) és l'únic
+5-subgrup de Sylow de G, i per tant és normal, pel segon teorema de Sylow. Estem en totes
+les hipòtesis per a concloure, fent servir el problema anterior, que 
+\begin{equation*}
+	G \cong \gen{\sigma} \rtimes \gen{\tau}
+\end{equation*}
+i com que \( \gen{\sigma} \) i \( \gen{\tau} \) són grups cíclics de 5 i 4 elements
+respectivament
+\begin{equation*}
+	G \cong \Z/5\Z \rtimes \Z/4\Z.
+\end{equation*}
+
+
+
+\end{document}
+
