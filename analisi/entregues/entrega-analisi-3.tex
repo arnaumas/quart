@@ -1,0 +1,275 @@
+\documentclass[12pt]{article}
+
+\input{preamble-entrega.tex}
+\input{commands-analisi.tex}
+
+% Pagestyles
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Anàlisi real.} Espais normats i de Banach}{}{\theauthor}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Entrega 3:} Espais de Hilbert}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 10 de gener de 2019}
+
+
+\begin{document}
+\maketitle
+\section*{Problema 1}
+Sigui \( E \) un espai de Banach real tal que la seva norma satisfà la identitat del
+para\l.lelogram, és a dir, per tot \( x,y \in E \)
+\begin{equation*}
+	2\norm{x}^2 + 2\norm{y}^2 = \norm{x+y}^2 + \norm{x-y}^2.
+\end{equation*}
+
+Definim l'aplicació
+\begin{align*}
+	\inn{\cdot}{\cdot} \colon E \times E & \longrightarrow \R \\
+	(x,y) & \longmapsto \frac{\norm{x+y}^2 - \norm{x-y}^2}{4}.
+\end{align*}
+Veurem que és un producte escalar a \( E \) que indueix la norma \(
+\norm{\cdot} \), i per tant que \( E \) té estructura d'Espai de Hilbert.
+
+En primer lloc, per tot \( x \in E \),
+\begin{equation*}
+	\inn{x}{x} = \frac{\norm{x+x}^2 - \norm{x-x}^2}{4} = \frac{\norm{2x}^2 + \norm{0}^2}{4}
+	= \frac{4\norm{x}^2}{4} = \norm{x}^2.
+\end{equation*}
+Aleshores, si demostrem \( \inn{\cdot}{\cdot} \) és efetivament un producte escalar, la
+norma que indueix és \( \norm{\cdot} \). Com a conseqüència, \( \inn{x}{x} = 0 \)
+equival a \( \norm{x}^2 = 0 \), i això és equivalent a \( x = 0 \), per propietats de la
+norma. L'aplicació \( \inn{\cdot}{\cdot} \) és, doncs, definida positiva.
+
+També es veu ràpidament que és simètrica:
+\begin{equation*}
+	\inn{x}{y} = \frac{\norm{x+y}^2 - \norm{x-y}^2}{4} = \frac{\norm{y+x}^2 - \norm{y-x}^2}{4} = \inn{y}{x}.
+\end{equation*}
+
+Queda per comprovar que \( \inn{\cdot}{\cdot} \) és bilineal. Com que hem provat que és
+simètrica només cal veure que és lineal en un dels arguments. Per tot \( x,y, z \in E \)
+es té
+\begin{align*}
+	4\inn{x+y}{z} - 4\inn{x}{z} - 4\inn{y}{z}	& = \norm{x+y+z}^2 - \norm{x+y-z}^2 \\
+																						& \quad -	\norm{x+z}^2 + \norm{x-z}^2 -
+																						\norm{y+z}^2 + \norm{y-z}^2.
+\end{align*}
+Apliquem la identitat del para\l.lelogram amb el primer terme i el quart:
+\begin{equation*}
+	\norm{x+y+z}^2 + \norm{x-z}^2 = \frac{1}{2}\left(\norm{2x + y}^2 + \norm{y +
+	2z}^2\right),
+\end{equation*}
+i amb el segon terme i el tercer:
+\begin{equation*}
+	-\norm{x+y-z}^2 - \norm{x+z}^2 = -\frac{1}{2}\left(\norm{2x+y}^2 + \norm{y-2z}^2\right).
+\end{equation*}
+Aleshores queda
+\begin{equation*}
+	4\inn{x+y}{z} - 4\inn{x}{z} - 4\inn{y}{z}	= \frac{1}{2}\norm{y + 2z}^2 -
+	\frac{1}{2}\norm{y-2z} - \norm{y+z}^2 + \norm{y-z}^2.
+\end{equation*}
+Una altra manera d'escriure la identitat del para\l.lelogram és
+\begin{equation*}
+	\frac{1}{2}\norm{u+v}^2 = \norm{u}^2 + \norm{v}^2 - \frac{1}{2}\norm{u-v}^2,
+\end{equation*}
+que ens dóna
+\begin{equation*}
+	\frac{1}{2}\norm{y+2z}^2 = \norm{y+z}^2 + \norm{z}^2 - \frac{1}{2}\norm{y}^2,
+\end{equation*}
+i similarment
+\begin{equation*}
+	\frac{1}{2}\norm{y-2z}^2 = \norm{y-z}^2 +\norm{z}^2 - \frac{1}{2}\norm{y}^2.
+\end{equation*}
+Per tant
+\begin{equation*}
+	\frac{1}{2}\norm{y+2z}^2 - \frac{1}{2}\norm{y-2z}^2 = \norm{y+z}^2 - \norm{y-z}^2
+\end{equation*}
+i \( 4\inn{x+y}{z} - 4\inn{x}{z} - 4\inn{y}{z} = 0 \), és a dir
+\begin{equation*}
+	\inn{x+y}{z} = \inn{x}{z} + \inn{y}{z}.
+\end{equation*}
+Combinant-ho amb la simetria, fins aquí tenim que \( \inn{\cdot}{\cdot} \) és additiva en
+els dos arguments.
+
+L'additivitat implica immediatament que \( \inn{nx}{y} = n\inn{x}{y} \) per tot \( n \in
+\N \), per inducció. A més
+\begin{align*}
+	\inn{-x}{y} & = \frac{\norm{-x+y}^2 - \norm{-x-y}^2}{4} = \frac{\norm{x-y}^2 -
+	\norm{x+y}^2}{4} \\
+							& = -\frac{\norm{x+y}^2 - \norm{x-y}^2}{4} = -\inn{x}{y}
+\end{align*}
+per tant tenim bilinealitat amb coeficients enters. I amb un petit càlcul podem demostrar
+que els escalars de la forma \( \frac{1}{n} \) també surten fora:
+\begin{align*}
+	\inn{\frac{1}{n}x}{y} &= \frac{1}{4}\left(\norm{\frac{1}{n}x + y}^2 - \norm{\frac{1}{n}x -
+	y}^2\right) \\
+												&= \frac{1}{4n^2}\left(\norm{x+ny}^2 - \norm{x-ny}^2\right) \\
+												&= \frac{1}{n^2}\inn{x}{ny} = \frac{1}{n^2}\inn{ny}{x} \\
+												& = \frac{n}{n^2}\inn{y}{x} = \frac{1}{n}\inn{y}{x} =
+												\frac{1}{n}\inn{x}{y}.
+\end{align*}
+Tenim, doncs, bilinealitat amb coeficients racionals. Però això és suficient per a
+concloure bilinealitat amb coeficients reals. En efecte, per a tot \( \lambda \in \R \),
+hi ha una successió de racionals \( (r_n) \) amb límit \( \lambda \). Com que \(
+\inn{\cdot}{\cdot} \) és contínua ---com a conseqüència immediata de la continuïtat de la
+norma---,
+\begin{equation*}
+\inn{\lambda x}{y} = \inn{\lim_{n \to \infty}r_n x}{y} = \lim_{n \to \infty} \inn{r_n
+x}{y} = \lim_{n \to \infty} r_n \inn{x}{y} = \lambda \inn{x}{y}
+\end{equation*}
+com volíem.
+
+\section*{Problema 2}
+Considerem l'espai de Hilbert \( L^2([-\pi, \pi]) \) amb el producte escalar
+\begin{equation*}
+	\inn{f}{g} = \int_{[-\pi, \pi]} fg.
+\end{equation*}
+Dins d'aquest espai hi considerem les funcions donades per \( x \mapsto 1 \), \( x \mapsto
+x\) i \( x \mapsto x^2 \), que denotarem simplement per \( 1 \), \( x \) i \( x^2 \)
+respectivament. Volem ortonormalitzar-les, és a dir, trobar una base ortonormal del
+subespai \( \gen{1, x, x^2} \). Ho farem amb el mètode de Gram-Schmidt.
+
+Considerem les funcions
+\begin{gather*}
+	f_1 = x - \frac{\inn{1}{x}}{\inn{1}{1}}1 \\
+	g_1 = x^2 - \frac{\inn{1}{x^2}}{\inn{1}{1}}1.
+\end{gather*}
+Tenim
+\begin{equation*}
+	\inn{1}{f_1} = \inn{x}{1} - \inn{1}{\frac{\inn{1}{x}}{\inn{1}{1}}1} = \inn{x}{1} -
+	\inn{1}{x} = 0
+\end{equation*}
+i pel mateix argument \( \inn{1}{g_1} = 0 \). Calculem exactament \( f_1 \) i \( g_1 \).
+Ens fan falta els productes \( \inn{1}{x} \) i \( \inn{1}{x^2} \):
+\begin{gather*}
+	\inn{1}{x} = \int_{[-\pi, \pi]} x = 0 \\
+	\inn{1}{x^2} = \int_{[-\pi, \pi]} x^2 = \frac{2\pi^3}{3}.
+\end{gather*}
+Per tant, com que \( \inn{1}{1} = m([-\pi,\pi]) = 2\pi \)
+\begin{gather*}
+	f_1 = x \\
+	g_1 = x^2 - \frac{2\pi^3}{6\pi} = x^2 - \frac{\pi^2}{3}.
+\end{gather*}
+Ara hem de buscar una base ortogonal de l'espai \( \gen{f_1, g_1} \). Podríem tornar a
+aplicar Gram-Schmidt, però no cal perquè
+\begin{equation*}
+	\inn{f_1}{g_1} = \int_{[-\pi,\pi]} x^3 - \frac{\pi^2}{3}x = 0
+\end{equation*}
+per tant \( f_1 \) i \( g_1 \) ja són ortogonals.
+
+Tenim, doncs, que \( 1 \), \( f_1 \) i \( g_1 \) són una base ortogonal de \(
+\gen{1,x,x^2} \). Per a que siguin una base ortonormal les hem de normalitzar. Com que \(
+\inn{1}{1} = \norm{1}^2 = \frac{1}{2\pi} \), \( \frac{1}{\sqrt{2\pi}} \)\footnote{Amb això
+el que volem dir és la funció 1 multiplicada per \( \frac{1}{\sqrt{2\pi}} \)} té norma 1.
+De la mateixa manera, com que
+\begin{equation*}
+	\norm{f_1}^2 = \inn{f_1}{f_1} = \int_{[-\pi,\pi]} f_1^2 = \int_{[-\pi, \pi]} x^2 =
+	\frac{2\pi^3}{3}
+\end{equation*}
+la funció
+\begin{equation*}
+	\tilde{f}_1 = \sqrt{\frac{3}{2\pi^3}} x
+\end{equation*}
+té norma 1.
+
+De la mateixa manera, com que
+\begin{equation*}
+	\norm{g_1}^2 = \inn{g_1}{g_1} = \int_{[-\pi, \pi]} g_1^2 = \int_{[-\pi,\pi]} x^4 -
+	\frac{2\pi^2}{3}x^2 + \frac{\pi^4}{9} = \frac{2\pi^5}{5} -
+	\frac{4\pi^5}{9} + \frac{2\pi^5}{9} = \frac{8\pi^5}{45}
+\end{equation*}
+la funció
+\begin{equation*}
+	\tilde{g}_1 = \sqrt{\frac{45}{8\pi^5}} g_1 = \frac{3}{2}\sqrt{\frac{5}{2\pi^5}}\left(x^2 -
+	\frac{\pi^2}{3}\right) 
+\end{equation*}
+té norma 1.
+
+Així doncs, \( \frac{1}{\sqrt{2\pi}} \), \( \tilde{f}_1 \) i \( \tilde{g}_1 \) són una
+base ortonormal de \( \gen{1,x,x^2} \).
+
+\parbreak
+
+El subespai \( F \defeq \gen{1,x,x^2} \subseteq L^2([-\pi, \pi]) \) és tancat per ser de
+dimensió finita, per tant la projecció sobre seu està ben definida. Volem calcular la
+projecció de \( x \mapsto \sin{2x} \), que denotarem simplement per \( \sin{2x} \), sobre
+\( F \), que és el polinomi \( p \) de grau 2 o menys que és més a prop de \( \sin{2x} \).
+És a dir, \( p = P_F \sin{2x} \). Sabem que això és equivalent a dir \( p - \sin{2x} \in
+F^\perp \). Per bilinealitat, és suficient requerir que \( p - \sin{2x} \) sigui ortogonal
+als elements d'una base de \( F \). A l'apartat anterior hem calculat una base ortonormal
+de \( F \), la qual cosa simplifica molt els càlculs. Denotem
+\begin{gather*}
+	e_0 = \frac{1}{\sqrt{2\pi}} \\
+	e_1 = \tilde{f}_1 \\
+	e_2 = \tilde{g}_1
+\end{gather*}
+
+Les condicions que ha de satisfer \( p \) són
+\begin{equation*}
+	\inn{p - \sin{2x}}{e_0} = \inn{p - \sin{2x}}{e_1} = \inn{p - \sin{2x}}{e_2} = 0.
+\end{equation*}
+Si \( p = a_0 + a_1x + a_2x^2 \) aleshores, per l'ortonormalitat de la base que hem triat,
+\begin{equation*}
+	\inn{e_i}{p} = a_i
+\end{equation*}
+per \( i = 0,1,2 \). Aleshores les equacions que ha de satisfer \( p \) són
+\begin{equation*}
+	\inn{p - \sin{2x}}{e_i} = \inn{p}{e_i} - \inn{\sin{2x}}{e_i} = 0
+\end{equation*}
+per a \( i = 0,1,2 \). Per tant només hem de calcular els tres productes \(
+\inn{\sin{2x}}{e_i} \).
+\begin{align*}
+	\inn{\sin{2x}}{e_0} & = \frac{1}{\sqrt{2\pi}} \int_{[-\pi,\pi]} \sin{2x} = 0 \\
+	\inn{\sin{2x}}{e_1} & = \sqrt{\frac{3}{2\pi^3}} \int_{[-\pi,\pi]} x\sin{2x} \\
+											& = \sqrt{\frac{3}{2\pi^3}}\left(\frac{-\pi\cos{2\pi} - \pi
+											\cos{(-2\pi)}}{2} + \frac{1}{2}\int_{[-\pi,\pi]}\cos{2x} \right) \\
+											& = -\sqrt{\frac{3}{8\pi}} \\
+	\inn{\sin{2x}}{e_2} & = \frac{3}{2} \sqrt{\frac{5}{2\pi^5}}\left(\int_{[-\pi,\pi]}\left(x^2 -
+	\frac{\pi^2}{3}\right)\sin{2x}\right) \\
+											& = \frac{3}{2} \sqrt{\frac{5}{2\pi^5}} \int_{[-\pi,\pi]}
+											x^2\sin{2x} \\
+											& = \frac{3}{2} \sqrt{\frac{5}{2\pi^5}} \\
+											& = \frac{3}{2} \sqrt{\frac{5}{2\pi^5}} \left(\frac{-\pi^2 \cos{2\pi} +
+											(-\pi)^2 \cos{(-2\pi)}}{2} + \int_{[-\pi,\pi]} x\cos{2x} \right)
+											\\
+											& = \frac{3}{2} \sqrt{\frac{5}{2\pi^5}} \left(\frac{\pi \sin{2\pi} + \pi
+											\sin{(-2\pi)}}{2} - \frac{1}{2}\int_{[-\pi, \pi]} \sin{2x} \right)
+											\\
+											& = 0.
+\end{align*}
+Per tant el polinomi que busquem és
+\begin{equation*}
+	p = -\sqrt{\frac{3}{8\pi}}x.
+\end{equation*}
+
+
+
+
+% \begin{equation*}
+% 	\inn{p - \sin{2x}}{1} = \inn{p - \sin{2x}}{x} = \inn{p - \sin{2x}}{x^2} = 0. 
+% \end{equation*}
+% Si \( p = a + bx + cx^2 \)
+% \begin{align*}
+% 	\inn{p - \sin{2x}}{1} & = \int_{[-\pi,\pi]} p - \sin{2x} \\
+% 												& = a \int_{[-\pi,\pi]} 1 + b
+% 												\int_{[-\pi,\pi]} x + c \int_{[-\pi,\pi]}x^2 - \int_{[-\pi,\pi]} \sin{2x} \\
+% 												& = 2\pi a + \frac{2\pi^3}{3} c.
+% \end{align*}
+% Per tant la condició \( \inn{p - \sin{2x}}{1} = 0 \) és equivalent a
+% \begin{equation*}
+% 	2\pi a + 2\pi^3 c = 0
+% \end{equation*}
+% o, equivalentment
+% \begin{equation*}
+% 	3a + \pi
+% \end{equation*}
+
+
+\end{document}
