@@ -1,0 +1,354 @@
+\documentclass[12pt]{article}
+\input{preamble-entrega.tex}
+\input{commands-varietats.tex}
+
+\newpagestyle{pagina}{
+	\headrule
+	\sethead*{\sffamily {\bfseries Topología de variedades:} Seminario 3}{}{\theauthor}
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\renewpagestyle{plain}{
+	\footrule
+	\setfoot*{}{}{\sffamily \thepage}
+}
+\pagestyle{pagina}
+
+\title{\sffamily {\bfseries Seminario 3:} Cálculo de la cohomología de \( \PR^n \)}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 10 de enero de 2019}
+
+
+\begin{document}
+\maketitle
+
+Recordamos que el espacio proyectivo \( \PR^n \) \( n \)-dimensional es el espacio que se
+obtiene al identificar los puntos antipodales de la \( n \)-esfera \( S^n \). Podemos
+entender esto como el cociente de \( S^n \) por la acción de un grupo. En efecto,
+consideremos la aplicación antipodal \( a \colon S^n \to S^n \), que es un difeomorfismo
+de la esfera. Esta aplicación es una involución: \( a^2 = \id \), por lo que podemos
+definir una acción de \( \Z/2\Z \) sobre \( S^n \) mediante \( 0 \mapsto \id \) y \( 1
+\mapsto a \). El cociente de \( S^n \) por esta acción es justamente \( \PR^n \) puesto
+que la órbita de cada punto está formada por él mismo y su antipodal. En particular esto
+justifica que \( \PR^n \) es una variedad. 
+
+\parbreak
+
+Tenemos, pues, una proyección \( p \colon S^n \to \PR^n \). Consideramos la sucesión
+\begin{equation}\label{eq:sucesion exacta corta}
+	\begin{tikzcd}
+		0 \arrow[r] & \Omega^k(\PR^n) \arrow[r, "p^\ast"] & \Omega^k(S^n) \arrow[r, "\id -
+		a^\ast"] & E^k \arrow[r] & 0
+	\end{tikzcd}
+\end{equation}
+donde \( E^k = \im(\id - a^\ast) \subseteq \Omega^k(S^n) \). Comprovar la exactitud de
+esta sucesión equivale a demostrar que \( p^\ast \) es inyectiva, que \( \id - a^\ast \)
+es exhaustiva sobre \( E^k \) y que \( \im p^\ast = \ker(\id - a^\ast) \). Que \( \id -
+a^\ast \) es exhaustiva sobre \( E^k \) es evidente por la definición de \( E^k \). Las
+otras dos condiciones tienen más contenido.
+
+Demostramos primero que \( \im p\ast = \ker(\id - a^\ast) \). Observemos que \( \omega \in
+\ker(\id - a^\ast) \) si y solo si \( \omega = a^\ast \omega \). Sea \( \omega \im p^\ast
+\). Entonces existe \( \theta \in \Omega^k(\PR^n) \) tal que \( \omega = p^\ast \theta \).
+Luego
+\begin{equation*}
+	a^\ast \omega = a^\ast (p^\ast \theta) = (p \circ a)^\ast \theta = p^\ast \theta =
+	\omega.
+\end{equation*}
+En la penúltima igualdad se utiliza que \( p \circ a = p \). Esto es porque la proyección
+sobre el espacio proyectivo de dos puntos antipodales de la esfera es, por definición, la
+misma. Tenemos, pues, \( \im p^\ast \subseteq \ker(\id - a^\ast) \).
+
+En el otro sentido, sea \( \omega \in \Omega^k(S^n) \) una forma invariante por (el
+pullback) de la aplicación antipodal. Tenemos que demostrar que existe \( \theta \in
+\Omega^k(S^n) \) tal que \( p^\ast \theta = \omega \). Para poder construir esta \( \theta
+\) primero observamos que la preimagen de cualquier punto de \( \PR^n \) por \( p \) está
+formada por dos puntos de \( S^n \) que son antipodales. Este hecho se transfiere a la
+aplicación tangente de \( p \), \( Tp \colon TS^n \to T\PR^n \): escogiendo bases
+apropiadas se puede demostrar que \( T_xp : T_x S^n \to T_{p(x)}\PR^n \) es un isomorfismo
+para todo \( x \) de \( S^n \), por lo que para todo \( y = p(x) \in \PR^n \) existen
+isomorfismos \( T_xp \colon T_xS^n \to T_{p(x)}\PR^n \) y \( T_{a(x)}p \colon T_{a(x)}S^n
+\to T_{p(x)}\PR^n \), donde usamos que \( p(a(x)) = p(x) \).
+
+La invariancia de \( \omega \) por \( a^\ast \) se lee localmente como
+\begin{equation*}
+	\omega_x(v_1, \dots, v_k) = a^\ast\omega_{x}(v_1, \dots, v_k) = \omega_{a(x)}(T_xa(v_1),
+	\dots, T_xa(v_k))
+\end{equation*}
+para todo \( x \in S^n \) y \( v_1, \dots, v_k \in T_xS^n \). Esto, junto con el
+isomorfismo \( T_xp \), nos permite definir una forma \( \theta \in \Omega^k(\PR^n) \)
+mediante
+\begin{equation*}
+	\theta_{[x]} (v_1, \dots, v_k) = \omega_x(T_xp^{-1}(v_1), \dots, T_xp^{-1}(v_k)).
+\end{equation*}
+Es justamente el hecho que \( a^\ast \omega = \omega \) lo que garantiza que esta es una
+buena definición. En efecto, el otro representante de la clase \( [x] \) es \( a(x)
+\), entonces
+\begin{align*}
+	\theta_{[a(x)]}(v_1, \dots, v_k) & = \omega_{a(x)}(T_{a(x)}p^{-1}(v_1), \dots,
+	T_{a(x)}p^{-1}(v_k)) \\
+																	 & = a^\ast\omega_{a(x)}(T_{a(x)}p^{-1}(v_1), \dots,
+																	 T_{a(x)}p^{-1}(v_k)) \\
+																	 & = \omega_x\left( (T_{a(x)}a \circ T_{a(x)}p^{-1})(v_1),
+																	 \dots, (T_{a(x)}a \circ T_{a(x)}p^{-1})(v_k) \right).
+\end{align*}
+Ahora, de la identidad \( p \circ a = p \) se desprende \( Tp \circ Ta = Tp \). Por lo
+tanto
+\begin{equation*}
+	T_{x} p \circ T_{a(x)} a = T_{a(x)} p
+\end{equation*}
+y puesto que tanto \( T_xp \) como \( T_{a(x)}p \) son isomorfismos
+\begin{equation*}
+	T_{a(x)}a \circ T_{a(x)}p^{-1} = T_xp^{-1}.
+\end{equation*}
+Luego
+\begin{equation*}
+	\theta_{[a(x)]}(v_1, \dots, v_k) = \omega_x(T_xp^{-1}(v_1), \dots, T_xp^{-1}(v_k)) =
+	\theta_{[x]}(v_1, \dots, v_k).
+\end{equation*}
+Es decir, la definición de \( \theta \) no depende del representante, por lo que está bien
+definida como \( k \)-forma de \( \PR^n \). Además, por construcción, el pullback de \(
+\theta \) por \( p \) es \( \omega \). Efectivamente:
+\begin{align*}
+	p^\ast \theta_x(v_1, \dots, v_k) & = \theta_{p(x)}(T_xp(v_1), \dots, T_xp(v_k)) \\
+																	 & = \theta_{[x]}(T_xp(v_1), \dots, T_xp(v_k)) \\
+																	 & = \omega_x\left((T_xp^{-1}\circ T_xp)(v_1), \dots,
+																	 (T_xp^{-1}\circ T_xp)(v_k)\right) \\
+																	 & = \omega_x(v_1, \dots, v_k).
+\end{align*}
+Esto nos da la inclusión en el otro sentido, \( \ker(\id - a^\ast) \subseteq \im p^\ast
+\), y por lo tanto \( \ker(\id - a^\ast) = \im p^\ast \).
+
+Por último se tiene que comprovar que \( p^\ast \) es inyectiva, es decir, que \( \ker
+p^\ast = 0 \). Sea, pues, \( \theta \in \ker p^\ast \). Entonces, para todo \( x \in S^n
+\) y \( v_1, \dots, v_k \in T_xS^n \) se tiene
+\begin{equation*}
+	0 = p^\ast \theta_x(v_1, \dots, v_k) = \theta_{p(x)}(T_xp(v_1), \dots, T_xp(v_k)).
+\end{equation*}
+Como \( p \) es exhaustiva y para todo \( x \in S^1 \) \( T_xp \) es un isomorfismo,
+podemos concluir que \( \theta \) también es la forma nula. Por lo tanto \( \ker(p^\ast) =
+0 \) como queríamos.
+
+\parbreak
+
+Queremos ver como actúa la diferencial \( d \) sobre los espacios \( E^k \). Puesto que \(
+E^k \subseteq \Omega^k(S^n) \) está claro que para todo \( \omega \in E^k \) se tiene \(
+d\omega \in \Omega^{k+1}(S^n) \). En realidad se tiene algo más fino: \( d\omega \) está
+en \( E^{k+1} \), no solamente en \( \Omega^{k+1}(S^n) \). Efectivamente, si \( \omega \in
+E^k \) existe \( \sigma \in \Omega^k(S^n) \) tal que \( \omega = \sigma - a^\ast \sigma
+\). Entonces
+\begin{equation*}
+	d\omega = d\sigma - d(a^\ast \sigma) = d\sigma - a^\ast d\sigma
+\end{equation*}
+porque la diferencial commuta con cualquier pullback. Entonces \( d\omega \) es la imagen
+de \( d\sigma \) por \( \id - a^\ast \) por lo que \( d\omega \in E^{k+1} \). Entonces el
+complejo \( \Omega^{\bullet}(S^n) \) se restringe al complejo \( E^\bullet \). Puesto que
+la diferencial \( d \colon E^k \to E^{k+1} \) es una restricción de \( d \colon
+\Omega^{k}(S^n) \to \Omega^{k+1}(S^n) \), se sigue cumpliendo la condición \( d^2 = 0 \),
+es decir, \( E^\bullet \) es efectivamente un complejo de cocadenas.
+
+\parbreak
+
+La sucesión exacta corta en \eqref{eq:sucesion exacta corta} se transporta a una sucesión
+exacta corta entre complejos,
+\begin{equation*}
+	\begin{tikzcd}
+		0 \arrow[r] & \Omega^\bullet(\PR^n) \arrow[r, "p^\ast"] & \Omega^\bullet(S^n) \arrow[r, "\id -
+		a^\ast"] & E^\bullet \arrow[r] & 0.
+	\end{tikzcd}
+\end{equation*}
+Entonces, usando el lema del zig-zag, podemos escribir una sucesión exacta larga entre las
+correspondientes cohomologías:
+\begin{equation}\label{eq:sucesion exacta larga}
+	\begin{tikzcd}
+		0 \arrow[r] & H^0(\PR^n) \arrow[r, "p^{\ast \ast}"] & H^0(S^n) \arrow[r, "\id -
+		a^{\ast \ast}"] & \makebox[\widthof{$H^{k+1}(E)$}][c]{$H^0(E)$}  \arrow[dll,
+		"\qquad\cdots\qquad" {font=\normalsize, description, sloped}, out=0, in=180, looseness=1.6, overlay] \\
+						 & \makebox[\widthof{$H^{k+1}(\PR^n)$}][c]{$H^k(\PR^n)$} \arrow[r, "p^{\ast \ast}"] & H^k(S^n) \arrow[r, "\id -
+		a^{\ast \ast}"] & \makebox[\widthof{$H^{k+1}(E)$}][c]{$H^k(E)$} \arrow[dll, "\delta"
+		description, out=0, in=180, looseness=1.6,
+		overlay] \\
+						 & H^{k+1}(\PR^n) \arrow[r, "p^{\ast \ast}"] & H^{k+1}(S^n) \arrow[r, "\id -
+		a^{\ast \ast}"] & H^{k+1}(E) \arrow[dll, "\qquad\cdots\qquad" {font=\normalsize, description,
+		sloped}, out=0, in=180, looseness=1.6, overlay] \\
+						 & \makebox[\widthof{$H^{k+1}(\PR^n)$}][c]{$H^n(\PR^n)$} \arrow[r, "p^{\ast \ast}"] & H^n(S^n) \arrow[r,
+			"\id - a^{\ast \ast}"] & \makebox[\widthof{$H^{k+1}(E)$}][c]{$H^n(E)$}  \arrow[r] & 0 \\		 
+		\end{tikzcd}
+\end{equation}
+Los morfismos de conexión \( \delta \) vienen inducidos por la sucesión exacta.
+
+
+
+\parbreak
+
+La aplicación antipodal da lugar de forma natural a dos clases de formas diferenciales
+sobre \( S^n \). Por un lado, las formas \emph{invariantes}, que cumplen \( a^\ast \omega
+= \omega \). El conjunto de estas formas es \( \ker(\id - a^\ast) \), que, por lo que
+hemos visto previamente, es igual al conjunto de formas que vienen inducidas por una forma
+de \( \PR^n \), \( \im p^\ast \). Por otro lado existen las formas antiinvariantes, que
+cumplen \( a^\ast \omega = -\omega \). Se tiene que el conjunto de \( k \)-formas antiinvariantes
+es justamente \( E^k \). Recordemos que \( E^k = \im(\id - a^\ast) \), por lo que si \(
+\omega \in E^k \) entonces existe \( \sigma \in \Omega^k(S^n) \) tal que \( \omega =
+\sigma - a^\ast \sigma \) y
+\begin{equation*}
+	a^\ast \omega = a^\ast \sigma - a^\ast a^\ast \sigma = a^\ast \sigma - \sigma =
+	-\omega.
+\end{equation*}
+Y en el otro sentido, si \( \omega \) es antiinvariante tenemos
+\begin{equation*}
+	(\id - a^\ast)\frac{\omega}{2} = \frac{\omega}{2} - a^\ast \frac{\omega}{2} =
+	\frac{\omega}{2} + \frac{\omega}{2} =\omega
+\end{equation*}
+luego \( \omega \in E_k \).
+
+Podemos descomponer toda forma de \( \Omega^k(S^n) \) en la suma de una forma invariante y
+otra antiinvariante definiendo \( \omega_i = \frac{\omega + a^\ast \omega}{2} \) y \(
+\omega_a = \frac{\omega - a^\ast \omega}{2} \). Entonces \( \omega = \omega_i + \omega_a
+\) y se comprueba fácilmente que \( \omega_i \) es invariante mientras que \( \omega_a \)
+es antiinvariante. Esta descomposición es única, pues si una forma descompusiese de dos
+formas distintas, \( \omega = \omega_i + \omega_a = \tilde{\omega}_i + \tilde{\omega}_a \)
+entonces tendríamos \( \tau = \omega_i - \tilde{\omega}_i = \tilde{\omega}_a - \omega_a
+\). La forma \( \tau \) sería invariante y antiinvariante, lo que significa que tiene que
+ser la forma nula, puesto que \( \tau = -\tau \). Así \( \omega_i = \tilde{\omega}_i \) y
+\( \omega_a = \tilde{\omega}_a \). Esta descomposición tambien se puede
+expresar, por las observaciones que hemos hecho previamente como
+\begin{equation*}
+	\Omega^k(S^n) = \ker(\id - a^\ast) \oplus \im(\id - a^\ast).
+\end{equation*}
+
+\parbreak
+
+Consideremos la cohomología de las formas antiinvariantes de \( S^n \), es decir, la
+cohomología del complejo \( E^\bullet \). Sabemos que los únicos grupos de cohomología no
+triviales de la \( n \)-esfera son \( H^0(S^n) \) y \( H^n(S^n) \), ambos isomorfos a \(
+\R \). Podemos utilizar esto para calcular \( H^k(E) \). Sea \( \omega \in Z^k(E) \), es
+decir, una forma cerrada antiinvariante. Puesto que \( \omega \) es en particular una
+forma cerrada de
+\( S^n \) y \( H^k(S^n) \) es trivial, existe \( \eta \in \Omega^{k-1}(S^n) \) tal que \(
+d\eta = \omega \). Si podemos demostrar que \( \eta \) es antiinvariante ---esto es \( \eta \in
+E^{k-1} \)--- entonces tendremos que todo forma cerrada antiinvariante es una forma
+exacta
+antiinvariante. Es decir, tendremos \( Z^k(E) = B^k(E) \) y por lo tanto \( H^k(E) = 0 \).  
+
+La descomposición de \( \eta \) en sus partes invariante e antiinvariante es 
+\begin{equation*}
+	\eta = \frac{\eta + a^\ast \eta}{2} + \frac{\eta - a^\ast \eta}{2},
+\end{equation*}
+donde el primer término es la parte invariante, \( \eta_i \), y el segundo la
+antiinvariante, \( \eta_a \). Si aplicamos \( d \) obtenemos
+\begin{align*}
+	d\eta & = d\left(\frac{\eta + a^\ast \eta}{2}\right) + d\left(\frac{\eta - a^\ast
+	\eta}{2}\right) \\
+				& =	\frac{d\eta + d(a^\ast \eta)}{2} + \frac{d\eta - d(a^\ast \eta)}{2} \\
+				& = \frac{d\eta + a^\ast d\eta}{2} + \frac{d\eta - a^\ast d\eta}{2} \\
+\end{align*}
+es decir, \( (d\eta)_i = d(\eta_i) \) y \( (d\eta)_a = d(\eta_a) \). Pero como \( d\eta =
+\omega \) deducimos \( d(\eta_i) = \omega_i \) y \( d(\eta_a) = \omega_a \). Al ser \(
+\omega \) antiinvariante, \( \omega_i = 0 \) y \( \omega_a = \omega \). Entonces \( \omega
+= d(\eta_a) \): hemos escrito \( \omega \) como la imagen por \( d \) de una forma
+antiinvariante, \( \eta_a \). Es decir, \( \omega \) es cerrada. Por lo tanto \( Z^k(E)
+= B^k(E) \) y \( H^k(E) = 0 \).
+
+\parbreak
+
+A continuación calculamos la cohomología de de Rham de \( \PR^n \) usando los resultados
+anteriores. \( \PR^n \)es conexo puesto que \( \PR^n \) es un cociente de \( S^n \), que
+es también conexo. Entonces su primer grupo de cohomología es 
+\begin{equation*}
+	H^0(\PR^n) \cong \R.
+\end{equation*}
+Para los órdenes intermedios \( 0 < k < n \) ``recortamos'' la sucesión exacta larga de
+\eqref{eq:sucesion exacta larga} y obtenemos las sucesions exactas
+\begin{equation*}
+	\begin{tikzcd}
+		H^{k-1}(E) \arrow[r, "\delta"] & H^{k}(\PR^n) \arrow[r, "p^{\ast \ast}"] & H^k(S^n)
+	\end{tikzcd}
+\end{equation*}
+Para \( 1 < k < n \) hemos calculado \( H^{k-1}(E) = H^{k}(S^n) = 0 \), por lo que
+deducimos que \( H^k(\PR^n) = 0 \) para \( 1 < k < n \). En el caso \( k = 1 \) se obtiene
+el mismo resultado, pero no de forma immediata. Recordemos que las formas cerradas de \(
+\Omega^0(S^n) \) son las formas constantes, mientras que la única forma exacta es la forma
+nula, que es invariante y antiinvariante a la vez. Consideremos una forma cerrada
+antiinvariante, \( f \). Por ser cerrada debe ser constante, pongamos \( f(x) = C \) para
+todo \( x \in S^n \). Pero por ser antiinvariante se tiene
+\begin{equation*}
+	C = f(x) = -f(a(x)) = -C
+\end{equation*}
+por lo que \( C = 0 \). Es decir, la única 0-forma cerrada antiinvariante es la aplicación
+nula. En consecuencia \( H^0(E) = 0 \), por lo que también podemos concluir \( H^1(\PR^n)
+= 0 \).
+
+Queda por calcular el grupo \( H^n(\PR^n) \). Para ello tomamos el final de
+\eqref{eq:sucesion exacta larga} y obtenemos la sucesión exacta corta
+\begin{equation*}
+	\begin{tikzcd}
+		0 \arrow[r] & H^n(\PR^n) \arrow[r, "p^{\ast \ast}"] & H^n(S^n) \cong \R \arrow[r, "\id -
+		a^{\ast \ast}"] & H^n(E) \arrow[r] & 0.
+	\end{tikzcd}
+\end{equation*}
+Por exactitud deducimos
+\begin{equation*}
+	H^n(\PR^n) \cong \im p^{\ast \ast}= \ker(\id - a^{\ast \ast}),
+\end{equation*}
+es decir, la cohomología en dimensión \( n \) de \( \PR^n \) es la cohomología de las \(
+n \)-formas invariantes de \( S^n \). 
+
+La aplicación antipodal preserva la orientación para \( n \) impar y la invierte para \( n
+\) par. De esto deducimos, cuando \( n \) es impar, si \( \omega \) es una forma
+antiinvariante
+\begin{equation*}
+	\int_{S^1} \omega = \int_{a(S^1)} a^\ast \omega = \int_{S^1} -\omega = -\int_{S^1}
+	\omega
+\end{equation*}
+por lo que las formas antiinvariantes tienen integral 0 en dimensión par. En cambio, en
+dimensión par son las formas invariantes las que tienen integral nula. En efecto, puesto
+que en este caso \( a \) invierte la orientación,
+\begin{equation*}
+	\int_{S^1} \omega = -\int_{a(S^1)} a^\ast \omega = - \int_{S^1} \omega.
+\end{equation*}
+
+Por otro lado, puesto que \( S^n \) es orientable existe una forma volumen \( \omega_0 \in
+\Omega^n(S^n) \) cuya integral sobre \( S^n \) no puede ser 0, por lo que, por el teoerema
+de Stokes, usando que \( S^n \) no tiene frontera, \( \omega_0 \) no puede ser exacta.  Al
+estar en la dimensión máxima, toda forma de \( S^n \) es cerrada.  Y como \( H^n(S^n)
+\cong \R \) se deduce que \( H^n(S^n) = \gen{[\omega_0]} \). Descompongamos \( \omega_0 \)
+en sus partes invariante y antiinvariante:
+\begin{equation*}
+	\omega_0 = \omega_0^i + \omega_0^a,
+\end{equation*}
+por lo que
+\begin{equation*}
+	\int_{S^1} = \int_{S^1} \omega_0^i + \int_{S^1} \omega_0^a.
+\end{equation*}
+En dimensión impar tenemos que \( \int_{S^1} \omega_0^a = 0 \) luego \( \int_{S^1}
+\omega_0^i = \int_{S^1} \omega_0 \neq 0 \), por lo que \( \omega_0^i \) es una forma
+invariante cerrada pero no exacta, luego \( H^n(\PR^n) \cong \ker(\id - a^\ast) =
+\gen{[\omega_o^i]} \cong \R \).
+
+En dimensión par, en cambio no hay formas invariantes no exactas. Efectivamente, como \(
+H^n(S^n) = \gen{\omega_0} \), podemos escribir, para cualquier forma \( \omega \in
+\Omega^n(\PR^n) \), \( \omega = \lambda \omega_0 + d\alpha \) para  \( \lambda \in \R \) y
+\( \alpha \in \Omega^{n-1}(S^n) \). Entones, si \( \omega \) es invariante
+\begin{equation*}
+	0 = \int_{S^1} \omega = \lambda \int_{S^1} \omega_0 + \int_{S^1} d\alpha = \lambda
+	\int_{S^1} \omega_0,
+\end{equation*}
+usando el teorema de Stokes para concluir \( \int_{S^1} d\alpha = 0 \). Entonces, como	\(
+\int_{S^1} \omega_0 \neq 0 \) se sigue \( \lambda = 0 \). Es decir, toda \( n \)-forma
+invariante es exacta si \( n \) es par. \( \alpha \) no necesariamente es una forma
+invariante, pero vimos anteriormente que \( (d\alpha)_i = d(\alpha_i) \) por lo que \(
+\omega = d(\alpha_i) \) y \( \omega \) es una forma exacta de \( \ker(\id - a^{\ast
+\ast}) \). Por lo tanto \( H^n(\PR^n) \cong \ker(\id - a^{\ast \ast}) = 0 \). 
+
+Todo esto queda resumido como
+\begin{equation*}
+	H^k(\PR^n) \cong 
+	\begin{cases}
+		\R, & \text{cuando } k = 0 \\
+		0, & \text{cuando } 0 < k < n \\
+		\R, & \text{cuando } k = n \text{ y } n \text{ impar} \\
+		0, & \text{cuando } k = n \text{ y } n \text{ par}
+	\end{cases}
+\end{equation*}
+
+\end{document}
