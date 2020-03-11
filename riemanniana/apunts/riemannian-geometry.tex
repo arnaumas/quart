@@ -1,0 +1,445 @@
+\documentclass[12pt,twoside]{book}
+
+\input{preamble.tex}
+\input{commands.tex}
+
+
+\graphicspath{{./figs/}}
+\newcommand{\dummyfig}[1]{
+  \centering
+  \fbox{
+    \begin{minipage}[c][0.33\textheight][c]{0.5\textwidth}
+      \centering{\ttfamily #1}
+    \end{minipage}
+  }
+}
+
+\title{Riemannian Geometry}
+\author{Arnau Mas}
+\date{2020}
+
+\begin{document}
+\maketitle
+
+\frontmatter
+\pagestyle{plain}
+These are notes gathered during the subject \emph{Riemannian Geometry} as taught by
+Florent Balacheff between February 2020 and June 2020.
+
+\mainmatter
+\chapter{Riemannian Manifolds}
+\section{Inner products}
+Recall that an inner product on a real vector space \( V \) is a symmetric bilinear form
+\( \phi \colon V \times V \to \R \) which is positive definite, meaning that for all \( v
+\in V \) one has \( \phi(v,v) > 0 \). An inner product is also often written as \(
+\inn{u}{v} \). Equipping a vector space with an inner product is, in some sense, giving it
+a notion of geometry. Following the usual euclidean case, we define the \emph{length} or
+\emph{norm} of a vector as \( \norm{v} = \sqrt{\inn{v}{v}} \) and the \emph{angle} between
+two vectors by 
+\begin{equation*}
+	\cos{\theta} = \frac{\inn{u}{v}}{\norm{u}\norm{v}}.
+\end{equation*}
+Positive-definiteness is essential for both of these definitions. In fact, as a
+consequence of Sylvester's theorem, the geometry of a vector space with an
+inner product isn't much different from that of ordinary euclidean space. Indeed,
+for any inner product there exists an \emph{orthonormal} basis, i.e. a basis \( e_1,
+\dots, e_n \) such that
+\begin{equation*}
+	\inn{e_i}{e_j} = \delta_{ij}.
+\end{equation*}
+
+\section{Riemannian Metrics}
+Riemannian manifolds are smooth manifolds with extra structure which allows us to speak
+of, not only their topology, but also their geometry. Think of the difference between a
+balloon which can be deformed freely and a sphere with a rigid shape. The first one is \(
+S^2 \) as a naked smooth manifold and the second one is \( S^2 \) as a Riemannian
+manifold. What is this extra structure? A Riemannian metric. Informally, a Riemannian
+metric is an inner product at every tangent space of the manifold which varies smoothly
+along the manifold. 
+
+\begin{definition}[Riemannian metric]
+	A Riemannian metric \( g \) on a manifold \( M \) is a smooth section of the bundle \(
+	\Sym^2 M \) of the symmetric bilinear forms on \( M \) such that for every \( x \in M \)
+	\( g_x \) is positive definite. 
+\end{definition}
+
+\subsection{Components of a metric in local coordinates}
+Given a local chart \( (U, \phi) \)
+
+\subsection{The pullback of a metric}
+Given an immersion \( f \colon M \to N \) and a 
+
+The pullback gives a succint characterisation of local isometries: a local diffeomorphism
+\( f \colon (M,g) \to (N,h) \) is a local isometry if and only if \( f^\ast h = g \). 
+
+\begin{example}
+	By considering manifolds embedded into \( \R^n \) and pulling back the euclidean metric
+	onto them we obtain many examples of Riemannian manifolds. 
+	Consider the \( n \)-sphere \( S^n \) embedded into \( \R^{n+1} \) as 
+	\begin{equation*}
+		S^n = \set{x \in \R^n \mid \norm{x} = 1}
+	\end{equation*}
+	The pullback of the euclidean metric along this inclusion gives \( S^n \) a Riemannian
+	metric which we will refer to as its \emph{standard} or \emph{canonical} metric. 
+\end{example}
+
+This also shows that any manifold admits a metric. By Whitney's Embedding Theorem, we know
+that any manifold can be immersed into \( \R^n \) for a sufficiently large \( n \), and
+then we just pull back the euclidean metric along this immersion. We can give an
+alternative proof of this fact which does not rely on Whitney's Theorem. 
+
+\begin{theorem}
+	 Any smooth manifold admits a Riemannian metric. 
+\end{theorem}
+\begin{proof}
+	Consider a smooth manifold \( M \) and a local chart \( (U, \phi) \). It is clear that
+	\( \phi \) gives an immersion of \( U \) into \( \R^n \), so we can pull back the
+	euclidean metric onto \( U \). What we need, however, is a way of turning this into a
+	global metric. The tool for this job are partitions of unity. Then let \( \set{(U_\alpha,
+	\phi_\alpha)}_{\alpha \in I} \) be a locally finite atlas of \( M \) and \( \rho_\alpha
+	\) a partition of unity subordinate to this atlas. Then we define \( g \) as
+	\begin{equation*}
+		g_x(X,Y) = \sum_{\alpha \in I} \rho_\alpha(x) (\phi_\alpha^{\ast}\gst)_x(X,Y)
+	\end{equation*}
+	for all \( x \in M \) and \( X,Y \in T_xM \). This is a well-defined sum since \( \rho
+	\) is a partition of unity. Since every \( \phi_\alpha^\ast \gst \) is a symmetric
+	bilinear form then so is \( g \). And \( g \) is also positive definite. Indeed, for
+	every non-zero \( X \in T_xM \) there exists at least \( \alpha_0 \in I \) such that \(
+	(\phi^\ast_{\alpha_0} \gst)_x(X,X) > 0 \) which means
+	\begin{equation*}
+		g_x(X,X) \geq \rho_{\alpha_0}(x) (\phi^\ast_{\alpha_0} \gst)_x(X,X) > 0.
+	\end{equation*}
+
+	It remains to be shown that \( g \) is globally smooth. Consider at the point \( x \)
+	the coordinate vectors \( \coord{x_i}{x} \) corresponding to the chart \(
+	\phi_{\alpha_0} \). Then we have
+	\begin{equation*}
+		g_x\left(\coord{x_i}{x}, \coord{x_j}{x}\right) = \sum_{\alpha \in I} \rho_\alpha(x)
+		(\phi_\alpha^\ast \gst)_x\left(\coord{x_i}{x}, \coord{x_j}{x}\right)
+	\end{equation*}
+\end{proof}
+
+\subsection{The product metric}	
+\begin{definition}[Product metric]
+	Given two Riemannian manifolds \( (M,g) \) and \( (N,h) \), we define the \emph{product
+	metric} on the product manifold \( M \times N \) by
+	\begin{equation*}
+		(g \times h)_{(x,y)}\big((X_1, Y_1), (X_2,Y_2)\big) \defeq g_x(X_1, X_2) + h_y(Y_1,Y_2)
+	\end{equation*}
+	where \( x \in M \), \( y \in N \), \( X_1,X_2 \in T_xM \) and \( Y_1,Y_2 \in T_yN \). 
+\end{definition}	
+\begin{proposition}
+	The product metric is indeed a Riemannian metric. 
+\end{proposition}	
+\begin{proof}
+	Binearity and symmetry
+\end{proof}
+
+\begin{example}
+	Consider the cylinder as submanifold of \( \R^3 \), so the set
+	\begin{equation*}
+		\set{(x,y,z) \in \R^3 \mid x^2 + y^2 = 1} \subset \R^3
+	\end{equation*}
+	with the corresponding induced metric. Another representation of the cylinder is as the
+	product \( S^1 \times \R \). The product metric for this manifold can be written as \(
+	dg_0 + dt^2 \) where \( dg_0 \) is the standard metric for \( S^1 \) and \( dt^2 \) is
+	the euclidean metric on \( \R \). These two representations are isometric. 
+\end{example}
+
+\subsection{Quotient metrics}
+
+\begin{definition}[Riemannian covering map]
+	Given two Riemannian manifolds \( (M,g) \) and \( (N,h) \), a covering map \( p \colon M
+	\to N \) is called \emph{Riemannian} provided
+	\begin{points}
+	\item \( p \) is a smooth covering map, meaning \( p \) is a surjection and for every \( y \in
+		N \) there is an open neighbourhood \( U \) of \( y \) such that \( p^{-1}(U) \) is a
+		disjoint union of open subsets of \( M \) all diffeomorphic to \( U \), i.e.
+		\begin{equation*}
+			p^{-1}(U) = \bigsqcup_{\alpha \in I} U_\alpha
+		\end{equation*}
+		and \( p\rest{U_\alpha} \colon U_\alpha \to U \) is a diffeomorphism for every \( \alpha \in I \) 
+	\item and more than that, the \( U_\alpha \) are all isometric to \( U \), which can be
+		written ad \( p^\ast h = g \). 
+	\end{points}
+\end{definition}
+
+Typically, covering map arise through the action of a group on a manifold, as the following
+result shows.
+\begin{proposition}
+	Let \( (M,g) \) be a Riemannian manifold and \( G \) a subgroup of the isometry group of
+	\( M \) such that its action is 
+	\begin{points}
+	\item free, so that if \( g \in G \) has a fixed point then \( g \) must be the
+		identity,
+	\item proper\footnote{This condition guarantees that the quotient will be
+		a Hausdorff space}, meaning for every \( x, y \in M \) there is an open
+		neighbourhood \( V \) of \( x \) and \( W \) of \( y \) such that for every \( g \in
+		G \)
+		\begin{equation*}
+			gV \cap W = \emptyset.  
+		\end{equation*}
+	\end{points}
+	Then the quotient manifold \( M/G \) admits a unique Riemannian metric \( g_G \) such that
+	the projection map
+	\begin{equation*}
+		p \colon (M,g) \to (M/G, g_G)
+	\end{equation*}
+	is a Riemannian covering map. 
+\end{proposition}
+\begin{proof}
+	It is a result from differential topology that \( p \) is indeed a smooth covering map.
+	We will show the construction of the induced metric. Take a point \( x \in M/G \). Then
+	it has a preimage \( y \in M \) and there is a neighbourhood \( U \) of \( y \) such
+	that \( p\rest{U} \) is a diffeomorphism. Then define a metric on \( x \) by \(
+	p^{-1}\rest{U}^\ast g \) where \( g \) is the metric on \( M \). This construction does
+	not depend on the choice of the preimage \( y \). Indeed, 
+
+
+	We know that the map \( p \) is a smooth covering. Consider \( x \in M/G \) and two of
+	its preimages, \( y_1 \in U_1 \subseteq M \) and \( y_2 \in U_2 \subseteq M \). Since \(
+	p(y_1) = p(y_2) = x \), these two points are 
+
+	SKETCH:
+	
+	1. Define the metric at \( x \in M/G \) as the metric at one of its preimages.
+	 
+	2. The fact that every preimage of \( x \) has isometric neighbourhoods shows
+	well-definition. 
+\end{proof}
+
+\begin{example}[The metric of \( \PR^n \)]
+	Recall that the projective space \( \PR^n \) can be constructed as the quotient of \(
+	S^n \) by the action of the group \( \gen{a} \) where \( a \) is the antipodal map. If
+	we give \( S^n \) its standard metric then it is easy to show that \( a \) is not only a
+	diffeomorphism but also an isometry. The action is free and proper so \( \PR^n =
+	S^n/\gen{a} \) is a smooth manifold. The induced metric on \( \PR^n \) is called the
+	standard or canonical metric on \( \PR^n \). 
+\end{example}
+
+\begin{example}[Flat tori]
+	The \( n \)-dimensional torus can be given its standard metric as the product metric of
+	the spheres. 
+
+	Translations are isometries of euclidean space ---so \( \R^n \) with the standard
+	metric---. If \( v_1, \dots, v_n \) is a basis of  \( \R^n \) then the group of
+	translations \( \Gamma = \gen{T_{v_1}, \dots, T_{v_n}} \) is a group of isometries of \(
+	\R^n \). Furthermore, it is easy to show that its action is free and proper, so that \(
+	\R^n/\Gamma \) is a smooth manifold which we equip with its induced metric.
+	Topologically, this space is homeomorphic to an \( n \)-torus. 
+\end{example}
+
+\section{Lengths in a Riemannian manifold}
+Once we have a Riemannian metric on a manifold we can begin to speak of length and volume.
+
+\subsection{Length of a curve}
+\begin{definition}[Length of a curve]
+	Let \( (M,g) \) be a connected Riemannian metric and \( \gamma \colon [a,b] \to M \) a a
+	piecewise differentiable path\footnote{Meaning \( \gamma \) is continous and there
+	exists a partition \( a = a_0 < a_1 < \dots < a_n = b \) of the interval \( [a,b] \)
+such that \( \gamma\rest{[a_i, a_{i+1}} \) for \( 0 \leq i \leq n-1 \)}. Then the length
+of \( \gamma \) is
+	\begin{equation*}
+		L(\gamma) \defeq \int_a^b \sqrt{g_{\gamma(t)}(\dot{\gamma}(t), \dot{\gamma}(t))} \ud t
+	\end{equation*}
+	where \( \dot{\gamma}(t) \) is \( T_t \gamma (1) \), the vector tangent to the curve at
+	the point \( t \). The quantity \( \sqrt{g_x(X,X)} \) is of course the norm of the
+	vector \( X \) induced by the metric \( g \) and is usually written \( \norm{X}_g \).
+\end{definition}
+In the case where \( M = \R^n \) and the metric is the euclidean metric this coincides
+with the usual notion of the length of a curve obtained by taking the supremum of the
+length of every rectification of the curve.  
+
+\begin{proposition}
+	The length of a curve is independent of its parametrisation.
+\end{proposition}
+\begin{proof}
+	Take a curve \( \gamma \colon [a,b] \to M \). A reparemetrisation of \( \gamma \) is
+	another curve \( \gamma \circ h \) where \( h \colon [c,d] \to [a,b] \) is a
+	diffemorphism. Then
+	\begin{align*}
+		L(\gamma \circ h) &= \int_{c}^d \norm{(\gamma \circ h)'(t)}_g \ud t \\
+											&= \int_c^d \norm{h'(t) \dot{c}(h(t))}_g \ud t \\
+											& = \int_{h^{-1}(a)}^{h^{-1}(b)} \norm{\dot{\gamma}(h(t))}_g
+											\abs{h'(t)} \ud t \\
+											& = \int_a^b \norm{\dot{\gamma}(t)}_g \ud t \\
+											& = L(\gamma)
+	\end{align*}
+	where in the last step we used the Change of Variable Theorem.
+	% TODO: Comentar el cas en el que \( h \) és decreixent
+\end{proof}
+
+\begin{definition}[Energy of a curve]
+	Following ideas from Physics one defines the \emph{energy} of a curve by
+	\begin{equation*}
+		E(\gamma) \defeq \int_a^b g_{\gamma(t)}(\dot{\gamma}(t), \dot{\gamma}(t)) \ud t.
+	\end{equation*}
+	As opposed to the length, the energy does depend on the parametrisation. 
+\end{definition}
+A quick application of the Cauchy-Schwarz inequality gives the result
+\begin{equation*}
+	L(\gamma)^2 \leq E(\gamma)(b - a)
+\end{equation*}
+with equality if a nd only if \( \norm{\dot{\gamma}(t)}_g \) is constant along the curve.
+
+\subsection{The distance defined by a metric}
+\begin{theorem}
+	Let \( (M,g) \) be a connected Riemannian manifold. The map 
+	\begin{align*}
+		d_g \colon M \times M & \longrightarrow \R \\
+		(x,y) & \longmapsto \inf \set{L(\gamma) \mid \forall \gamma \colon [a,b] \to M \colon
+		\gamma(a) = x, \gamma(b) = y}
+	\end{align*}
+	is a distance and the metric space \( (M, d_g) \) has the same topology as the original
+	topology of \( M \). 
+\end{theorem}
+\begin{proof}
+	Let's first show that \( d_g \) is well-defined, meaning it is finite for any pair \(
+	x,y \in M \).
+	
+	Consider the set \( U_x \) of all points of \( M \) such that there exists a piecewise
+	differentiable curve between it and \( x \). We will show that it is both open and
+	closed and therefore equal to \( M \) since \( M \) is connected\footnote{This is
+	essentially a proof that a connected manifold is path-connected}. 
+	
+	We first show \( U_x
+	\) is open. Take \( y \in U_x \). Then there is a chart \( (U, \phi) \) around \( y \)
+	such that \( \phi(U) \) is connected, therefore path-connected. Then for any \( y' \in U
+	\) there is a path \( \gamma \colon \colon [b, b+\epsilon] \colon \phi(U) \) such that
+	\( \gamma(b) = \phi(y) \) and \( \gamma(b+\epsilon) = \phi(y') \). Then \( \phi^{-1}
+	\circ \gamma \) is a path in \( U \) which connects \( y \) and \( y' \). Then by
+	concatenating the path that connects \( x \) and \( y \) with \( \phi^{-1} \circ \gamma
+	\) we get a path connecting \( x \) to \( y' \). This means \( U \subseteq U_x \) and so
+	\( U \) is an open neighbourhood of \( y \) in \( U_x \), therefore \( U_x \) is open. 
+
+	Now 
+	\begin{equation*}
+		M - U_x = \bigcup_{y \notin U_x} U_y
+	\end{equation*}
+	which is open, therefore \( U_x \) is closed. Therefore it is both open and closed and
+	since it is not empty (\( x \in U_x \)) it must be equal to \( M \). 
+
+	Since \( M \) is path connected, there is a piecewise smooth path between any two points
+	\( x \) and \( y \) in \( M \), call it \( \gamma \). Then
+	\begin{equation*}
+		d_g(x,y) \leq L(\gamma) < \infty. 
+	\end{equation*}
+
+	We now show that \( d_g \) is indeed a distance.  For
+	any pair \( x \) and \( y \), if \( \gamma \colon [a,b] \to M \) is a path from \( x \)
+	to \( y \), then the path \( -\gamma \colon [-b,-a] \to M \)  defined by \( -\gamma(t)
+	\defeq \gamma(-t) \) satisfies \( -\gamma(-b) = y \) and \( -\gamma(-a) = x \) and of
+	course has the same length as \( \gamma \) since it is just a reparametrisation of it.
+	Then, by the definition of \( d_g \), for every \( \epsilon > 0 \), there exists a path
+	\( \gamma \) from \( x \) to \( y \) such that \( L(\gamma) \leq d_g(x,y) + \epsilon \).
+	But then 
+	\begin{equation*}
+		d_g(y,x) \leq L(-\gamma) = L(\gamma) \leq d_g(x,y) + \epsilon
+	\end{equation*}
+	which implies \( d_g(y,x) = d_g(x,y) \). 
+
+	Let's show the triangle inequality, i.e. for any \( x,y,z \in M \)
+	\begin{equation*}
+		d_g(x,z) \leq d_g(x,y) + d_g(y,z).
+	\end{equation*}
+	For any \( \epsilon > 0 \) there exists paths \( \gamma_1 \) from \( x \) to \( y \) and
+	\( \gamma_2 \) from \( y  \) to \( z \) such that
+	\begin{equation*}
+		L(\gamma_1) \leq d(x,y) + \epsilon
+	\end{equation*}
+	and
+	\begin{equation*}
+		L(\gamma_2) \leq d(y,z) + \epsilon. 
+	\end{equation*}
+	Consider the concatenation \( \gamma_1 + \gamma_2 \) of these two paths\footnote{For
+	this to work we may need to potentially alter the parametrisations of the paths, but
+	this will not alter their lengths}. Then this is a piecewise differentiable path from
+	\( x \) to \( z \) and its length (as can be shown by a simple computation) is \(
+	L(\gamma_1 + \gamma_2) = L(\gamma_1) + L(\gamma_2) \). Thus
+	\begin{equation*}
+		d(x,z) \leq L(\gamma_1 + \gamma_2) \leq d(x,y) + d(y,z) + 2\epsilon
+	\end{equation*}
+	which implies the triangle inequality since it works for arbitrarily small \( \epsilon
+	\).
+	Finally we prove that if \( x \) and \( y \) are not equal, then \( d(x,y) > 0 \). Take
+	a chart \( (U, \phi) \) around \( x \). Then, since \( M \) is a Hausdorff space, there
+	exists \( \epsilon > 0 \) such that \( y \notin
+	\phi^{-1}\left(\bar{B}_\epsilon(\phi(x))\right) \). 
+
+	% TODO: Falten detalls
+	Let \( \gamma \colon [a,b] \to M \)	be a piecewise smooth path from \( x \) to \( y
+	\). Then there exists \( t_0 \in (a,b] \) such that \( \gamma(t) \in
+	\phi^{-1}\left(\bar{B}_\epsilon(\phi(x))\right) \) for all \( t \in [a,t_0] \) and \(
+	\norm{\phi(\gamma(t_0)) - \phi(x)} = \epsilon \) (so the first time the path intersects
+	the preimage of the ball). Then
+	\begin{align*}
+		L(\gamma) & \geq L(\gamma\rest{[a,t_0]} = \int_a^{t_0} \norm{\dot{\gamma}(t)}_g \ud t \\
+							& = \int_a^{t_0} \sqrt{g_{\gamma(t)}(\dot{\gamma}(t), \dot{\gamma}(t))} \ud
+							t \\
+							& = \int_a^{t_0} \sqrt{g_{ij}(\phi(\gamma(t))) \dot{x}^i(t) \dot{x}^j(t) }
+							\\
+							& \geq \int_a^{t_0} \sqrt{\lambda} \norm{\dot{x}^i(t) e_i} \ud t \\
+							& = \sqrt{\lambda} \int_a^{t_0} \norm{\partial_t (\phi \circ \gamma)(t)} \ud
+							t \\
+							& \geq \sqrt{\lambda} \norm{\int_{a}^{t_0} \partial_t (\phi \circ
+							\gamma)(t)} \ud t \\
+							& = \sqrt{\lambda} \norm{\phi(\gamma(t_0) - \phi(x)} = \sqrt{\lambda}
+							\epsilon > 0. 
+	\end{align*}
+	
+	So we have \( (M,d_g) \) is a metric space, and consequently a topological space. Lastly
+	we show this topology agrees with the topology \( M \) carries by the fact it is a
+	manifold. We just showd that for any \( \epsilon > 0 \) there is a \( \lambda > 0 \)
+	such that
+	\begin{equation*}
+		\set{y \in M \mid d_g(x,y) < \sqrt{\lambda} \epsilon} \subseteq
+		\phi^{-a}\left(B_\epsilon(\phi(x))\right)
+	\end{equation*}
+	The sets of the form on the left are a basis for the topology of \( M \) as a metric
+	space, whereas those on the right are a basis for the topology of \( M \) as a manifold.
+	We need the other inclusion. For any \( y \in \phi^{-1}\left(B_\epsilon(\phi(x))\right)
+	\), define the path
+	\begin{align*}
+		\gamma_y \colon [0,1] & \longrightarrow M \\
+		t & \longmapsto \phi^{-1}\left(t\phi(y) + (1-t)\phi(x)\right)
+	\end{align*}
+	so the preimage of the straight line segment between \( \phi(x) \) and \( \phi(y) \).
+	Then
+	\begin{align*}
+		d_g(x,y) & \leq L(\gamma_y) = \int_0^1 \sqrt{g_{ij}(\phi(\gamma_y(t)))
+		\dot{x}^i(t)\dot{x}^j(t)} \ud t \\
+						 & \leq \int_0^1 \sqrt{\mu} \norm{\dot{\phi_\gamma(t)}} \ud t \\
+						 & \sqrt{\mu} \norm{\phi(y) - \phi(x)} < \sqrt{\mu} \epsilon
+	\end{align*}
+	% La derivada és constant perquè la corba és la interpolació
+\end{proof}
+
+The computation we did in the previous proof can be used to show that the distance induced
+by the Euclidean metric is exactly the same as the distance given by the Euclidean norm,
+for for any path \( \gamma \colon [a,b] \to \R^n \) from \( x \) to \( y \) we have
+\begin{align*}
+	L(\gamma) = \int_a^b \norm{\dot{\gamma}(t)}\ud t \geq \norm{\int_a^b \dot{\gamma}(t) \ud
+	t} = \norm{\gamma(b) - \gamma(b)} = \norm{x - y}
+\end{align*}
+which means \( d(x,y) \geq \norm{x - y} \). But the segment between \( x \) and \( y \) is
+a path between \( x \) and \( y \) with length \( \norm{x- y} \) which shows we have
+equality. In particular, we just showed that in euclidean space there always exists a path
+of minimum length between two points, the segment (duh). 
+
+\section{Volume in a Riemannian manifold}
+\subsection{Orientability}
+Let's recall the definition of an orientable manifold.
+\begin{definition}[Orientable manifold]
+	A smooth manifold \( M \) is called \emph{orientable} if it admits an orientable atlas,
+	that is an atlas whose every transition map is orientation preserving (so that the sign
+	of its jacobian is positive). If no such atlas exists then the manifold is called
+	\emph{non orientable}.
+
+	If \( M \) is orientable, choosing an orientable atlas determines an orientation for \(
+	M\). If the union of two such atlases is orientable then we say they determine the same
+	orientation. 
+\end{definition}
+
+
+\end{document}
+
