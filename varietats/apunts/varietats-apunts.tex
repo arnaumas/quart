@@ -1,54 +1,8 @@
 \documentclass[12pt,oneside]{book}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english]{babel}
-\usepackage{lmodern}
-\usepackage{geometry}
-\usepackage{hyperref}
-\usepackage[dvipsnames]{xcolor}
-\usepackage[bf,sf,small,pagestyles]{titlesec}
-\usepackage{titling}
-\usepackage[font={footnotesize, sf}, labelfont=bf]{caption} 
-\usepackage{siunitx}
-\usepackage{graphicx}
-\usepackage{tikz-cd}
-\usepackage{booktabs}
-\usepackage{amsmath,amssymb}
-\usepackage[sort]{cleveref}
-\usepackage{amsthm,thmtools}
-\usepackage[shortlabels]{enumitem}
+\input{prelude-apunts.tex}
+\input{commands-varietats.tex}
 
-\geometry{
-	a4paper,
-	right = 3cm,
-	left = 3cm,
-	bottom = 3cm,
-	top = 3cm
-}
-
-\hypersetup{
-	colorlinks,
-	linkcolor = {red!50!blue},
-	linktoc = page
-}
-
-\numberwithin{table}{section}
-\numberwithin{equation}{section}
-\numberwithin{figure}{section}
-
-\newcommand{\qedtriangle}{\ensuremath{\triangle}}
-\newcommand{\qedtriangledown}{\ensuremath{\bigtriangledown}}
-\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangle]{definition}
-\declaretheoremstyle[spaceabove=6pt, spacebelow=6pt, headfont=\bfseries, notefont=\normalfont, notebraces={(}{)}, qed=\qedtriangledown]{example}
-
-\declaretheorem[name=Theorem, refname={theorem,theorems}, Refname={Theorem,Theorem}, numberwithin=chapter]{theo}
-\declaretheorem[name=Proposition, refname={proposition,propositions}, Refname={Proposition,Propositions}, numberlike=theo]{prop}
-\declaretheorem[name=Definition, style=definition, refname={definition,definitions}, Refname={Definitio,Definitions}, numberwithin=chapter]{defn}
-\declaretheorem[name=Example, style=example, refname={example,examples}, Refname={Example,Examples}, numberwithin=chapter]{exe}
-
-\newlist{points}{enumerate}{1}
-\setlist[points,1]{label=\textup{(}{\itshape \roman*}\textup{)}, wide}
 
 \graphicspath{{./figs/}}
 \newcommand{\dummyfig}[1]{
@@ -59,47 +13,6 @@
     \end{minipage}
   }
 }
-
-% Unitats
-\sisetup{
-	inter-unit-product = \ensuremath{ \cdot },
-	allow-number-unit-breaks = true,
-	detect-family = true,
-	list-final-separator = { and },
-	list-units = single
-}
-
-\renewcommand{\vec}[1]{\mathbf{#1}}
-\newcommand{\rest}[1]{\raisebox{-.5ex}{$|$}_{#1}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\A}{\mathcal{A}}
-\newcommand{\id}{\mathrm{id}}
-\newcommand{\parbreak}{
-	\begin{center}
-		--- $\ast$ ---
-	\end{center} 
-}
-\makeatletter
-\newcommand*{\defeq}{\mathrel{\rlap{%
-    \raisebox{0.3ex}{$\m@th\cdot$}}%
-  \raisebox{-0.3ex}{$\m@th\cdot$}}%
-	=
-}
-\makeatother
-
-\newpagestyle{page}[\sffamily \footnotesize]{
-	\headrule
-	\sethead*{\ifthesection{{\bfseries \thesection} \sectiontitle}{}}{}{{\bfseries Chapter \thechapter.} \chaptertitle}
-	\footrule
-	\setfoot*{}{}{\thepage}
-}
-\renewpagestyle{plain}[\sffamily \footnotesize]{
-	\footrule
-	\setfoot*{}{}{\thepage}
-}
-\assignpagestyle{\chapter}{plain}
-
-\titleformat{\chapter}[block]{\sffamily \bfseries \Huge}{\filleft \large Chapter \Huge \thechapter\\}{0pt}{\Huge \titlerule[1pt] \vspace{1ex} \filleft}
 
 \title{Algebraic Topology and de Rahm Cohomology}
 \author{Arnau Mas}
@@ -116,24 +29,39 @@ These are notes gathered during the subject \emph{Topologia de Varietats} as tau
 
 \chapter{Differentiable Manifolds}
 
-A manifold is, roughly speaking, a space that is locally homeomorphic to \( \R^n \) or euclidean space. Canonical examples include the sphere and the torus, which are two dimensional manifolds, i.e., locally homeomorphic to \( \R^2 \). In everything that follows, unless otherwise mentioned, we assume \( \R^n \) to be equipped with its standard topology. There is good reason for this since it is induced by any norm on \( \R^n \), and so, in a sense, it is the only topology that is compatible with its vector space structure. Of course we could equip \( \R^n \) with various other topologies and talk about structures that are locally homeorphic to the resulting topological space. This would mean, however, that the local model for the theory would already be a complicated structure on its own right, as opposed to the case with manifolds, given that euclidean space (at least in less than three dimensions) is a well-known object for which one has, presumably, a solid intuition.  
+A manifold is, roughly speaking, a space that is locally homeomorphic
+to \( \R^n \) or euclidean space. Canonical examples include the
+sphere and the torus, which are two dimensional manifolds, i.e.,
+locally homeomorphic to \( \R^2 \). In everything that follows, unless
+otherwise mentioned, we assume \( \R^n \) to be equipped with its
+standard topology. There is good reason for this since it is induced
+by any norm on \( \R^n \), and so, in a sense, it is the only topology
+that is compatible with its vector space structure. Of course we could
+equip \( \R^n \) with various other topologies and talk about
+structures that are locally homeorphic to the resulting topological
+space. This would mean, however, that the local model for the theory
+would already be a complicated structure on its own right, as opposed
+to the case with manifolds, given that euclidean space (at least in
+less than three dimensions) is a well-known object for which one has,
+presumably, a solid intuition.  
+
 
 As a reminder, \( \R^n \) has a series of nice topological properties including connectedness and path-connectedness, local compactness and the Hausdorff property. A manifold, therefore, inherits a local version of all of these properties through the local homeomorphism ---a notion we make precise in the following section---.
 
 \section{Definitions}
 In what follows we give the formal definition of a manifold. 
-\begin{defn}[Local chart]
+\begin{definition}[Local chart]
 	Let \( M \) be a topological space and \( x \in M \) a point. A \emph{local chart}, or simply a \emph{chart}, around \( x \) is a pair \( (U, \phi) \)  where
 	\begin{points}
 	\item \( U \) is open in \( M \) and contains \( x \),
 	\item \( \phi \colon U \to \Omega \subseteq \R^n \) is a homeomorphism, which is called a \emph{chart map}.
 	\end{points}
 	We call \( \phi^{-1} \) a \emph{local parametrization} or simply a \emph{parametrization}.
-\end{defn}
+\end{definition}
 
 Note that there is no requirement on \( \Omega \) other than it being an open set, which must be the case if \( \phi \) is a homeomorphism. However, if \( \psi \colon \Omega \to \Omega' \subseteq \R^n \) is a homeorphism then \( \psi \circ \phi \) is also clearly a homeorphism. That means that we can, without loss of generality require that the image of a point through a chart map be 0 or any other point we wish by precomposing with a translation. Similarly, it could be the case that \( \Omega \) is not connected, in which case \( U \) must also be not connected. Since \( x \) lies in one of the connected components of \( U \), by restricting \( \phi \) to it we obtain a chart map whose image is connected. All this is to say that we can, without loss of generality, assume certain properties of charts which are not included in their definition.
 
-\begin{defn}[Manifold]
+\begin{definition}[Manifold]
 	A \emph{manifold} \( M \) is a topological space such that
 	\begin{points}
 	\item \( M \) is Hausdorff,
@@ -141,14 +69,14 @@ Note that there is no requirement on \( \Omega \) other than it being an open se
 	\item \label{itm:compatibility} for every point \( x \in M \) there is a local chart around it. Furthermore, if \( (U,\phi) \) and \( (V, \psi) \) are two of such charts and \( U \cap V \) is nonempty then the map \( \phi\rest{U \cap V} \circ \psi^{-1}\rest{U \cap V} \), which is called a \emph{transition map}, is a homeomorphism. 
 	\end{points}
 	A collection of charts satisfying \ref{itm:compatibility} is called an \emph{atlas}.
-\end{defn}
+\end{definition}
 
 The first two requirements in the definition of a manifold are technicalities to exclude a number of pathological examples. The idea of ``locally homeomorphic to \( \R^n \)'' is contained in \ref{itm:compatibility}.
 
 A manifold with no additional structure is also sometimes called a \emph{topological manifold}, to distinguish it from other types of manifold which arise from further structure. The main class we will be interested is that of differentiable manifolds.
 
-\begin{defn}[Differentiable manifold] A \emph{differentiable manifold} is a manifold whose transition maps are of class \( C^{\infty} \), also known as smooth.
-\end{defn}
+\begin{definition}[Differentiable manifold] A \emph{differentiable manifold} is a manifold whose transition maps are of class \( C^{\infty} \), also known as smooth.
+\end{definition}
 
 Note that the transition maps go from \( \R^n \) to \( \R^n \) so it makes sense to talk about them being smooth. 
 
@@ -164,27 +92,131 @@ As is usual in mathematics, once a class of objects has been introduced one of t
 
 In the case of manifolds it would appear that all meaningful structure is encoded by the choice of atlas. For a given topological space, there are potentially many different choices of atlas that make it into a manifold. However, how many of these give rise to actually different manifolds? For a start, we can define a compatibility relation between the different atlases: an atlas \( \A_1 \) is compatible with another atlas \( \A_2 \) if every chart in \( \A_1 \) is also in \( \A_2 \). This is trivially a partial order. Additionally every chain of compatible atlases has an upper bound, its union and so by Zorn's Lemma we conclude there exist maximal atlases. We could then be tempted to establish that the different maximal atlases are what distinguish between manifolds. As the next example shows, however, this is too fine a distinction.
 
-\begin{exe} \label{ex:different maximal atlases}
+\begin{example} \label{ex:different maximal atlases}
 	There is an obvious choice of atlas that makes the real line into a manifold: the atlas \( \A_1 \) comprised of the pair \( (U, \id) \) for every open set \( U \subseteq \R \). This is indeed an atlas since every possible transition map is the identity which is of course smooth. 
 
 	There is another possibility, which is the atlas \( \A_2 \) obtained the same way as before and using the function \( x \mapsto x^3 \), which will simply be denoted by \( x^3 \), instead of the identity. This is still an atlas since \( x^3 \) is a homeomorphism and every transition map is the identity.
 
 	These two atlases, however, give rise to two different maximal atlases given that they are not compatible with each other. Indeed, consider the charts \( (\R, \id) \) and \( (\R, x^3) \) each contained in \( \A_1 \) and \( \A_2 \) respectively. The transition map between the two is \( x^3 \). One of the transition maps is \( x^3 \) which is certainly \( C^\infty \), however its inverse is \( \sqrt[3]{x} \) which is not differentiable at zero and is therefore not \( C^{\infty} \).
-\end{exe}
+\end{example}
 
 The correct solution is to define the correct notion of morphism between manifolds and then classify them modulo isomorphism. The morphisms in the category of manifolds are called \emph{smooth maps}, and the isomorphisms are called \emph{diffeomorphisms}.
-\begin{defn}[Smooth map]
-	Given two manifolds \( M \) and \( N \), we say a map \( f \colon M \to N \) is \emph{smooth} if for any chart \( (U, \phi) \) in \( M \) and \( (V, \psi) \) in \( N \) the composition \( \psi \circ f \phi^{-1} \) is of class \( C^{\infty} \).
-\end{defn}
 
-\begin{defn}[Diffeomorphism]
+\begin{definition}[Diffeomorphism]
 	A \emph{diffeomorphism} is an invertible smooth map whose inverse is also smooth. If there is a diffeomorphism between two manifolds we say they are diffeomorphic.
-\end{defn}
+\end{definition}
 
 Classification up to diffeomorphism is the correct idea, since, as we will see, two diffeomorphic manifolds are, for all intents and purposes, the same.
 
-\begin{exe}
+\begin{example}
 	The two manifolds induced by the different atlases in \cref{ex:different maximal atlases} are diffeomorphic. It is not immediately clear what the diffeomorphism actually is. We can first try it with the identity. This does not work, however, since if we    
-\end{exe}
+\end{example}
+
+
+\chapter{Vector Fields and Vector Bundles}
+
+\section{Vector Fields: Two points of view}
+Once we have defined the tangent bundle of a manifold we are ready to generalise the idea
+of a vector field to any differentiable manifold. In the setting of \( \R^n \) a (smooth)
+vector field defined on an open set \( U \) is simply a smooth funcion \( X \colon U \to
+\R^n \). We can write \( X(p) \) in coordinates as
+\begin{equation} \label{eq:coordinates of vector field}
+	X(p) = \alpha_i(p) \vec{e}_i
+\end{equation}
+where we are adopting what is known as \emph{Einstein's summation convention}, by which
+repeated indexes are summed over. The smoothness of \( X \) is equivalent to the
+smoothness of all the \( \alpha_i \). The idea of a vector field, however, is that the
+vector we associate to each point lives in the tangent space of that point. Since the
+tangent space of an open set of \( \R^n \) is canonically identified with \( \R^n \) we
+don't have to worry too much about this in the euclidean setting.
+
+Let's now think about what a vector field on any manifold \( M \) should look like. For
+one, it has to be a map that sends points to tangent vectors, i.e., a map from \( M \) to
+\( TM \). It can't be any map, however, if it is to satisfy the requirement that vectors
+actually be tangent to the point they correspond. More specifically if \( X \colon M \to
+TM \) is a vector field we require that \( X(p) \) lie in \( T_p M \), or equivalently in
+the fibre \( \pi^{-1}(p) \). So it must be the case that
+\begin{equation*}
+	\pi(X(p)) = p.
+\end{equation*}
+We are saying, then, that the projection \( \pi \) must be a left inverse of the field \(
+X\). In this situation \( X \) is refered to as a \emph{section} of the projection \( \pi
+\). This is the justification for the following definition:
+\begin{definition}[Vector field]
+	A (smooth) \emph{vector field} \( X \) on a manifold \( M \) is a (smooth) section of
+	the projection \( \pi \colon TM \to M \). That is, \( X \) is a map \( M \to TM \) such
+	that \( \pi \circ X \).
+\end{definition}
+
+Let's explore what a vector field looks like in coordinates. Let \( (\phi, U) \) be a
+chart and \( X \colon M \to TM \) be a vector field. The chart \( (\phi, U) \) gives us a
+chart \( (\Phi, U \times \R^n) \) for \( TM \). In this chart \( X(p) \) is
+\begin{equation*}
+	\Phi(X(p)) = 
+\end{equation*}
+
+
+\parbreak
+
+
+\chapter{Multilinear Algebra}
+\section{The Tensor Product}
+So we have seen that bilinear maps are really linear maps through the isomorphism
+\begin{equation*}
+	\Bil_K(V \times W, Z) \cong \Hom_K(V, \Hom_K(W, Z)).
+\end{equation*}
+We now ask more: is there an isomorphism of the sort
+\begin{equation*}
+	\Bil_K(V \times W, Z) \cong \Hom_K(T(V, W), Z),
+\end{equation*}
+where \( T(V,W) \) is some vector space that depends on \( V \) and \( W \)? And if so,
+how determined is this vector space? It is a deep result from category theory that the
+answer to this question is yes and that the vector space \( T(V,W) \) is in fact
+determined up to a unique isomorphism. This is more usually written \( V \otimes W \),
+read ``\( V \) tensor \( W \)'', and it is known as the \emph{tensor product} of \( V \)
+and \( W \).
+
+For the moment we know essentially nothing about this object but we can already establish
+a number of properties that stem directly from its definition. For one, if \( V \) and \(
+W\) are finite dimensional then
+\begin{equation*}
+	\dim(V \otimes W) = \dim(V) \dim(W).
+\end{equation*}
+Indeed, set \( Z = K \). Then \( \Hom_K(V \otimes W, K) \) is the dual of \( V \otimes W
+\). Assuming that the tensor product of finite dimensional spaces is also finite
+dimensional (which is true), then \( (V \otimes W)\dual \cong V \otimes W \). Then, by the
+definition of the tensor product
+\begin{equation*}
+	(V \otimes W)\dual = \Hom_K(V \otimes W), K) \cong \Hom_K(V, \Hom_K(W, K)) = \Hom_K(V,
+	W\dual),
+\end{equation*}
+thus
+\begin{align*}
+	\dim(V \otimes W) & = \dim(V \otimes W)\dual = \dim(\Hom_K(V, W\dual)) =
+	\dim(V)\dim(W\dual) \\
+										& = \dim(V)\dim(W).
+\end{align*}
+
+If we set \( W = K \) then we find
+\begin{equation*}
+	\Hom_K(V \otimes K, Z) \cong \Hom_K(V, Hom_K(K, Z)).
+\end{equation*}
+Now, a linear map from the base field \( K \) to \( Z \) is essentially an element of \( Z
+\). Indeed, it suffices to specifiy the image of \( 1 \), which can be any element of \( Z
+\) and then the map is uniquely determined by linearity. Thus \( \Hom_K(K, Z) \cong Z \).
+Therefore \( \Hom(V \otimes K, Z) \cong \Hom_K(V, Z) \) which means
+\begin{equation*}
+	V \otimes K.
+\end{equation*}
+
+\subsection{Construction of the Tensor Product}
+We now come to the question of what the tensor product actually looks like. We know what
+we \emph{want} out of the tensor product, namely that it satisfies the isomorphism
+\begin{equation*}
+	\Bil_K(V \times W, Z) \cong \Hom_K(V \otimes W, Z)
+\end{equation*}
+
+
 
 \end{document}
+

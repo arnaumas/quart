@@ -28,13 +28,15 @@ entender esto como el cociente de \( S^n \) por la acción de un grupo. En efect
 consideremos la aplicación antipodal \( a \colon S^n \to S^n \), que es un difeomorfismo
 de la esfera. Esta aplicación es una involución: \( a^2 = \id \), por lo que podemos
 definir una acción de \( \Z/2\Z \) sobre \( S^n \) mediante \( 0 \mapsto \id \) y \( 1
-\mapsto a \). El cociente de \( S^n \) por esta acción es justamente \( \PR^n \) puesto
-que la órbita de cada punto está formada por él mismo y su antipodal. En particular esto
-justifica que \( \PR^n \) es una variedad. 
+\mapsto a \). La ación es libre puesto que \( a \) no tiene puntos fijos y también es
+propia porque el grupo con el que actúamos es finito. El cociente de \( S^n \) por esta
+acción es justamente \( \PR^n \) puesto que la órbita de cada punto está formada por él
+mismo y su antipodal. En particular esto justifica que \( \PR^n \) es una variedad. 
 
 \parbreak
 
-Tenemos, pues, una proyección \( p \colon S^n \to \PR^n \). Consideramos la sucesión
+Tenemos, pues, una proyección lisa \( p \colon S^n \to \PR^n \) que de hecho es una
+submersión ---puesto que la acción es libre y propia---. Consideramos la sucesión
 \begin{equation}\label{eq:sucesion exacta corta}
 	\begin{tikzcd}
 		0 \arrow[r] & \Omega^k(\PR^n) \arrow[r, "p^\ast"] & \Omega^k(S^n) \arrow[r, "\id -
@@ -64,11 +66,12 @@ pullback) de la aplicación antipodal. Tenemos que demostrar que existe \( \thet
 \Omega^k(S^n) \) tal que \( p^\ast \theta = \omega \). Para poder construir esta \( \theta
 \) primero observamos que la preimagen de cualquier punto de \( \PR^n \) por \( p \) está
 formada por dos puntos de \( S^n \) que son antipodales. Este hecho se transfiere a la
-aplicación tangente de \( p \), \( Tp \colon TS^n \to T\PR^n \): escogiendo bases
-apropiadas se puede demostrar que \( T_xp : T_x S^n \to T_{p(x)}\PR^n \) es un isomorfismo
-para todo \( x \) de \( S^n \), por lo que para todo \( y = p(x) \in \PR^n \) existen
-isomorfismos \( T_xp \colon T_xS^n \to T_{p(x)}\PR^n \) y \( T_{a(x)}p \colon T_{a(x)}S^n
-\to T_{p(x)}\PR^n \), donde usamos que \( p(a(x)) = p(x) \).
+aplicación tangente de \( p \), \( Tp \colon TS^n \to T\PR^n \):  como \( p \) es una
+submersión, \( T_xp \) es exhaustiva en cada punto \( x \in S^n \), pero como \( S^n \)
+y \( \PR^n \) tienen la misma dimensión se tiene que\( T_xp : T_x S^n \to T_{p(x)}\PR^n \)
+es un isomorfismo para todo \( x \) de \( S^n \). Por ello existen, para todo \( y = p(x) \in
+\PR^n \), isomorfismos \( T_xp \colon T_xS^n \to T_{p(x)}\PR^n \) y \( T_{a(x)}p
+\colon T_{a(x)}S^n \to T_{p(x)}\PR^n \), donde usamos que \( p(a(x)) = p(x) \).
 
 La invariancia de \( \omega \) por \( a^\ast \) se lee localmente como
 \begin{equation*}
@@ -294,13 +297,14 @@ es decir, la cohomología en dimensión \( n \) de \( \PR^n \) es la cohomologí
 n \)-formas invariantes de \( S^n \). 
 
 La aplicación antipodal preserva la orientación para \( n \) impar y la invierte para \( n
-\) par. De esto deducimos, cuando \( n \) es impar, si \( \omega \) es una forma
-antiinvariante
+\) par. Efectivamente, el determinante de la lectura de \( T_xa \) en las cartas inducidas
+por la inclusión \( S^n \rightarrowtail \PR^n \) es \( (-1)^{n+1} \) en todo \( x \in S^n
+\). De esto deducimos, cuando \( n \) es impar, que para una forma antiinvariante \( \omega \) 
 \begin{equation*}
 	\int_{S^1} \omega = \int_{a(S^1)} a^\ast \omega = \int_{S^1} -\omega = -\int_{S^1}
 	\omega
 \end{equation*}
-por lo que las formas antiinvariantes tienen integral 0 en dimensión par. En cambio, en
+por lo que las formas antiinvariantes tienen integral 0 en dimensión impar. En cambio, en
 dimensión par son las formas invariantes las que tienen integral nula. En efecto, puesto
 que en este caso \( a \) invierte la orientación,
 \begin{equation*}

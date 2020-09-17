@@ -1,0 +1,899 @@
+\documentclass[12pt,twocolumn]{article}
+
+\input{preamble-resum.tex}
+\input{commands-varietats.tex}
+
+\title{\bfseries \sffamily Topologia de Varietats: Resultats més rellevants}
+\author{\sffamily Arnau Mas}
+\date{\sffamily 2020}
+
+\begin{document}
+\maketitle
+
+\section{Varietats}
+\subsection{Definicions}
+\begin{definition}[Carta]
+	Una \emph{carta} al voltant d'un punt \( x \in M \) és un entorn obert \( U \) d'\( x \)
+	i un homeomorfisme \( \phi \colon U \to \phi(U) \subseteq \R^n \). 
+\end{definition}
+
+\begin{definition}[Varietat]
+	Un espai topològic \( M \) és una \emph{varietat} si
+	\begin{points}
+	\item \( M \) és Hausdorff i segon numerable,
+	\item hi ha un conjunt de cartes \( (U_\alpha, \phi_\alpha) \) tals que \(
+		\set{U_\alpha}_\alpha \) és un recobriment de \( M \) i si \( U_\alpha \cup U_\beta
+		\neq \emptyset \) aleshores l'aplicació canvi de carta 
+		\begin{equation*}
+			\phi_\alpha^\beta \colon \phi_\alpha(U_\alpha \cap U_\beta)
+			\xrightarrow{\phi_\alpha^{-1} \circ \phi_\beta} \phi_\beta(U_\alpha \cap U_\beta)
+		\end{equation*}
+		és un homeomorfisme. El conjunt d'aquestes cartes s'anomena un \emph{atles}.
+	\end{points}
+
+	Quan totes les aplicacions de canvi de carta són de classe \( C^k \) parlem d'una
+	varietat de classe \( C^k \). En el cas \( C^\infty \) diem que la varietat és
+	\emph{llisa}. En el cas \( C^0 \) se sol parlar de varietat topològica.
+\end{definition}
+
+\begin{example}
+	\( \R^k \) és una varietat de dimensió \( k \) amb l'atles \( \set{(\R^k, \id)}	\).
+\end{example}
+
+\begin{example}[Projecció estereogràfica]
+	\( S^n \defeq \set{x \in \R^{n+1} \mid \norm{x} = 1} \) és una varietat de
+	dimensió \( n \). Un atles és la projecció estereogràfica:
+	\begin{align*}
+		\phi_\delta \colon S^n - p_\delta & \to \R^n \\
+		(x_1, \dots, x_{n+1}) & \mapsto \frac{\delta}{\delta - x_{n+1}}(x_1, \dots, x_n)
+	\end{align*}
+	i
+	\begin{align*}
+		\phi_\delta^{-1} \colon  \R^n & \to S^n - p_\delta \\
+		(y_1, \dots, y_n) & \mapsto \frac{1}{\norm{y}^2 + 1}(2y, \delta(\norm{y}^2 - 1))
+	\end{align*}
+	on \( p_\delta = (0,\dots,0,\delta) \) per \( \delta = 1 \) i \( \delta = -1 \).
+\end{example}
+
+\begin{definition}[Varietat amb frontera]
+	És la mateixa definició que varietat però ara les cartes tenen imatge al semiespai \(
+	[0,\infty) \times \R^{n-1} \). El conjunt de punts tals que la seva imatge per alguna
+	carta és a \( 0 \times \R^{n-1} \) és la frontera de la varietat, \( \partial M \). 
+\end{definition}
+\begin{observation}
+	Es pot demostrar que si la imatge per alguna carta d'algun punt és a \( 0 \times
+	\R^{n+1} \) també ho és per qualsevol altra carta, per tant que la frontera d'una
+	varietat està ben definida. 
+\end{observation}
+
+\subsection{Aplicacions llises}
+\begin{definition}[Funció llisa]
+	Una aplicació \( f \colon M \to \R^k \) es diu \emph{llisa} si per tota carta \(
+	(U,\phi) \) de \( M \) l'aplicació \( \phi^{-1} \circ f \colon \phi(U) \subseteq \R^n
+	\to \R^k \) és de classe \( C^\infty \).
+\end{definition}
+
+\begin{definition}[Aplicació llisa]
+	Una aplicació \( f \colon M \to N \) entre varietats és una \emph{funció llisa} si per
+	tota carta \( (U,\phi) \) de \( M \) i carta \( (V,\psi) \) de \( N \) tal que \( f(U)
+	\subseteq V \) l'aplicació \( \phi^{-1} \circ f \circ \psi \colon \phi(U) \to \psi(V) \)
+	és de classe \( C^\infty \). El conjunt de funcions llises d'\( M \) s'escriu \(
+	C^\infty(M) \) o \( \Omega^0(M) \) (és el conjunt de les 0-formes de \( M \)).
+\end{definition}
+\begin{example}
+	\begin{points}
+	\item Les funcions constants són llises.
+	\item Les components d'una carta, és a dir \( \phi_i = \pi_i \circ \phi \) són llises. 
+	\end{points}
+\end{example}
+
+\begin{definition}[Difeomorfisme]
+	Una aplicació llisa \( f \colon M \to N \) és un \emph{difeomorfisme} si és invertible
+	i la inversa	\( f^{-1} \colon N \to M \) és llisa. El conjunt d'aplicacions llises
+	entre \( M \) i \( N \) s'escriu \( C^\infty(M,N) \).
+\end{definition}
+
+\begin{observation}
+	\begin{points}
+	\item La composició d'aplicacions llises és llisa.
+	\item La composició de difeomorfismes és un difeomorfisme, per tant els difeomorfismes
+		d'una varietat en ella mateixa formen un grup, \( \Diff(M) \).
+	\end{points}
+\end{observation}
+
+\subsection{Subvarietats}
+\begin{definition}[Subvarietat]
+	Donat \( N \subseteq M \) (\( \dim M = m \)), diem que una carta \( (U,\phi) \) d'\( M
+	\) és una linearització local d'\( N \) si \( \phi(U \cap N)  \) és difeomorfa a \( U'
+	\cap (\R^n \times 0) \) on \( U' \) és un obert de \( R^n \).  Si \( N \) es pot
+	recobrir amb linearitzacions locals diem que és una subvarietat de \( M \). Aquest
+	recobriment indueix un atles per a \( N \): si \( (U_\alpha, \phi_\alpha) \) és una de
+	les cartes del recobriment aleshores \( (U_\alpha \cap N, (\pi_1 \times \dots \pi_n)
+	\circ \phi_\alpha \rest{N}) \) és una carta de \( N \). 
+\end{definition}
+
+\begin{example}
+	\begin{points}
+	\item	Qualsevol obert \( U \) d'una varietat \( M \) n'és una subvarietat de la mateixa
+		subvarietat. 
+	\item \( S^n \) és una subvarietat de \( \R^{n+1} \). 
+	\end{points}
+\end{example}
+
+\subsection{Construccions bàsiques}
+\begin{definition}[Producte]
+	El producte de dues varietats \( M \times N \) té una estructura diferenciable natural:
+	si \( \set{(U_\alpha, \phi_\alpha)}_{\alpha \in I} \) és l'atles d'\( M \) i \(
+	\set{(V_\beta, \psi_\beta)}_{\beta \in J} \) l'atles d'\( N \) aleshores l'atles d'\( M
+	\times N \) és \( \set{(U_\alpha \times V_\beta, \phi_\alpha \times \psi_\beta)}_{\alpha
+	\in I, \beta \in J} \). Les projeccions \( \pi_M \colon M \times N \onto M \) i \( \pi_N
+	\colon M \times N \onto N \) són llises. 
+\end{definition}
+
+\begin{definition}[Quocient per l'acció d'un grup]
+	Si un grup discret \( G \) actua sobre \( M \) ---és a dir, hi ha un morfisme \( \rho
+	\colon G \to \Diff(M) \)--- aleshores el quocient \( M/G \) és una varietat amb la
+	mateixa dimensió que \( M \) si l'acció és lliure (si \( \phi(g) \) té punts fixos
+	aleshores \( \phi(g) = \id_M \)) i pròpia (per tot compacte \( K \subseteq M \) el
+	conjunt \( \set{g \in G \mid \rho(g)(K) \cap K \neq \emptyset} \) és finit). En aquest
+	cas la projecció \( \pi \colon M \onto M/G \) és llisa.
+\end{definition}
+
+\subsection{Classificació de varietats compactes en dimensió petita}
+\begin{itemize}
+	\item \emph{Dimensió 0.} Són unions finites de punts.
+	\item \emph{Dimensió 1.} Unions disjuntes finites de \( S^1 \) (sense frontera) i de \(
+		[0,1] \)
+	\item \emph{Dimensió 2.} En el cas sense frontera són sumes connexes de \( S^2 \), el
+		torus \( S^1 \times S^1 \) (cas orientable) i de \( \PR^2 \) (cas no orientable).
+\end{itemize}
+
+\section{Espai Tangent}
+\subsection{Vectors tangents}
+\begin{definition}[Vector tangent]
+	Un vector tangent en el punt \( x \in M \) és una aplicació \( X \colon \Omega^0(U) \to
+	\R \) on \( U \) és un entorn de \( X \) que
+	\begin{points}
+	\item és lineal,
+	\item satisfà la regla de Leibniz, és a dir, per \( f, g \in \Omega^0(U) \),
+		\begin{equation*}
+			X(fg) = X(f)g(x) + f(x)X(g),
+		\end{equation*}
+	\item si \( U_1 \subseteq U \) i \( U_2 \subseteq U \) són entorns oberts de \( X \)
+		tals que \( f\rest{U_1 \cap U_2} = g \rest{U_1 \cap U_2} \) aleshores \( X(f) = X(g)
+		\), o, dit d'un altra manera, \( X \) es pot traslladar a una funció \( \mathcal{O}_x
+		\to \R \) on \( \mathcal{O}_x \) és el resultat d'identificar a \( \Omega^0(M) \) les
+		funcions que coincideixen en un entorn de \( x \), el \emph{germen} de funcions
+		diferenciables en \( x \).  
+	\end{points}
+\end{definition}
+La intució és que \( X(f) \) és la derivada de \( f \) en la direcció \( X \) en el punt \( x \). 
+\begin{definition}[Espai tangent]
+	El conjunt de vectors tangents a un punt \( x \) és un espai vectorial de la mateixa
+	dimensió que \( M \) i s'escriu \( T_x M \).
+\end{definition}
+
+\begin{definition}[Base induïda per una carta]
+	Una carta \( (U,\phi) \) al voltant del punt \( x \) indueix una base de \( T_xM \):
+	\begin{align*}
+		\partial_i^\phi \colon \Omega^0(U) & \to \R \\
+		f & \mapsto \partial_i(f \circ \phi^{-1})(0)
+	\end{align*}
+
+	Un vector tangent s'expressa en aquesta base com
+	\begin{equation*}
+		X = \sum_{i = 1}^{n} X(\phi_i)\partial_i^{\phi} 
+	\end{equation*}
+	on \( \phi_i = \pi_i \circ \phi \). 
+\end{definition}
+
+\begin{definition}[Aplicació tangent]
+	Donada una aplicació llisa \( f \in C^{\infty}(M,N) \), l'aplicació lineal tangent a \(
+	f \) en \( x \) (diferencial d'\( f \) en \( x \), pushforward d'\( f \) en \( x \)), \(
+	T_x f \) és
+	\begin{align*}
+		T_x f \colon T_xM & \to T_{f(x)} N \\
+		X & \mapsto (g \mapsto X(g \circ f)).
+	\end{align*}
+	Escollint la carta \( (U,\phi) \) al voltant d'\( x \) i \( (V,\psi) \) al voltant de \(
+	f(x) \) es té
+	\begin{equation*}
+		T_xf(\partial_i^{\phi}) = \sum_{j = 1}^{m} \partial_i(\psi_j \circ f \circ
+		\phi^{-1})(\phi(x)) \partial_j^{\psi} 
+	\end{equation*}
+	és a dir, que en les bases induïdes per \( \phi \) i \( \psi \), la matriu de \( T_f \)
+	és la matriu de de la diferencial de \( \psi \circ f \circ \phi^{-1} \). 
+\end{definition}
+
+\subsection{El fibrat tangent}
+\begin{definition}[Fibrat tangent]
+	El fibrat tangent \( TM \) és el conjunt \( \bigsqcup_{x \in M}T_xM \). \( TM \) és una
+	varietat de dimensió \( 2 \dim M \). Donada una carta \( (U,\phi) \) d'\( M \),
+	s'indueix una carta \( (TU, \Phi) \) on
+	\begin{points}
+	\item	\( TU \defeq \pi^{-1}(U) \) on \( \pi \colon TM \onto M \) és la projecció
+	\item \( \Phi \) es defineix com
+		\begin{align*}
+			\Phi \colon TU & \to \phi(U) \times \R^n \\
+			X & \mapsto (\phi(\pi(X)), X(\phi_1), \dots, X(\phi_n)).
+		\end{align*}
+	\end{points}
+\end{definition}
+
+\begin{definition}[Aplicació tangent]
+	Donada \( f \in C^{\infty}(M,N) \) es defineix \( Tf \colon TM \to TN \) com \( Tf(X)
+	\defeq T_{\pi(X)}(X) \), que fa commutar el diagrama
+	\begin{equation*}
+		\begin{tikzcd}
+			TM \arrow[d, two heads, "\pi"] \arrow[r, "Tf"] & TN \arrow[d, two heads, "\pi", two
+			heads, "\pi"] \\
+			M \arrow[r, "f"] & N
+		\end{tikzcd}
+	\end{equation*}
+\end{definition}
+
+\begin{proposition}
+	El fibrat tangent és functorial, és a dir, \( T(f \circ g) = Tf \circ Tg \)  i \( T
+	\id_M = \id_{TM} \). En particular, si \( f \) és un difeomorfisme aleshores \( Tf \)
+	també i \( T(f^{-1}) = (Tf)^{-1} \).
+\end{proposition}
+
+\begin{proposition}
+	Si \( N \) és una subvarietat d'\( M \) aleshores \( TN \) és una subvarietat de \( TM \).
+\end{proposition}
+
+\subsection{Immersions i submersions. Transversalitat}
+\begin{definition}[Submersió i immersió]
+	Una aplicació llisa \( f \in C^{\infty}(M,N) \) és una \emph{immersió }si per tot \( x \in M \)
+	\( T_xf \) és injectiva. Si en canvi \( T_xf \) és exhaustiva per tot \( x \in M \), \(
+	f\) és una \emph{submersió}.  
+\end{definition}
+\begin{observation}
+	Un difeomorfisme local, és a dir, \( f \in C^{\infty}(M,N) \) tal que tot punt té un
+	entorn \( U \) de manera que \( f\rest{U} \) és un difeomorfisme entre \( U \) i \( f(U)
+	\) són submersions i immersions. Al revés també és veritat: si \( T_xf \) és invertible,
+	aleshores hi ha un entorn \( U \) d'\( x \) tal que \( f \) és un difeomorfisme entre \(
+	U \) i \( f(U) \) (Teorema de la Funció Inversa).
+\end{observation}
+
+\begin{definition}[Punt crític i punt regular]
+	Donada \( f \in C^{\infty}(M,N) \), un punt \( x \in M \) és \emph{regular} si \( T_xf
+	\) és exhaustiva, i \emph{crític} si no és regular, és a dir, si \( T_xf \) és
+	exhaustiva. 
+
+	Un punt \( y \in N \) és un \emph{valor regular} si i només si tot element de \(
+	f^{-1}(y) \) és regular. En canvi \( y \) és un \emph{valor crític} si no és regular, és
+	a dir, si hi ha algun punt de \( f^{-1}(y) \) crític.  
+\end{definition}
+\begin{observation}
+	Un valor regular no ha de ser un valor, de fet, tot punt de \( N - f(M) \) és un valor
+	regular. En canvi els valors crítics sempre són valors, i de fet el conjunt de valors
+	crítics és exactament la imatge del conjunt de punts crítics.
+\end{observation}
+
+\begin{theorem}[Sard]
+	El conjunt de valors crítcs té mesura nu\l.la al codomini, o, equivalentment, el conjunt
+	de valors regulars és dens al codomini. 
+\end{theorem}
+
+\begin{theorem}[Forma local de les immersions i les ubmersions] 
+	Sigui \( M \) una varietat de dimensió \( m \) i \( N \) una varietat de dimensió \( n
+	\). Si \( T_xf \) és injectiva (per tant \( m \leq n \)), hi ha una carta \( (U,\phi) \)
+	al voltant d'\( x \) i una carta \( (V,\psi) \) al voltant d'\( f(x) \) tal que \( \psi
+	\circ f \circ \phi^{-1} = \iota_\mathrm{can} \) on \( \iota_\mathrm{can} \) és la
+	immersió canònica de \( \R^m \) en \( \R^m \). Si \( T_xf \) és exhaustiva (per tant \(
+	m \geq n \)), es té \( \psi \circ f \circ \phi^{-1} = \sigma_\mathrm{can} \) on \(
+	\sigma_\mathrm{can} \) és la submersió canònica de \( \R^m \) a \( \R^n \).
+\end{theorem}
+
+\begin{theorem}
+	Si \( f \colon M \to N \) és llisa i \( y \in N \) és un valor regular aleshores \(
+	Z = f^{-1}(y) \) és una subvarietat de \( M \) amb
+	\begin{equation*}
+		\dim Z = \dim M - \dim N
+	\end{equation*}
+	i a més \( T_x Z = \ker T_xf \).
+\end{theorem}
+
+\begin{example}
+	Amb això apareixen moltes subvarietats de \( M_n(\R) \):
+	\begin{points}
+	\item \( GL_n(\R) \). \( GL_n(\R) \) és la preimatge de \( \R - 0 \) per \( \det \), per
+		tant obert i per tant subvarietat de dimensió \( \dim M_n(\R) = n^2 \). 
+	\item \( SL_n(\R) \). \( SL_n(\R) \) és \( \det^{-1}(1) \). En general, si \( B \in
+		GL_n(\R) \) es té
+		\begin{equation*}
+			T_B \det (A) = \det(B) \tr(B^{-1}A)
+		\end{equation*}
+		per tant és exhaustiva per tot \( B \in GL_n(\R) \). En particular ho és per \(
+		SL_n(\R) \), de manera que \( SL_n(\R) \) és una subvarietat de dimensió \( n^2 - 1
+		\) i \( T_B SL_n(\R) = \set{A \in M_n(\R) \mid \tr(B^{-1}A) = 0} \).
+		
+	\item \( O(n) \). Per definició \( O(n) = \set{A \in M_n(\R) \mid A^\top A = 1} \).
+		Considerem l'aplicació de simetrització:
+		\begin{align*}
+			s \colon M_n(\R) & \to S_n(\R) \\
+			A & \mapsto A^\top A
+		\end{align*}
+	on \(  S_n(\R) = \set{B \in M_n(R) \mid B = B^\top} \cong \R^{\frac{n(n+1)}{2}} \).
+	Aleshores \( T_As(B) = A^\top B + B^\top A \), que és exhaustiu a \( O(n) \):
+	\begin{equation*}
+		T_A s\left(\frac{1}{2}AC\right) = C
+	\end{equation*}
+	amb \( A \in O(n) \) i \( C \in S_n(\R) \). Per tant \( O(n) = s^{-1}(1) \) és una
+	subvarietat i 
+	\begin{align*}
+		\dim O(n) & = \dim M_n(\R) - \dim S_n(\R) \\
+							& = n^2 - \frac{n(n+1)}{2} \\ 
+							& = \frac{n(n-1)}{2}.
+	\end{align*}
+	\end{points}
+\end{example}
+
+\begin{definition}[Transversalitat]
+	Diem que \( f \colon M \to N \) és transversa a una subvarietat \( Y \subseteq N \) si
+	per tot \( y \in Y \) es té
+	\begin{equation*}
+		\im T_x f + T_{f(x)} Y = T_x N.
+	\end{equation*}
+	(Intuïtivament, que \( f(M) \) i \( N \) no són tangents)
+\end{definition}
+
+\begin{theorem}
+	Si \( f \colon M \to N \) és transversa a una subvarietat \( Y \subseteq N \) aleshores
+	\( f^{-1}(Y) \) és una subvarietat de \( M \) i
+	\begin{equation*}
+		\dim f^{-1}(Y) = \dim M - \dim N + \dim Y.
+	\end{equation*}
+\end{theorem}
+
+\subsection{Camps vectorials}
+\begin{definition}[Camp vectorial]
+	Un camp vectorial és una secció llisa de la projecció \( TM \xrightarrow{\pi} M \), és a
+	dir, una aplicació \( X \colon M \to TM \) tal que \( \pi \circ X = \id M \).
+	
+	Equivalentment, un camp vectorial és una derivació de \( \Omega^0(M) \), és a dir, una
+	aplicació \( X \colon \Omega^0(M) \to \Omega^0(M) \) lineal i que satisfà la regla de
+	Leibniz. 
+\end{definition}
+\begin{observation}
+	\begin{points}
+	\item En un obert de carta \( U \), un camp vectorial sobre una varietat de dimensió \(
+		n \) ve donat per \( n \) funcions \( X^i \colon U \to \R \), i definint \( X(x) =
+		\sum_{i = 1}^{n} X^i(x) \partial^\phi_i \). Globalment això només es pot fer per
+		varietats para\l.lelitzables, tals que \( TM \cong M \times \R^n \), en les que hi ha
+		\( n \) camps linealment independents en tot punt. 
+	\item El conjunt de camps vectorials és un \( \R \)-espai vectorial, en general de
+		dimensió finita, i un	\( \Omega^0(M) \)-mòdul.
+
+	\item En general la composició de camps vectorials (entesos com a derivacions) no és un
+		camp vectorial, però si que ho és el commutador \( [X,Y] = XY - YX \), que dóna
+		estructura d'àlgebra de Lie: és una operació bilineal, antisimètrica i que satisfà la
+		identitat de Jacobi
+		\begin{equation*}
+			[X,[Y,Z]] + [Y,[Z,X]] + [Z,[X,Y]] = 0.
+		\end{equation*}
+		Localment es té
+		\begin{equation*}
+			[X,Y]^i = X^j \partial_j Y^j - Y^j \partial_j X^i.
+		\end{equation*}
+	\end{points}
+\end{observation}
+
+\parbreak
+
+\begin{theorem}[Flux d'un camp]
+	Donat un camp vectorial \( X \) sobre \( M \) existeix un obert \( W \subseteq M \times
+	\R \) i una aplicació llisa \( \gamma \colon W \to M \) tal que \( W \) és un entorn de
+	\( (x,0) \) per tot \( x \in M \) i a \( W \) es té
+	\begin{equation*}
+		\partial_t \gamma(x,t) = X(\gamma(x,t))
+	\end{equation*}
+	i \( \gamma(x,0) \), és a dir, \( \gamma \) és solució del problema de Cauchy.
+
+	Si \( M \) és compacta i sense frontera aleshores \( W = M \times \R \) i en particular
+	per tot \( t \in \R \), \( \gamma(\cdot, t) = \gamma_t \) és un difeomorfisme d'\( M \). 
+\end{theorem}
+
+\begin{definition}[Derivada de Lie]
+	Donat el camp vectorial \( X \) i \( \gamma \) el seu flux, definim la derivada de Lie
+	de \( f \Omega^0(M) \) com
+	\begin{equation*}
+		\mathcal{L}_X(f)(x) = \lim_{t \to 0} \frac{f(\gamma_t(x)) - f(x)}{t}
+	\end{equation*}
+	(la intuició és que \( \gamma_t(x) \) és com \( x + \epsilon \): \( x \) desplaçat una
+	mica en la direcció que marca el camp	\( X \)).
+\end{definition}
+Això dóna un isomorfisme entre els camps vectorials entesos com a seccions i els camps
+entesos com a derivacions de \( \Omega^0(M) \). 
+
+\section{Àlgebra multilineal}
+\subsection{Producte tensorial}
+\begin{definition}[Producte tensorial]
+	El producte tensorial de dos espais vectorials \( V \) i \( W \) és l'espai vectorial \(
+	V \otimes W \) amb la propietat de que per tota aplicació bilineal \( \beta \colon V
+	\times W \to Z \) hi ha una única aplicació lineal \( \hat{\beta} \colon V \otimes W \to
+	Z \) tal que \( \beta = \hat{\beta} \circ \iota \), on \( \iota \colon V \times W \to Z
+	\) és la inclusió canònica (que és part de la definició). Així \( V \otimes W \)
+	realitza l'isomorfisme
+	\begin{equation*}
+		\Hom(V, \Hom(W, Z)) \cong \Hom(V \otimes W, Z).
+	\end{equation*}
+	
+
+	En termes concrets, \( V \otimes W \) te dimensió \( \dim V \dim W \) i donades bases
+	\( \set{e_i}_{i=1}^{\dim V} \) i \( \set{f_j}_{j=1}^{\dim W} \) té com a base
+	\begin{equation*}
+		\set{e_i \otimes f_j}_{i = 1, j = 1}^{i = \dim V, j = \dim W}
+	\end{equation*}
+	amb les propietats
+	\begin{points}
+	\item \( \lambda(v \otimes w) = (\lambda v) \otimes w = v \otimes (\lambda w) \)
+	\item \( v \otimes (w_1 + w_2) = v \otimes w_1 + v \otimes w_2 \)
+	\item \( (v_1 + v_2) \otimes v = v_1 \otimes w +  v_2 \otimes w \)
+	\end{points}
+\end{definition}
+\begin{observation}
+	Els tensors (elements del producte tensorial) de la forma \( v \otimes w \) amb \( v \in
+	V	\) i \( w \in W \) s'anomenen tensors elementals, però no tots els tensors són
+	elementals.
+\end{observation}
+\begin{observation}
+	Es tenen els isomorfismes
+	\begin{points}
+	\item \( V \otimes W \cong W \otimes V \)
+	\item \( V \otimes (W \otimes U) \cong (V \otimes W) \otimes U \)
+	\item \( \R \otimes V \cong V \)
+	\item \( \gen{0} \otimes V \cong \gen{0} \)
+	\item \( V \otimes V^\ast \cong \Hom(V,V) \)
+	\end{points}
+\end{observation}
+
+\subsection{Àlgebra tensorial}
+Denotem el producte tensorial de \( V \) amb ell mateix \( n \) vegades per \( T^n(V) \).
+Aleshores tenim una aplicació bilineal
+\begin{equation*}
+	\otimes \colon T^n(V) \times T^m(V) \to T^{n+m}(V).
+\end{equation*}
+Agafem la ``clausura'' de tots aquests espais,
+\begin{equation*}
+	T(V) \defeq \bigoplus_{n = 0}^\infty T^n(V)
+\end{equation*}
+que és un espai vectorial amb un producte \( \otimes \colon T(V) \times T(V) \to T(V) \), per
+tant una àlgebra, que s'anomena l'\emph{àlgebra tensorial}. 
+
+\subsection{Àlgebra alternada}
+Tenim una acció del grup simètric \( \S_n \) sobre \( T^n(V) \), que sobre els tensors
+elementals és
+\begin{equation*}
+	\sigma(v_1 \otimes \cdots \otimes v_n) = v_{\sigma(1)} \otimes \dots \otimes
+	v_{\sigma(n)}. 
+\end{equation*}
+Això dóna lloc a dos subespais rellevants, el dels tensors simètrics, \( S^n(V) =
+T^n(V)^{\S_n} \) i el dels tensors antisimètrics:
+\begin{align*}
+	\bigwedge^n V & \defeq \set{x \in T^n(V) \mid \\
+						 & \forall \sigma \in \S_n \colon \sigma x =
+	(-1)^{\sigma} x}. 
+\end{align*}
+Podem ``antisimetritzar'' un tensor definint
+\begin{equation*}
+	v_1 \wedge \cdots \wedge v_n \defeq \frac{1}{n!} \sum_{\sigma \in \S_n} v_{\sigma(1)}
+	\otimes \cdots \otimes v_{\sigma(n)}
+\end{equation*}
+i aleshores si \( e_i \) és una base de \( V \) els tensors \( e_{i_1} \wedge \cdots \wedge
+e_{i_n} \) formen una base de \( \bigwedge^nV \), que es demostra que té dimensió \( \binom{\dim
+V}{n} \) quan \( n \leq \dim V \) i dimensió 0 sino. Aleshores es tenen els isomorfismes
+\begin{points}
+\item \( \bigwedge^{\dim V - n}V \cong \bigwedge^n V\)
+\item \( \bigwedge^0 V \cong \R \), per tant \( \bigwedge^{\dim V} V \cong V \)
+\item \( \bigwedge^{1} V \cong V \)
+\end{points}
+
+L'operació \( \wedge \) extesa a tot \( \bigwedge^n V \) dóna una aplicació bilineal alternada 
+\begin{equation*}
+	\wedge \colon \bigwedge^n V \times \bigwedge^mV \to \bigwedge^{n+m}V.
+\end{equation*}
+Aleshores, igual com amb el producte tensorial, definim l'àlgebra alternada com
+\begin{equation*}
+	\bigwedge V \defeq \bigotimes_{n = 0}^{\dim V} \bigwedge^n V
+\end{equation*}
+que és una subàlgebra de \( T^n(V) \). 
+
+L'utilitat del producte alternat és que l'espai \( \bigwedge^n V^\ast \) és l'espai de les formes
+multilineals alternades, i és el que ens permetrà definir les formes diferencials sobre una
+varietat. 
+
+\section{Fibrats vectorials}
+El concepte generalitza el del fibrat tangent. 
+\begin{definition}[Fibrat vectorial]
+	Un fibrat vectorial (de rang \( n \)) és un triple \( E \xrightarrow{\pi} B \) on \( E
+	\) i \( B \) són varietats (diferenciables) i \( \pi \) una aplicació llisa exhaustiva
+	de manera que
+	\begin{points}
+	\item per tot \( x \in B \) la fibra \( \pi^{-1}(x) \) és un espai vectorial,
+	\item \( E \) és localment trivial, és a dir, hi ha un recobriment de \( B \) per oberts
+		\( U_\alpha \) amb difeomorfismes \( h_\alpha \colon \pi^{-1}(U) \to U \times \R^n \)
+		que fan commutar
+		\begin{equation*}
+			\begin{tikzcd}
+				E \arrow[d, two heads, "\pi"] & \arrow[l, tail] \arrow[d, two heads, "\pi"]
+				\pi^{-1}(U_\alpha) \arrow[r, "h_\alpha"] & U_\alpha \times \R^n \arrow[dl, two heads, "\pi_1"] \\
+				B & \arrow[l, tail] U_\alpha
+			\end{tikzcd}
+		\end{equation*}
+		i tal que \( h_\alpha \rest{\pi^{-1}(x)} \) és un isomorfisme entre la fibra \(
+		\pi^{-1}(x) \) i \( x \times \R^{n} \). 
+	\end{points}
+\end{definition}
+És a dir, la part de fibrat fa referència a que l'espai localment és com un producte \( B
+\times \R^n \) i \( \pi \) actua com una projecció del producte. La part vectorial és el
+requeriment de que les fibres siguin espais vectorials. 
+\begin{example}
+	\begin{points}
+	\item	El fibrat trivial de dimensió \( n \), \( M \times \R^n \xrightarrow{\pi_1} M \).
+	\item El fibrat vectorial \( TM \xrightarrow{\pi} M \). 
+	\item Sobre \( S^1 \) tenim el fibrat tangent, \( TS^1 \) que és trivial per ser \( S^1
+		\) para\l.lelitzablem i la cinta de Möbius, que es pot interpretar com un fibrat. No
+		són isomorfs. 
+	\end{points}
+\end{example}
+
+\begin{definition}[Morfisme de fibrats vectorials]
+	Un morfisme de fibrats vectorials \( E_1 \xrightarrow{\pi_1} B_1 \) i \( E_2
+	\xrightarrow{\pi_2} B_2 \) és una parella d'aplicacions llises \( f \colon B_1 \to B_2
+	\) i \( \hat{f} \colon E_1 \to E_2 \) tals que el diagrama
+	\begin{equation*}
+		\begin{tikzcd}
+			E_1 \arrow[d, two heads, "\pi_1"]\arrow[r, "\hat{f}"] & E_2 \arrow[d, two heads, "\pi_2"] \\
+			B_1 \arrow[r, "f"] & B_2
+		\end{tikzcd}
+	\end{equation*}
+	i \( \hat{f}_x \defeq \hat{f}\rest{\pi_1^{-1}(x)} \) és una aplicació lineal entre les
+	fibres \( \pi_1^{-1}(x) \) i \( \pi_2^{-1}(f(x)) \). 
+
+	Si \( f \) i \( \hat{f} \) són difeomorfismes aleshores tenim un isomorfisme de
+	fibrats.
+\end{definition}
+
+
+\begin{theorem}
+	Si \( (f,\hat{f}) \) és un morfisme entre fibrats del mateix rang, \( f \) és un
+	difeomorfisme i \( \hat{f}_x \) és un isomorfisme entre les fibres per tot \( x \)
+	aleshores \( (f, \hat{f}) \) és un isomorfisme de fibrats.
+\end{theorem}
+
+\section{Formes diferencials}
+\subsection{Definició}
+Les construccions sobre espais vectorials es poden pujar a fibrats fibra a fibra, així
+podem parlar del fibrat dual o de les potències alternes d'un fibrat. En el cas del fibrat
+tangent tenim el \emph{fibrat cotangent,} \( T^\ast M \), i les seves potències
+alternades, \( \bigwedge^p T^\ast M \cong (\bigwedge^p TM)^\ast \). 
+
+\begin{definition}[Forma diferencial]
+	Una \( p \)-forma diferencial és una secció llisa del fibrat \( \bigwedge^p T^\ast M \).
+	El conjunt de les \( p \)-formes diferencials és \( \Omega^p(M) \). Localment una forma
+	\( \omega \) ens dóna en cada punt una forma multilineal alternada sobre \( T_x M \),
+	\begin{equation*}
+		\omega_x(v_1, \dots, v_p).
+	\end{equation*}
+	També podem fer-la actuar globalment sobre camps vectorials:
+	\begin{equation*}
+		\omega(X_1, \dots, X_p)(x) = \omega_x(X_1(x), \dots, X_p(x)).
+	\end{equation*}
+\end{definition}
+\begin{observation}
+	\( \Omega^p(M) \) és un \( \R \)-espai vectorial i un	\( C^{\infty}(M) \)-mòdul, en els
+	dos casos de dimensió, en general, infinita.	
+\end{observation}
+\begin{example}[Gradients]
+	Donada una funció llisa \( f \colon M \to \R \), la seva aplicació tangent \( Tf \) és
+	una 1-forma, que en aquest context se sol denotar \( df \). En concret, si tenim una
+	carta \( (x^1, \dots,x^n) \) (en el context de les formes es fa servir aquesta notació),
+	tenim, localment, les formes \( dx^1, \dots, dx^n \), que són una base de \( T_p^\ast M
+	\) i per tant els seus productes alternats són una base de \( \bigwedge^p T^\ast M \), és
+	a dir que localment una \( p \)-forma s'escriu
+	\begin{equation*}
+		\omega = \omega_{i_1, \dots, i_p} dx^{i_1} \wedge \dots \wedge dx^{i_p}.
+	\end{equation*}
+\end{example}
+
+\subsection{Pullbacks i el complex de de Rham}
+\begin{definition}[Pullback]
+	El pullback d'una aplicació llisa \( f \colon M \to N \) és l'aplicació
+	\begin{align*}
+		f^\ast \colon \Omega^p(N) & \to \Omega^p(M) \\
+		\omega & \mapsto f^\ast \omega
+	\end{align*}
+	on
+	\begin{gather*}
+		f^\ast \omega_x(v_1, \dots, v_n) \defeq \\
+		 \omega_{f(x)}(T_xf(v_1) \dots, T_xf(v_n)) 
+	\end{gather*}
+\end{definition}
+\begin{proposition}
+	Es té que \( (f \circ g)^\ast = g^\ast \circ f^\ast \) i \( \id_M^\ast =
+	\id_{\Omega^p(M)} \) per tant el pullback és un functor contravariant. 
+\end{proposition}
+
+A partir del producte exterior tenim un producte exterior de formes diferencials,
+\begin{equation*}
+	\wedge \colon \Omega^p(M) \times \Omega^q(M) \to \Omega^{p+q}(M) \\
+\end{equation*}
+que és bilineal, associatiu i semicommutatiu, és a dir, si \( \alpha \in \Omega^p(M) \) i
+\( \beta \in \Omega^q(M)\) aleshores \( \alpha \wedge \beta = (-1)^{pq} \beta \wedge
+\alpha \). També \( f^\ast(\alpha \wedge \beta) = f^\ast \alpha \wedge f^\ast \beta \). 
+
+Amb això definim una generalització del gradient: la derivada exterior
+\begin{equation*}
+	d \colon \Omega^p(M) \to \Omega^{p+1}(M)
+\end{equation*}
+que localment és
+\begin{equation*}
+	\omega = d\omega_{i_1, \dots, i_p} \wedge dx^{i_1} \wedge \dots \wedge dx^{i_p}.
+\end{equation*}
+
+\begin{proposition}
+	La derivada exterior compleix
+	\begin{points}
+	\item \( d(f^\ast \omega) = f^\ast d\omega \)
+	\item \( d^2 = 0 \)
+	\item \( d(\alpha + \beta) = d\alpha + d\beta \)
+	\item \( d(\alpha \wedge \beta) = d\alpha \wedge \beta + (-1)^p \alpha \wedge d\beta \)
+		on \( p \) és el rang \( d'\alpha \). 
+	\end{points}
+\end{proposition}
+
+\begin{definition}[Complex de de Rham]
+	El complex de de Rham és la successió
+	\begin{equation*}
+		\begin{tikzcd}[column sep = 10] 
+			0 \arrow[r] & \Omega^0(M) \arrow[r, "d"] & \cdots \arrow[r, "d"] & \Omega^{\dim
+			M}(M) \arrow[r] & 0
+		\end{tikzcd}
+	\end{equation*}
+\end{definition}
+
+\begin{definition}[Formes exactes i tancades]
+	Una forma \( \omega \in \Omega^p(M) \) és \emph{tancada} si \( d\omega = 0 \) i és
+	\emph{exacta} si hi ha \( \theta \in \Omega^{p-1}(M) \) tal que \( d\theta = \omega \).
+	Tota forma exacta és tancada, però al revés no. El conjunt de formes tancades és \(
+	Z^p(M) \subseteq \Omega^p(M) \) i el de les formes exactes és \( B^p(M) = d\Omega^{p-1}(M)
+	\subseteq \Omega^p(M) \). Tots dos són subespais vectorials. 
+\end{definition}
+
+\begin{definition}[Grups de cohomologia de de Rham]
+	El \( p \)-èssim grup de cohomologia de de Rham és el quocient
+	\begin{equation*}
+		H^p(M) = Z^p(M)/B^p(M).
+	\end{equation*}
+\end{definition}
+
+\subsection{Formes amb suport compacte}
+\begin{definition}[Suport]
+	El \emph{suport} d'una forma és 
+	\begin{equation*}
+		\supp \omega \defeq \overline{\set{x \in M \mid \omega_x \neq 0}}
+	\end{equation*}
+	els punts on \( \omega \) no és la forma nu\l.la.
+\end{definition}
+\begin{observation}
+	Es té
+	\begin{points}
+	\item \( \supp(\alpha + \beta) \subset \supp(\beta) \cup \supp(\alpha) \)
+	\item \( \supp(\alpha \wedge \beta) = \supp(\alpha) \cap \supp(\beta) \)
+	\end{points}
+\end{observation}
+\begin{definition}
+	El conjunt de formes de suport compacte és \( \Omega_c(M) \). Els grups de cohomologia
+	d'aquest complex s'escriuen \( H_c^p(M) \).
+\end{definition}
+\begin{observation}
+	Śi \( M \) és compacta no hi ha diferència entre les formes amb suport compacte i les
+	que no, perquè totes tenen suport compacte. 
+\end{observation}
+
+\section{Àlgebra homològica}
+\subsection{Successions exactes}
+\begin{definition}[Successió exacta]
+	La successió \( A \xrightarrow{f} B \xrightarrow{g} C \) és exacta en \( B \) si \( \im
+	f = \ker g \).
+\end{definition}
+\begin{observation}[Successió exacta curta]
+	Dir que la successió
+	\begin{equation*}
+		0 \xrightarrow{f_0} A \xrightarrow{f_1} B \xrightarrow{f_2} C \xrightarrow{f_3} 0
+	\end{equation*}
+és exacta equival a dir que \( f_1 \) és injectiva, que \( f_2 \) és exhaustiva i que \(
+\im f_1 = \ker f_2 \). 
+\end{observation}
+
+\subsection{Complexos de cocadenes}
+\begin{definition}[Complex de cocadenes]
+	Una successió \( \cdots \xrightarrow{d_{n-1}} X^n \xrightarrow{d_{n}} X^{n+1}
+	\xrightarrow{d_{n+1}}	\cdots \) és un \emph{complex de cocadenes} si \( d_{n+1} \circ
+	d_n = 0 \), per tant si \( \im d_n \subseteq d_{n+1} \). S'escriu \( (X^\bullet, d) \)
+\end{definition}
+
+\begin{definition}[Morfisme de complexos]
+	Un morfisme entre els complexos \( (X^\bullet, d_X) \) i \( Y^\bullet, d_Y) \) és una
+	família de morfismes \( f_n \colon X^n \to Y^n \) tals que \( f^{n+1} \circ d_X = d_Y
+	\circ f^n	\). 
+\end{definition}
+
+\begin{definition}[Homotopia de complexos]
+	Dos morfismes de complexos \( f, g \) entre \( (X^\bullet,d) \) i \( (Y^\bullet, d) \)
+	són homòtops si hi ha un morfisme \( K \colon X^\bullet \to Y^{\bullet -1} \) tal que \(
+	f^n - g^n = K^n \circ d_Y + d_X \circ K^{n+1} \). 
+\end{definition}
+
+\begin{proposition}
+	Si \( f \) i \( g \) són dos operadors entre complexos homòtops aleshores són iguals en
+	cohomologia. 
+\end{proposition}
+
+\subsection{Axiomes de la cohomologia}
+Una teoria de cohomologia és una successió de functors contravariants \( H^n \colon \Top^2
+\to \VectR \) i un morfisme de connexió \( \delta_{(X,A)} \colon H^n(A) \to
+H^{n+1}(X,A) \) (\( H^n(A) \defeq H^n(A,\emptyset) \)) tals que   
+\begin{points}
+\item \emph{invariància homotòpica:} si \( f \) i \( g \) són homòtopes aleshores \( H^n(f) = H^n(g) \),,
+\item hi ha una successió exacta
+	\begin{equation*}
+		\begin{tikzcd}[column sep = 15]
+			0 \arrow[r] & H^0(X,A) \arrow[r] & H^0(X) \arrow[r] & H^0(A) \arrow[dll, "\delta",
+			out = -10, in = 170, looseness = 1.2, overlay] \\
+				& H^1(X,A) \arrow[r] & \cdots
+		\end{tikzcd}
+	\end{equation*}
+\item \emph{successió de Mayer-Vietoris:} si \( X = U \cup V \) amb \( U \) i \( V \)
+	oberts aleshores hi ha una successió exacta	
+	\begin{equation*}
+		\begin{tikzcd}[column sep = 5]
+			0 \arrow[r] & H^0(X) \arrow[r] & H^0(U) \oplus H^0(V) \arrow[r] & H^0(U \cap V)
+			\arrow[dll,	out = -20, in = 160, overlay] \\
+									& H^1(X) \arrow[r] & \cdots
+		\end{tikzcd}
+	\end{equation*}
+\item \emph{axioma de Milnor:} 
+	\begin{equation*}
+		H^n\left(\bigsqcup_{k}(X_k, A_k)\right) = \bigoplus_{k}H^n(X_k,A_k) 
+	\end{equation*}
+\item \emph{axioma de la dimensió:} \( H^0(\ast) \cong \R \) i \( H^n(\ast) \cong 0 \) per
+	\( n \geq 1 \). 
+	
+\end{points}
+
+\section{Orientabilitat i integració}
+\begin{definition}[Orientabilitat]
+	Una varietat és \emph{orientable} si té un atles compatible amb la seva estructura
+	diferenciable pel qual la diferencial de cada aplicació de canvi de carta té determinant
+	positiut. Una varietat amb un atles així és una varietat \emph{orientada}. 
+\end{definition}
+
+\begin{proposition}
+	Una varietat és orientable si i només si té una forma volum, és a dir, una forma de \(
+	\Omega^{\dim M}(M) \) que no s'anu\l.la en cap punt. 
+\end{proposition}
+
+\subsection{Integració de formes}
+\begin{definition}[Partició de la unitat]
+	Una partició de la unitat subjecte a un recobriment \( \set{U_\alpha}_\alpha \) de \( M
+	\) és una família \( \phi_\alpha \colon U_\alpha \to [0,\infty) \) tals que \( \supp
+	\rho_\alpha \subseteq U_\alpha \) i \( \sum_\alpha \rho_\alpha = 1 \) i tal que cada
+	punt té un entorn que només interseca un nombre finit de \( \supp \rho_\alpha \). 
+\end{definition}
+
+\begin{definition}[Integral d'una forma]
+	La integral d'una forma \( \omega \in \Omega^n_c(M) \) on \( M \) és una varietat
+	orientada amb un atles \( \set{(U_\alpha, \phi_\alpha)}_\alpha \) és
+	\begin{equation*}
+		\int_M \omega \defeq \sum_{\alpha}  \int_M \phi_\alpha^\ast(\rho_\alpha \omega)
+	\end{equation*}
+	on \( \rho \) és una partició de la unitat subjecte a l'atles. 
+	o localment en un obert de carta:
+	\begin{align*}
+		\int_{U_\alpha} \omega & =  \\
+													 & \int_{\phi(U_\alpha)}
+													 \omega_{\phi_\alpha^{-1}(x)}(\partial_1^{\phi_\alpha} \wedge
+													 \cdots \wedge \partial_n^{\phi_\alpha}) \, dx
+	\end{align*}
+\end{definition}
+
+\begin{theorem}[Fórmula d'Stokes]
+	En una varietat orientada de dimensió \( n \) es té, per tot \( \omega \in
+	\Omega^{n-1}_c(M) \)
+	\begin{equation*}
+		\int_M d\omega = \int_{\partial M} \omega
+	\end{equation*}
+\end{theorem}
+
+\begin{theorem}
+	Una forma \( \omega \in \Omega^{k-1}(M) \) és tancada si i només si per tota subvarietat de
+	\( M \) difeomorfa a \( B(0,1) \subseteq \R^k \), \( D \),
+	\begin{equation*}
+		\int_{\partial D} \omega = 0. 
+	\end{equation*}
+\end{theorem}
+
+\subsection{Dualitat de Poincaré}
+\begin{theorem}[Dualitat de Poincaré]
+	Si \( M \) és compacta i orientada, l'aplicació
+	\begin{align*}
+		\Phi \colon H^{n-k}(M) \times H^n(M) &  \to \R \\
+		\alpha, \beta & \mapsto \int_M \alpha \wedge \beta
+	\end{align*}
+	és una dualitat perfecta (és una forma bilineal no degenerada).
+\end{theorem}
+\begin{proposition}
+	Si \( M \) és compacta i orientada, \( H^k(M)^\ast \cong H^{n-k}(M)^\ast \cong
+	H^{n-k}(M) \). 
+\end{proposition}
+\begin{observation}
+	Si \( M \) és connexa, orientada i compacta \( H^0(M) \cong H^n(M) \cong \R \).
+\end{observation}
+
+\begin{observation}
+	Si \( M \) és compacta i orientada i de dimensió parella \( 2n \) aleshores \( H^n(M)
+	\cong H^n(M)^\ast \) per tant hi ha una forma bilineal no degenerada \( H^n(M) \times
+	H^n(M) \to \R \), \( (\alpha,\beta) \mapsto \int_M \alpha \wedge \beta \). Com que \(
+	\alpha \wedge \beta = (-1)^{n^2} \alpha \wedge \beta \), per \( n \) parell és simètrica
+	i per \( n \) senar antisimètrica. 
+	\begin{points}
+	\item \emph{\( n \) parell}: pel teorema de Sylvester, hi ha \( n \) possibles formes,
+		una per cada signatura \( (l, n-l) \). 
+	\item \emph{\( n \) senar}: la forma és antisimètrica i és un resultat general que només
+		n'hi ha una, la forma simplèctica, i que només pot existir en espais de dimensió
+		parella, és a dir, \( \dim H^n(M) \) és parell. 
+	\end{points}
+\end{observation}
+
+\begin{observation}[Cohomologia de les superfícies compactes orientables]
+	Si la superfície és conexa aleshores \( H^0(M) \cong H^2(M) \cong \R \). A més \( H^1(M)
+	\) té dimensió parella, és a dir \( \dim H^1(M) = 2g \) on \( g \) és el gènere de la
+	superfície. 
+\end{observation}
+
+\begin{theorem}[Dualitat de Poincaré no compacta]
+	Si \( M \) és una varietat sense frontera i orientada la forma bilineal
+	\begin{align*}
+		\Phi \colon H_c^{k}(M) \times H^{n-k}(M) &  \to \R \\
+		\alpha, \beta & \mapsto \int_M \alpha \wedge \beta
+	\end{align*}
+	és no degenerada. Per tant \( H^{n-k}(M)^\ast \cong H^{n-k}(M) \cong H^k_c(M)  \).
+\end{theorem}
+
+\begin{proposition}
+	Si la característica d'Euler-Poincaré d'una varietat,
+	\begin{equation*}
+		\chi(M) = \sum_{k = 0}^{\dim M} (-1)^k \dim H^k(M) 
+	\end{equation*}
+	és diferent de zero aleshores tot camp vectorial de la varietat té almenys un zero. 
+\end{proposition}
+
+\section{Cohomologies}
+\subsection{\( \R^n \) (i qualsevol espai contràctil)}
+\begin{equation*}
+	H^p(\R^n) \cong \begin{cases}
+		\R \text{ si } p = 0 \\
+		0 \text{ si } p \geq 1
+	\end{cases}
+\end{equation*}
+En el cas compacte, tots els grups són zero. Però la cohomologia amb suport compacte d'un
+punt és la mateixa que en el cas general, per tant la cohomologia amb suport compacte
+\emph{no} és invariant per homotopia.
+
+\subsection{Esferes}
+\begin{equation*}
+	H^p(S^n) \cong \begin{cases}
+		\R \text{ si } p = 0 \text{ o } p = n \\
+		0 \text{ si }  1 \leq p < n \text{ o } p > n
+	\end{cases}
+\end{equation*}
+
+Per \( n = 0 \), \( H^0(S^0) \cong \R \oplus \R \). 
+
+\subsection{Espais projectius}
+\( H^p(\PR^n) \cong H^p(S^n) \) per \( p < n \) i \( H^n(\PR^n) \cong \R \) quan \( n \)
+és senar i \( H^n(\PR^n) \cong 0 \) quan \( n \) és parell.
+\end{document}
